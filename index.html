@@ -1345,6 +1345,62 @@ input[type=range]::-moz-range-thumb {
   color: var(--muted2); text-align: center;
   padding: 3px 0;
 }
+/* ── 3D Animated Badge Stickers ── */
+@keyframes badge-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-2px); }
+}
+@keyframes badge-pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.08); }
+}
+#tab-emi, #tab-sip, #tab-tax {
+  position: relative;
+  overflow: visible;
+}
+.tab-badge {
+  position: absolute;
+  top: -10px;
+  right: -6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: badge-float 2s ease-in-out infinite, badge-pulse 3s ease-in-out infinite;
+}
+.tab-badge-most-used {
+  background: linear-gradient(135deg, #ff6b35, #e8321a);
+  box-shadow: 0 3px 8px rgba(232,50,26,0.5), inset 0 1px 0 rgba(255,255,255,0.3);
+  animation-delay: 0s, 0s;
+}
+.tab-badge-trending {
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  box-shadow: 0 3px 8px rgba(124,58,237,0.5), inset 0 1px 0 rgba(255,255,255,0.3);
+  animation-delay: 0.3s, 0.3s;
+}
+.tab-badge-popular {
+  background: linear-gradient(135deg, #1a4a8a, #2563eb);
+  box-shadow: 0 3px 8px rgba(37,99,235,0.5), inset 0 1px 0 rgba(255,255,255,0.3);
+  animation-delay: 0.6s, 0.6s;
+}
+@media (max-width: 768px) {
+  .tab-badge {
+    font-size: 7px;
+    padding: 1px 4px;
+    top: -8px;
+    right: -4px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tab-badge {
+    animation: none;
+  }
+}
 </style>
 </head>
 <body>
@@ -1417,9 +1473,9 @@ input[type=range]::-moz-range-thumb {
 <!-- TOOL TABS -->
 <div class="tabs-container">
   <div class="tabs-scroll">
-    <button class="tool-tab active" id="tab-emi" onclick="switchTab('emi',this)"><span class="tab-icon">🏠</span><span data-i18n="tabEmi">EMI</span></button>
-    <button class="tool-tab" id="tab-sip" onclick="switchTab('sip',this)"><span class="tab-icon">📈</span><span data-i18n="tabSip">SIP</span></button>
-    <button class="tool-tab" id="tab-tax" onclick="switchTab('tax',this)"><span class="tab-icon">📋</span><span data-i18n="tabTax">Income Tax</span></button>
+    <button class="tool-tab active" id="tab-emi" onclick="switchTab('emi',this)"><span class="tab-icon">🏠</span><span data-i18n="tabEmi">EMI</span><span class="tab-badge tab-badge-most-used">🔥 Most Used</span></button>
+    <button class="tool-tab" id="tab-sip" onclick="switchTab('sip',this)"><span class="tab-icon">📈</span><span data-i18n="tabSip">SIP</span><span class="tab-badge tab-badge-trending">⭐ Trending</span></button>
+    <button class="tool-tab" id="tab-tax" onclick="switchTab('tax',this)"><span class="tab-icon">📋</span><span data-i18n="tabTax">Income Tax</span><span class="tab-badge tab-badge-popular">💎 Popular</span></button>
     <button class="tool-tab" id="tab-gst" onclick="switchTab('gst',this)"><span class="tab-icon">🧾</span><span data-i18n="tabGst">GST</span></button>
     <button class="tool-tab" id="tab-fd" onclick="switchTab('fd',this)"><span class="tab-icon">🏦</span><span>FD</span> <span class="tab-new">New</span></button>
     <button class="tool-tab" id="tab-rd" onclick="switchTab('rd',this)"><span class="tab-icon">💰</span><span>RD</span> <span class="tab-new">New</span></button>
