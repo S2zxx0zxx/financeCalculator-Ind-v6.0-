@@ -393,14 +393,14 @@ input[type=range] { touch-action: pan-x; }
   max-width: 1200px; margin: 24px auto 0;
   padding: 0 24px; position: relative;
   overflow: visible;
-  padding-top: 14px;
+  padding-top: 16px;
 }
 .tabs-scroll {
   display: flex; gap: 6px;
   overflow-x: auto; overflow-y: visible; scroll-behavior: smooth;
   -ms-overflow-style: none; scrollbar-width: none;
   padding-bottom: 4px;
-  padding-top: 12px;
+  padding-top: 14px;
 }
 .tabs-scroll::-webkit-scrollbar { display: none; }
 
@@ -414,7 +414,7 @@ input[type=range] { touch-action: pan-x; }
   transition: all var(--transition);
   display: flex; align-items: center; gap: 7px;
   white-space: nowrap; flex-shrink: 0;
-  position: relative; overflow: hidden;
+  position: relative; overflow: visible;
 }
 .tool-tab::before {
   content: ''; position: absolute;
@@ -430,10 +430,26 @@ input[type=range] { touch-action: pan-x; }
 .tool-tab.active::before { transform: scaleX(1); background: var(--accent); }
 .tab-icon { font-size: 15px; }
 .tab-new {
-  font-size: 8px; background: var(--red);
-  color: #fff; padding: 1px 5px; border-radius: 4px;
-  font-weight: 700; letter-spacing: 0.05em;
-  text-transform: uppercase; animation: pulse 2s infinite;
+  position: absolute !important;
+  top: -9px !important;
+  right: -6px !important;
+  font-size: 8px !important;
+  font-weight: 800 !important;
+  padding: 2px 5px !important;
+  border-radius: 6px !important;
+  background: linear-gradient(135deg, #e8321a, #ff6b35) !important;
+  color: white !important;
+  box-shadow: 0 3px 8px rgba(232,50,26,0.45), 0 1px 0 rgba(255,255,255,0.25) inset !important;
+  animation: badge-float 2s ease-in-out infinite !important;
+  letter-spacing: 0.04em !important;
+  line-height: 1 !important;
+  display: inline-block !important;
+  z-index: 10 !important;
+  margin: 0 !important;
+  vertical-align: unset !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+  pointer-events: none !important;
 }
 @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
 
@@ -1074,7 +1090,7 @@ input[type=range]::-moz-range-thumb {
   .toggle-pill .tp-label { font-size: 9px; }
   .header-btn { padding: 4px 8px; font-size: 10px; }
   .theme-toggle { width: 32px; height: 32px; font-size: 14px; }
-  .tabs-container { padding: 0 16px; }
+  .tabs-container { padding: 16px 16px 0; }
   .tool-tab { padding: 8px 14px; font-size: 12px; }
   .chart-area { flex-direction: column; gap: 16px; }
   .seo-section, .faq-section { padding: 0 16px; }
@@ -1392,11 +1408,11 @@ input[type=range]::-moz-range-thumb {
   animation-delay: 0.6s, 0.6s;
 }
 @media (max-width: 768px) {
-  .tab-badge {
-    font-size: 7px;
-    padding: 1px 4px;
-    top: -8px;
-    right: -4px;
+  .tab-new, .tab-badge {
+    font-size: 7px !important;
+    padding: 1px 4px !important;
+    top: -7px !important;
+    right: -4px !important;
   }
 }
 @media (prefers-reduced-motion: reduce) {
