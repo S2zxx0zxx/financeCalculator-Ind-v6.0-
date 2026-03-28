@@ -392,12 +392,15 @@ input[type=range] { touch-action: pan-x; }
 .tabs-container {
   max-width: 1200px; margin: 24px auto 0;
   padding: 0 24px; position: relative;
+  overflow: visible;
+  padding-top: 14px;
 }
 .tabs-scroll {
   display: flex; gap: 6px;
-  overflow-x: auto; scroll-behavior: smooth;
+  overflow-x: auto; overflow-y: visible; scroll-behavior: smooth;
   -ms-overflow-style: none; scrollbar-width: none;
   padding-bottom: 4px;
+  padding-top: 12px;
 }
 .tabs-scroll::-webkit-scrollbar { display: none; }
 
