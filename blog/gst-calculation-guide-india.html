@@ -90,22 +90,48 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 .cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(200,130,26,0.3);}
 [data-theme="dark"] .cta-btn{color:#1b1710;}
 .ad-slot{margin:32px 0;text-align:center;}.ad-label{font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted2);margin-bottom:4px;}
-.toc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin:24px 0;box-shadow:var(--shadow);}
-.toc-title{font-size:14px;font-weight:800;margin-bottom:12px;}
-.toc a{display:block;font-size:13px;font-weight:600;color:var(--accent);text-decoration:none;padding:6px 0;border-bottom:1px solid var(--border);transition:all 0.2s;}
-.toc a:last-child{border-bottom:none;}
-.toc a:hover{padding-left:8px;color:var(--accent2);}
+.toc{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-bottom:32px;}
+.toc-title{font-size:14px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px;cursor:pointer;}
+.toc-list{list-style:none;padding:0;margin:0;}
+.toc-list li{padding:6px 0;border-bottom:1px solid var(--border);}
+.toc-list li:last-child{border-bottom:none;}
+.toc-list a{color:var(--text2);text-decoration:none;font-size:13px;font-weight:500;transition:color 0.2s;}
+.toc-list a:hover{color:var(--accent);}
 .share-bar{display:flex;align-items:center;gap:8px;margin:32px 0;padding:16px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
 .share-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);}
 .share-btn{padding:8px 14px;border-radius:6px;border:1px solid var(--border);background:var(--surface);font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.25s;text-decoration:none;color:var(--text2);}
 .share-btn:hover{background:var(--text);color:#fff;border-color:var(--text);}
-.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0;}
-.related-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:all 0.25s;text-decoration:none;color:var(--text);}
-.related-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--accent);}
-.related-card .rc-cat{font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
-.related-card h4{font-size:15px;font-weight:700;margin-bottom:6px;}
-.related-card p{font-size:12px;color:var(--muted);}
-@media(max-width:600px){.related-grid{grid-template-columns:1fr;}}
+.related-section{margin:40px 0;padding-top:32px;border-top:1px solid var(--border);}
+.related-section h3{font-size:18px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+.related-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.related-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-decoration:none;transition:all 0.3s;display:block;box-shadow:var(--shadow);}
+.related-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--accent);}
+.rc-cat{font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;display:inline-block;padding:2px 8px;border-radius:10px;}
+.rc-cat.tax{color:var(--blue);background:var(--blue-bg);}
+.rc-cat.loans{color:var(--green);background:var(--green-bg);}
+.rc-cat.investment{color:var(--purple);background:var(--purple-bg,rgba(106,58,154,0.1));}
+.rc-cat.gst{color:var(--accent);background:var(--accent-bg);}
+.rc-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.3;}
+.rc-desc{font-size:11px;color:var(--muted);line-height:1.5;}
+@media(max-width:480px){.related-grid{grid-template-columns:1fr;}}
+.author-bio{display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin:32px 0;box-shadow:var(--shadow);}
+.author-avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#e0a030,#c8821a);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;color:#fff;font-weight:800;}
+.author-info h4{font-size:15px;font-weight:800;margin-bottom:4px;}
+.author-info p{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:8px;}
+.author-links{display:flex;gap:8px;}
+.author-links a{font-size:11px;color:var(--accent);text-decoration:none;font-weight:600;padding:3px 10px;border-radius:12px;border:1px solid rgba(200,130,26,0.2);transition:all 0.2s;}
+.author-links a:hover{background:var(--accent-bg);border-color:var(--accent);}
+@media(max-width:480px){.author-bio{flex-direction:column;align-items:center;text-align:center;}.author-links{justify-content:center;}}
+.blog-newsletter{background:linear-gradient(135deg,var(--header-bg),#2d2820);border-radius:var(--radius);padding:32px;text-align:center;margin:32px 0;}
+.blog-newsletter h3{font-size:20px;font-weight:800;color:#fff;margin-bottom:6px;}
+.blog-newsletter p{font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:20px;}
+.blog-newsletter-form{display:flex;gap:8px;max-width:400px;margin:0 auto;}
+.blog-newsletter-form input{flex:1;padding:10px 16px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff;font-size:13px;font-family:var(--font);}
+.blog-newsletter-form input::placeholder{color:rgba(255,255,255,0.35);}
+.blog-newsletter-form button{padding:10px 20px;border-radius:8px;background:#e0a030;color:#1b1710;font-weight:700;font-size:13px;border:none;cursor:pointer;font-family:var(--font);transition:all 0.2s;}
+.blog-newsletter-form button:hover{background:#f0b848;transform:translateY(-1px);}
+.blog-newsletter-note{font-size:11px;color:rgba(255,255,255,0.3);margin-top:10px;}
+@media(max-width:480px){.blog-newsletter-form{flex-direction:column;}}
 .site-footer{background:var(--header-bg);color:rgba(255,255,255,0.5);padding:40px 24px;text-align:center;font-size:12px;line-height:2;margin-top:60px;}
 .site-footer strong{color:#fff;}
 .footer-links a{color:rgba(255,255,255,0.5);text-decoration:none;margin:0 8px;transition:color 0.25s;}
@@ -125,9 +151,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
   .article-header{padding:16px 0 14px;margin-bottom:20px;}
   .article-category{font-size:9px;padding:3px 10px;}
   .article-meta{gap:8px;font-size:11px;}
-  .toc{padding:14px 16px;margin:16px 0;}
-  .toc-title{font-size:13px;margin-bottom:8px;}
-  .toc a{font-size:12px;padding:5px 0;}
+  .toc{padding:14px 16px;margin-bottom:20px;}
+  .toc-title{font-size:12px;margin-bottom:8px;}
+  .toc-list a{font-size:12px;}
   .highlight-box,.info-box,.success-box,.warning-box{padding:14px 16px;font-size:13px;margin:16px 0;}
   .vs-side{padding:16px;}
   .vs-side h4{font-size:12px;}
@@ -139,7 +165,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
   .share-btn{font-size:11px;padding:6px 10px;}
   .related-grid{grid-template-columns:1fr;}
   .related-card{padding:16px;}
-  .related-card h4{font-size:14px;}
   .data-table th,.data-table td{padding:8px 10px;font-size:11px;}
   .ad-slot{margin:20px 0;}
   .site-footer{padding:24px 16px;}
@@ -184,18 +209,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 </div>
 
 <div class="toc">
-  <div class="toc-title">📑 What's Inside</div>
-  <a href="#what">1. GST Kya Hai? — Simple Explanation</a>
-  <a href="#slabs">2. GST Slabs — 0%, 5%, 18%, 40% with Real Products</a>
-  <a href="#items">3. Common Items & Their GST Rates (Big Table)</a>
-  <a href="#cgst-sgst">4. CGST vs SGST vs IGST — When Which Applies?</a>
-  <a href="#calculate">5. How to Calculate GST — Add & Remove (Examples)</a>
-  <a href="#revenue">6. GST Revenue Collection 2020–2026 (Bar Chart)</a>
-  <a href="#small-biz">7. GST for Small Business — Threshold & Composition Scheme</a>
-  <a href="#filing">8. GST Return Filing — GSTR-1, GSTR-3B, Due Dates</a>
-  <a href="#itc">9. Input Tax Credit (ITC) — Claim Kaise Kare?</a>
-  <a href="#mistakes">10. Common GST Mistakes to Avoid</a>
-  <a href="#calc">11. Calculate Your GST</a>
+  <div class="toc-title">📑 Table of Contents</div>
+  <ol class="toc-list"></ol>
 </div>
 
 <div class="article-body">
@@ -587,6 +602,49 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 </div>
 
 </div>
+<div class="author-bio">
+  <div class="author-avatar">S</div>
+  <div class="author-info">
+    <h4>Satyam Kumar</h4>
+    <p>Full Stack Developer & Finance Enthusiast. Building free tools to make financial planning accessible to every Indian. Follow for more finance tips and calculator updates.</p>
+    <div class="author-links">
+      <a href="https://x.com/satzzxzxx" target="_blank">𝕏 Follow</a>
+      <a href="https://www.instagram.com/__.satzzxzxx" target="_blank">📷 Instagram</a>
+      <a href="https://t.me/InvestGrow_IN" target="_blank">✈️ Telegram</a>
+    </div>
+  </div>
+</div>
+
+<div class="blog-newsletter">
+  <h3>📬 Stay Updated</h3>
+  <p>Get weekly finance tips, calculator updates & tax-saving strategies</p>
+  <form class="blog-newsletter-form" action="https://formsubmit.co/placeholder@email.com" method="POST">
+    <input type="email" name="email" placeholder="Your email address" required>
+    <button type="submit">Subscribe</button>
+  </form>
+  <div class="blog-newsletter-note">No spam · Unsubscribe anytime</div>
+</div>
+
+<div class="related-section">
+  <h3>🔗 Related Articles</h3>
+  <div class="related-grid">
+    <a class="related-card" href="https://satzzxzxx.me/blog/income-tax-2026-27-guide.html">
+      <span class="rc-cat tax">Tax & ITR</span>
+      <div class="rc-title">Income Tax Guide 2026-27 — New vs Old Regime</div>
+      <div class="rc-desc">Complete comparison with slabs, deductions, and which regime saves you more.</div>
+    </a>
+    <a class="related-card" href="https://satzzxzxx.me/blog/home-loan-emi-50-lakh-2026.html">
+      <span class="rc-cat loans">Loans</span>
+      <div class="rc-title">₹50 Lakh Home Loan EMI 2026 — Complete Guide</div>
+      <div class="rc-desc">EMI comparison across banks, prepayment tips & tax benefits explained.</div>
+    </a>
+    <a class="related-card" href="https://satzzxzxx.me/blog/sip-vs-fd-2026-v2.html">
+      <span class="rc-cat investment">Investment</span>
+      <div class="rc-title">SIP vs FD in 2026 — Where Should You Invest?</div>
+      <div class="rc-desc">Returns comparison, risk analysis, tax treatment & smart allocation strategy.</div>
+    </a>
+  </div>
+</div>
 </article></main>
 
 <footer class="site-footer"><div><strong>FinCalc India</strong> — India's #1 Free Financial Calculator Suite</div><div class="footer-links"><a href="https://satzzxzxx.me/">Calculator</a><a href="https://satzzxzxx.me/blog/">Blog</a><a href="https://satzzxzxx.me/#gst">GST Calculator</a><a href="https://satzzxzxx.me/#emi">EMI Calculator</a><a href="../privacy-policy.html">Privacy Policy</a></div><div style="margin-top:16px;color:rgba(255,255,255,0.25);font-size:11px;">© 2026 FinCalc India · Built by Satzzxzxx · MIT License</div>  <!-- Social Connect Section -->
@@ -630,6 +688,24 @@ function toggleTheme(){const t=document.documentElement.getAttribute('data-theme
 const observer=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.querySelectorAll('.bar-fill[data-width]').forEach(bar=>{bar.style.width=bar.dataset.width;});observer.unobserve(entry.target);}});},{threshold:0.2});
 document.querySelectorAll('.chart-container').forEach(c=>observer.observe(c));
 window.adsbygoogle=window.adsbygoogle||[];
+</script>
+<script>
+// Auto-generate TOC from h2 tags
+(function(){
+  var headings = document.querySelectorAll('.article-body h2');
+  var toc = document.querySelector('.toc-list');
+  if(!toc || headings.length === 0) return;
+  headings.forEach(function(h, i){
+    var id = 'section-' + i;
+    h.id = id;
+    var li = document.createElement('li');
+    var a = document.createElement('a');
+    a.href = '#' + id;
+    a.textContent = h.textContent;
+    li.appendChild(a);
+    toc.appendChild(li);
+  });
+})();
 </script>
 </body>
 </html>
