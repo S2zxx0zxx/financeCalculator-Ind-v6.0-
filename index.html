@@ -1567,6 +1567,7 @@ input[type=range]::-moz-range-thumb {
     <button class="tool-tab" id="tab-inflation" onclick="switchTab('inflation',this)"><span class="tab-icon">📊</span><span data-i18n="tabInflation">Inflation</span> <span class="tab-new">New</span></button>
     <button class="tool-tab" id="tab-eligibility" onclick="switchTab('eligibility',this)"><span class="tab-icon">✅</span><span data-i18n="tabElig">Loan Eligibility</span> <span class="tab-new">New</span></button>
     <button class="tool-tab" id="tab-rentvsbuy" onclick="switchTab('rentvsbuy',this)"><span class="tab-icon">🏡</span><span data-i18n="tabRvb">Rent vs Buy</span> <span class="tab-new">New</span></button>
+    <button class="tool-tab" id="tab-cibil" onclick="switchTab('cibil',this)"><span class="tab-icon">🎯</span><span>CIBIL Score</span> <span class="tab-new">New</span></button>
   </div>
 </div>
 
@@ -2199,6 +2200,89 @@ input[type=range]::-moz-range-thumb {
       </div>
     </div>
 
+    <!-- ===== CIBIL SCORE CHECKER ===== -->
+    <div class="calc-section" id="sec-cibil">
+      <div class="panel-header">
+        <div class="panel-title">🎯 CIBIL Score Checker &amp; Analyser</div>
+        <div class="panel-desc">Check your credit score rating, loan eligibility &amp; get personalised improvement tips</div>
+      </div>
+      <div class="panel-body">
+        <div class="form-row">
+          <label class="form-label">Your CIBIL Score <span class="form-label-hint">(300–900)</span></label>
+          <div class="input-wrap">
+            <input type="number" id="cibil-score" value="750" min="300" max="900" oninput="syncRange('cibil-score','cibil-score-r');liveCalc('cibil')">
+          </div>
+          <div class="range-wrap">
+            <input type="range" id="cibil-score-r" min="300" max="900" step="1" value="750" oninput="syncInput('cibil-score-r','cibil-score');liveCalc('cibil')">
+            <div class="range-labels"><span>300 (Poor)</span><span>900 (Excellent)</span></div>
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcCibil()">Check My Score →</button>
+
+        <div class="results-box" id="cibil-result">
+          <!-- Gauge Chart -->
+          <div style="display:flex;flex-direction:column;align-items:center;padding:20px 16px 8px;">
+            <canvas id="cibil-gauge" width="260" height="150" style="max-width:100%;"></canvas>
+            <div id="cibil-rating-badge" style="margin-top:8px;padding:6px 20px;border-radius:20px;font-size:14px;font-weight:800;letter-spacing:0.04em;"></div>
+          </div>
+          <!-- Score Breakdown -->
+          <div class="result-grid" style="grid-template-columns:1fr 1fr 1fr;">
+            <div class="result-cell" style="text-align:center;">
+              <div class="cell-label">Your Score</div>
+              <div class="cell-value" id="cibil-score-display" style="font-size:28px;font-weight:900;letter-spacing:-0.04em;">—</div>
+            </div>
+            <div class="result-cell" style="text-align:center;">
+              <div class="cell-label">Rating</div>
+              <div class="cell-value" id="cibil-rating-text" style="font-size:18px;">—</div>
+            </div>
+            <div class="result-cell" style="text-align:center;">
+              <div class="cell-label">Loan Approval Chance</div>
+              <div class="cell-value" id="cibil-approval" style="font-size:18px;">—</div>
+            </div>
+          </div>
+          <!-- Interest Rate Impact -->
+          <div style="padding:16px 20px;border-top:1px solid var(--border);">
+            <div class="cell-label" style="margin-bottom:12px;font-size:12px;letter-spacing:0.06em;">💰 HOME LOAN INTEREST RATE IMPACT</div>
+            <div id="cibil-rate-info" style="font-size:14px;line-height:1.8;color:var(--text2);"></div>
+          </div>
+          <!-- Improvement Tips -->
+          <div style="padding:16px 20px;border-top:1px solid var(--border);">
+            <div class="cell-label" style="margin-bottom:12px;font-size:12px;letter-spacing:0.06em;">📈 PERSONALISED IMPROVEMENT TIPS</div>
+            <div id="cibil-tips" style="font-size:13.5px;line-height:1.9;color:var(--text2);"></div>
+          </div>
+          <!-- Score Ranges Reference -->
+          <div style="padding:16px 20px;border-top:1px solid var(--border);">
+            <div class="cell-label" style="margin-bottom:12px;font-size:12px;letter-spacing:0.06em;">📊 CIBIL SCORE RANGE GUIDE</div>
+            <div style="display:grid;gap:6px;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="width:12px;height:12px;border-radius:50%;background:#e04848;flex-shrink:0;"></div>
+                <span style="font-size:13px;"><strong>300–549</strong> — Poor · Loan approval very difficult</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="width:12px;height:12px;border-radius:50%;background:#e0a030;flex-shrink:0;"></div>
+                <span style="font-size:13px;"><strong>550–649</strong> — Average · Higher interest rates charged</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="width:12px;height:12px;border-radius:50%;background:#4888d8;flex-shrink:0;"></div>
+                <span style="font-size:13px;"><strong>650–749</strong> — Good · Most loans approved</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="width:12px;height:12px;border-radius:50%;background:#40c060;flex-shrink:0;"></div>
+                <span style="font-size:13px;"><strong>750–799</strong> — Very Good · Best rates available</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="width:12px;height:12px;border-radius:50%;background:#1a7a3a;flex-shrink:0;"></div>
+                <span style="font-size:13px;"><strong>800–900</strong> — Excellent · Premium rates, priority approval</span>
+              </div>
+            </div>
+          </div>
+          <div style="padding:12px 20px;border-top:1px solid var(--border);text-align:center;">
+            <a href="/blog/cibil-score-guide-2026.html" style="color:var(--accent);font-size:13px;font-weight:700;text-decoration:none;">📖 Read Complete CIBIL Score Guide 2026 →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div><!-- /calc-panel -->
 
   <!-- SIDEBAR -->
@@ -2312,6 +2396,18 @@ input[type=range]::-moz-range-thumb {
       <h3>🏖️ Retirement Planning</h3>
       <p>With Indian inflation at 5-7%, your expenses double every 10-12 years. A ₹40,000/month expense today becomes ₹2.3L/month in 30 years at 6% inflation. Starting SIP early with equity exposure is the most effective way to build a retirement corpus.</p>
     </div>
+    <div class="seo-card">
+      <h3>🎯 CIBIL Score — Why It Matters</h3>
+      <p>Your CIBIL score (300–900) directly impacts your loan interest rate. A score of 750+ gets you the best home loan rates (~8.25%), while a score below 650 can push your rate to 10–13%+. On a ₹50 lakh loan, this difference costs you <strong>₹8,000+/month more</strong>! Check your score and get personalised tips using our CIBIL Score Checker above.</p>
+    </div>
+    <div class="seo-card">
+      <h3>🏠 Rent vs Buy — The Right Decision</h3>
+      <p>There's no universal answer — it depends on property appreciation in your city, your loan rate, rental yield, and how long you plan to stay. Our Rent vs Buy calculator compares the total cost of both options over your chosen period, factoring in opportunity cost of the down payment and rental escalation.</p>
+    </div>
+    <div class="seo-card">
+      <h3>📊 Loan Eligibility — How Banks Decide</h3>
+      <p>Banks use FOIR (Fixed Obligation to Income Ratio) — typically 50–60% of net monthly income. After deducting existing EMIs, the remaining amount sets your max new EMI. Factors that boost eligibility: high income, no existing EMIs, co-applicant, longer tenure, and a CIBIL score above 750.</p>
+    </div>
   </div>
 </div>
 
@@ -2341,6 +2437,14 @@ input[type=range]::-moz-range-thumb {
   <div class="faq-item" onclick="toggleFaq(this)">
     <div class="faq-q"><span>Should I rent or buy a house?</span><span class="faq-arrow">▼</span></div>
     <div class="faq-a"><div class="faq-a-inner">The decision depends on factors like: property appreciation rate in your area, home loan interest rate, your rent amount vs. EMI, how long you plan to stay, and opportunity cost of the down payment. Our calculator compares the total cost of renting (with annual increases) vs. buying (EMI + opportunity cost) over your chosen time period.</div></div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q"><span>What is a good CIBIL score for a home loan?</span><span class="faq-arrow">▼</span></div>
+    <div class="faq-a"><div class="faq-a-inner">A CIBIL score of 750 or above is considered excellent and gets you the best home loan rates (around 8.25%–8.50%). Most banks approve home loans at 700+, though rates are slightly higher. Below 650, getting a home loan becomes difficult and expensive. Our CIBIL Score Checker shows your exact rating, interest rate impact, and personalised tips to improve.</div></div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q"><span>How long does it take to improve CIBIL score?</span><span class="faq-arrow">▼</span></div>
+    <div class="faq-a"><div class="faq-a-inner">With consistent positive actions (timely payments every month, reducing credit card utilisation to under 30%, no new loan applications), you can see improvement in 3–6 months. Moving from 650 to 750 typically takes 12–18 months of disciplined credit behaviour. The most impactful actions: never miss an EMI, keep credit card balances low, and don't close old accounts.</div></div>
   </div>
 </div>
 
@@ -2511,6 +2615,19 @@ input[type=range]::-moz-range-thumb {
       <div style="margin-top:12px;font-size:11px;color:var(--muted);">📅 Mar 26, 2026 · ⏱️ 12 min read · 👤 Satyam Kumar</div>
     </a>
 
+    <!-- Blog Card 5: CIBIL -->
+    <a href="/blog/cibil-score-guide-2026.html" class="affiliate-card" style="text-decoration:none;color:var(--text);">
+      <span class="aff-badge" style="background:var(--purple-bg);color:var(--purple);">🎯 CIBIL SCORE</span>
+      <h3 style="margin-top:8px;">CIBIL Score Guide 2026 — Check, Improve &amp; Understand Your Credit Score</h3>
+      <p style="margin-top:8px;">Score ranges explained, interest rate impact, 7 proven strategies to boost your score, 6 myths busted &amp; free check methods for every Indian borrower.</p>
+      <div class="aff-features" style="margin-top:12px;">
+        <span class="aff-feat">Score Ranges</span>
+        <span class="aff-feat">Improvement Tips</span>
+        <span class="aff-feat">Free Check</span>
+      </div>
+      <div style="margin-top:12px;font-size:11px;color:var(--muted);">📅 Mar 29, 2026 · ⏱️ 14 min read · 👤 Satyam Kumar</div>
+    </a>
+
   </div>
 </div>
 
@@ -2540,6 +2657,7 @@ input[type=range]::-moz-range-thumb {
     <a href="#" onclick="switchTab('rd');return false">RD Calculator</a>
     <a href="#" onclick="switchTab('retire');return false">Retirement Calculator</a>
     <a href="#" onclick="switchTab('inflation');return false">Inflation Calculator</a>
+    <a href="#" onclick="switchTab('cibil');return false">CIBIL Score Checker</a>
     <a href="privacy-policy.html">Privacy Policy</a>
   </div>
   <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.08);font-family:monospace;font-size:12px;color:rgba(255,255,255,0.35);">
@@ -2665,6 +2783,7 @@ function liveCalc(type) {
       case 'inflation': calcInflation(); break;
       case 'eligibility': calcEligibility(); break;
       case 'rentvsbuy': calcRentVsBuy(); break;
+      case 'cibil': calcCibil(); break;
     }
   }, 200);
 }
@@ -2738,8 +2857,207 @@ function drawDonut(canvasId, v1, v2, c1, c2, label1, label2) {
 }
 
 // ============================
-// EMI CALCULATOR
+// ANIMATED GAUGE CHART (for CIBIL)
 // ============================
+function drawGauge(canvasId, score) {
+  const canvas = $(canvasId);
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const w = 260, h = 150;
+  canvas.width = w * dpr;
+  canvas.height = h * dpr;
+  canvas.style.width = w + 'px';
+  canvas.style.height = h + 'px';
+  ctx.scale(dpr, dpr);
+
+  const cx = w / 2, cy = h - 20;
+  const r = 110, ir = 70;
+  const startAngle = Math.PI; // 180deg (left)
+  const endAngle = 0;         // 0deg (right)
+  const totalArc = Math.PI;   // semicircle
+  // Score range 300–900
+  const clampedScore = Math.max(300, Math.min(900, score));
+  const targetFraction = (clampedScore - 300) / 600;
+
+  // Color segments (5 bands across 300-900)
+  const segments = [
+    { color: '#e04848', start: 0,    end: 0.4167 }, // 300-549 poor
+    { color: '#e0a030', start: 0.4167, end: 0.5833 }, // 550-649 avg
+    { color: '#4888d8', start: 0.5833, end: 0.75 }, // 650-749 good
+    { color: '#40c060', start: 0.75,  end: 0.8333 }, // 750-799 very good
+    { color: '#1a7a3a', start: 0.8333, end: 1.0 },  // 800-900 excellent
+  ];
+
+  // Background track
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, Math.PI, 0, false);
+  ctx.arc(cx, cy, ir, 0, Math.PI, true);
+  ctx.closePath();
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  ctx.fillStyle = isDark ? '#292520' : '#edeae3';
+  ctx.fill();
+
+  // Draw colored segments
+  segments.forEach(seg => {
+    const a1 = startAngle + seg.start * totalArc;
+    const a2 = startAngle + seg.end * totalArc;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, a1, a2, false);
+    ctx.arc(cx, cy, ir, a2, a1, true);
+    ctx.closePath();
+    ctx.fillStyle = seg.color;
+    ctx.fill();
+  });
+
+  // Needle animation
+  let currentFraction = 0;
+  function animate() {
+    currentFraction += (targetFraction - currentFraction) * 0.12;
+    if(Math.abs(currentFraction - targetFraction) < 0.001) currentFraction = targetFraction;
+
+    // Clear needle area (redraw entire gauge each frame)
+    ctx.clearRect(0, 0, w, h);
+
+    // Background track
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, Math.PI, 0, false);
+    ctx.arc(cx, cy, ir, 0, Math.PI, true);
+    ctx.closePath();
+    ctx.fillStyle = isDark ? '#292520' : '#edeae3';
+    ctx.fill();
+
+    // Colored segments
+    segments.forEach(seg => {
+      const a1 = startAngle + seg.start * totalArc;
+      const a2 = startAngle + seg.end * totalArc;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, a1, a2, false);
+      ctx.arc(cx, cy, ir, a2, a1, true);
+      ctx.closePath();
+      ctx.fillStyle = seg.color;
+      ctx.fill();
+    });
+
+    // Inner hole
+    ctx.beginPath();
+    ctx.arc(cx, cy, ir - 2, Math.PI, 0, false);
+    ctx.fillStyle = isDark ? '#1f1c17' : '#ffffff';
+    ctx.fill();
+
+    // Needle
+    const needleAngle = Math.PI + currentFraction * Math.PI;
+    const nx = cx + (ir - 8) * Math.cos(needleAngle);
+    const ny = cy + (ir - 8) * Math.sin(needleAngle);
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(nx, ny);
+    ctx.strokeStyle = isDark ? '#f0ece4' : '#1b1710';
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+
+    // Center dot
+    ctx.beginPath();
+    ctx.arc(cx, cy, 6, 0, 2 * Math.PI);
+    ctx.fillStyle = isDark ? '#f0ece4' : '#1b1710';
+    ctx.fill();
+
+    // Score text in center
+    ctx.fillStyle = isDark ? '#f0ece4' : '#1b1710';
+    ctx.font = 'bold 28px DM Sans, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(Math.round(300 + currentFraction * 600), cx, cy - ir/2 - 4);
+    ctx.font = '11px DM Sans, sans-serif';
+    ctx.fillStyle = '#8a7f70';
+    ctx.fillText('out of 900', cx, cy - ir/2 + 14);
+
+    // Tick marks at key scores
+    [300, 550, 650, 750, 800, 900].forEach(tick => {
+      const frac = (tick - 300) / 600;
+      const angle = Math.PI + frac * Math.PI;
+      const x1 = cx + (r - 4) * Math.cos(angle);
+      const y1 = cy + (r - 4) * Math.sin(angle);
+      const x2 = cx + (r + 6) * Math.cos(angle);
+      const y2 = cy + (r + 6) * Math.sin(angle);
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.strokeStyle = isDark ? '#4a4438' : '#d4cec3';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      // Label
+      const lx = cx + (r + 18) * Math.cos(angle);
+      const ly = cy + (r + 18) * Math.sin(angle);
+      ctx.fillStyle = isDark ? '#6a6050' : '#8a7f70';
+      ctx.font = '9px DM Sans, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(tick, lx, ly);
+    });
+
+    if(currentFraction < targetFraction - 0.001) requestAnimationFrame(animate);
+  }
+  animate();
+}
+
+// ============================
+// CIBIL SCORE CALCULATOR
+// ============================
+function calcCibil() {
+  const score = Math.round(val('cibil-score'));
+  if(!score || score < 300 || score > 900) return;
+
+  // Rating
+  let rating, ratingColor, approval, rateInfo, tips;
+  if(score >= 800) {
+    rating = 'Excellent 🌟';
+    ratingColor = '#1a7a3a';
+    approval = '✅ Very High';
+    rateInfo = `<strong style="color:var(--green);">Score ${score} — Excellent!</strong><br>You qualify for the <strong>best home loan rates starting at ~8.25%</strong> (SBI/HDFC/ICICI). Banks compete to offer you loans. Pre-approved offers likely available.<br><br>💰 <strong>Example:</strong> ₹50L home loan at 8.25% for 20 yrs = EMI of ~₹42,800`;
+    tips = `✅ <strong>Keep all payments 100% on time</strong> — your score depends on this<br>✅ <strong>Maintain credit utilisation below 30%</strong> of total credit limit<br>✅ <strong>Keep old credit accounts active</strong> — they add credit age<br>✅ <strong>Limit new loan applications</strong> — each hard inquiry dips score slightly<br>📖 <a href="/blog/cibil-score-guide-2026.html" style="color:var(--accent);font-weight:700;">Read our full CIBIL maintenance guide →</a>`;
+  } else if(score >= 750) {
+    rating = 'Very Good 👍';
+    ratingColor = '#40c060';
+    approval = '✅ High';
+    rateInfo = `<strong style="color:var(--green);">Score ${score} — Very Good!</strong><br>You qualify for competitive home loan rates around <strong>8.25%–8.50%</strong>. Almost all banks will approve your application. Small effort can push you to Excellent tier.<br><br>💰 <strong>Example:</strong> ₹50L home loan at 8.40% for 20 yrs = EMI of ~₹43,400`;
+    tips = `📈 <strong>Clear any outstanding EMI dues</strong> immediately if any exist<br>📈 <strong>Reduce credit card utilisation</strong> from current level to under 20%<br>📈 <strong>Avoid applying for multiple loans simultaneously</strong><br>📈 <strong>Maintain a mix of secured & unsecured credit</strong><br>🎯 Push to 800+ in 6 months: Pay all dues on time + reduce utilisation`;
+  } else if(score >= 650) {
+    rating = 'Good 👌';
+    ratingColor = '#4888d8';
+    approval = '🟡 Moderate';
+    rateInfo = `<strong style="color:var(--blue);">Score ${score} — Good</strong><br>Most banks will approve loans but at slightly higher rates around <strong>8.75%–9.50%</strong>. Improving to 750+ can save you <strong>₹800–₹2,000/month</strong> on a ₹50L home loan EMI.<br><br>💰 <strong>Example:</strong> ₹50L home loan at 9.00% for 20 yrs = EMI of ~₹45,000`;
+    tips = `🔧 <strong>Pay all EMIs on time every month</strong> — even one missed payment hurts badly<br>🔧 <strong>Reduce credit card utilisation below 30%</strong> if it's higher<br>🔧 <strong>Check CIBIL report for errors</strong> — dispute any wrong entries at cibil.com<br>🔧 <strong>Avoid guaranteeing others' loans</strong> — defaults affect your score too<br>🔧 <strong>Don't close old credit cards</strong> — they add credit history length<br>⏳ With consistent action, you can reach 750+ in 12–18 months`;
+  } else if(score >= 550) {
+    rating = 'Average ⚠️';
+    ratingColor = '#e0a030';
+    approval = '🟠 Low';
+    rateInfo = `<strong style="color:var(--accent);">Score ${score} — Average</strong><br>Loan approval is difficult. If approved, expect interest rates of <strong>10%–13%+</strong> and strict conditions. NBFCs may approve at higher rates. Focus on improvement first.<br><br>💰 <strong>Difference:</strong> ₹50L loan at 12% vs 8.5% = <strong>~₹8,500 extra per month!</strong>`;
+    tips = `🚨 <strong>Stop all late payments immediately</strong> — this is the #1 factor<br>🚨 <strong>Reduce credit card bills to under 30% of limit</strong> right away<br>🚨 <strong>Get a secured credit card or credit-builder FD</strong> to rebuild credit<br>🚨 <strong>Check report for errors & fraudulent accounts</strong> at cibil.com<br>🚨 <strong>Pay off any existing defaults or settlements</strong> fully<br>⏳ Expected timeline to reach 700: 18–24 months of disciplined effort`;
+  } else {
+    rating = 'Poor ❌';
+    ratingColor = '#e04848';
+    approval = '❌ Very Low';
+    rateInfo = `<strong style="color:var(--red);">Score ${score} — Poor</strong><br>Loan approval from mainstream banks is very unlikely. Focus entirely on credit repair before applying for any loans. Consider talking to a credit counselor.<br><br>💡 <strong>Priority:</strong> Fix credit history before worrying about rates`;
+    tips = `🚨 <strong>Do NOT apply for more loans right now</strong> — rejections make it worse<br>🚨 <strong>Pay ALL overdue amounts & settle any defaults</strong><br>🚨 <strong>Start a credit-builder product:</strong> secured credit card or small FD-backed loan<br>🚨 <strong>File a dispute for any incorrect entries</strong> on your CIBIL report<br>🚨 <strong>Set auto-payments for all existing EMIs</strong> — never miss again<br>🚨 <strong>Build a 12-month streak of on-time payments</strong> — it's the fastest way up<br>⏳ Recovery to 650 typically takes 18–36 months with consistent effort<br>📖 <a href="/blog/cibil-score-guide-2026.html" style="color:var(--accent);font-weight:700;">Read our CIBIL recovery guide →</a>`;
+  }
+
+  $('cibil-score-display').textContent = score;
+  $('cibil-score-display').style.color = ratingColor;
+  $('cibil-rating-text').textContent = rating.split(' ')[0] + ' ' + rating.split(' ')[1];
+  $('cibil-rating-text').style.color = ratingColor;
+  $('cibil-approval').textContent = approval;
+  $('cibil-rating-badge').textContent = rating;
+  $('cibil-rating-badge').style.background = ratingColor + '22';
+  $('cibil-rating-badge').style.color = ratingColor;
+  $('cibil-rating-badge').style.border = '1.5px solid ' + ratingColor + '55';
+  $('cibil-rate-info').innerHTML = rateInfo;
+  $('cibil-tips').innerHTML = tips;
+  $('cibil-result').classList.add('show');
+
+  setTimeout(() => drawGauge('cibil-gauge', score), 50);
+}
 function calcEMI() {
   const P = val('emi-principal');
   const r = val('emi-rate') / 12 / 100;
@@ -3083,8 +3401,9 @@ function toggleTheme() {
     const sec = c.closest('.calc-section');
     if(sec) {
       const id = sec.id.replace('sec-','');
-      if(typeof window['calc' + id.charAt(0).toUpperCase() + id.slice(1)] === 'function') {
-        // trigger recalc to redraw chart
+      const fnName = 'calc' + id.charAt(0).toUpperCase() + id.slice(1);
+      if(typeof window[fnName] === 'function') {
+        window[fnName](); // trigger recalc to redraw chart with new theme colors
       }
     }
   });
