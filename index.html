@@ -1517,8 +1517,9 @@ input[type=range]::-moz-range-thumb {
     <div class="header-actions">
       <!-- Web / Blog Toggle -->
       <div class="toggle-pill" id="navToggle">
-        <button class="tp-btn active" id="btn-calc" onclick="document.getElementById('btn-calc').classList.add('active');document.getElementById('btn-blog').classList.remove('active');window.scrollTo({top:0,behavior:'smooth'})">🧮 <span class="tp-label">Calc</span></button>
-        <a class="tp-btn" id="btn-blog" href="/blog/" style="text-decoration:none;" onclick="this.classList.add('active');document.getElementById('btn-calc').classList.remove('active')">📝 <span class="tp-label">Blog</span></a>
+        <button class="tp-btn active" id="btn-calc" onclick="document.getElementById('btn-calc').classList.add('active');document.getElementById('btn-blog').classList.remove('active');document.getElementById('btn-podcast').classList.remove('active');window.scrollTo({top:0,behavior:'smooth'})">🧮 <span class="tp-label">Calc</span></button>
+        <a class="tp-btn" id="btn-blog" href="/blog/" style="text-decoration:none;" onclick="this.classList.add('active');document.getElementById('btn-calc').classList.remove('active');document.getElementById('btn-podcast').classList.remove('active')">📝 <span class="tp-label">Blog</span></a>
+        <a class="tp-btn" id="btn-podcast" href="/podcast/" style="text-decoration:none;" onclick="this.classList.add('active');document.getElementById('btn-calc').classList.remove('active');document.getElementById('btn-blog').classList.remove('active')">🎙️ <span class="tp-label">Podcast</span></a>
       </div>
       <!-- Language Toggle -->
       <div class="toggle-pill">
@@ -2649,6 +2650,7 @@ input[type=range]::-moz-range-thumb {
   <div><strong>FinCalc India</strong> — India's #1 Free Financial Calculator Suite</div>
   <div class="footer-links">
     <a href="/blog/" style="color:#e0a030;font-weight:700;">📝 Blog</a>
+    <a href="/podcast/" style="color:#e0a030;font-weight:700;">🎙️ Podcast</a>
     <a href="#" onclick="switchTab('emi');return false">EMI Calculator</a>
     <a href="#" onclick="switchTab('sip');return false">SIP Calculator</a>
     <a href="#" onclick="switchTab('tax');return false">Income Tax Calculator</a>
