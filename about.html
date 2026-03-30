@@ -37,11 +37,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 .toggle-pill .tp-label{font-size:10px;letter-spacing:0.04em;}
 .theme-toggle{width:34px;height:34px;border-radius:7px;background:rgba(255,255,255,0.08);border:none;color:#fff;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.25s;flex-shrink:0;min-width:34px;}
 .theme-toggle:hover{background:rgba(255,255,255,0.15);}
-.mobile-menu-btn{display:none;width:36px;height:36px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:8px;color:#fff;font-size:18px;cursor:pointer;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.25s;}
-.mobile-menu-btn:hover{background:rgba(255,255,255,0.15);}
-.mobile-nav{display:none;background:var(--header-bg);border-top:1px solid rgba(255,255,255,0.08);padding:12px 16px 14px;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.18);}
-.mobile-nav.open{display:flex;}
-@media(max-width:600px){.header-actions .toggle-pill{display:none;}.mobile-menu-btn{display:flex;}.header-inner{padding:0 14px;}}
+@media(max-width:600px){.header-inner{padding:0 10px;}.header-actions{gap:4px;}.toggle-pill{padding:2px;}.toggle-pill .tp-btn{padding:4px 7px;font-size:13px;}.toggle-pill .tp-label{display:none;}.theme-toggle{width:30px;height:30px;font-size:14px;min-width:30px;}}
 .page-wrap{max-width:800px;margin:0 auto;padding:48px 24px 80px;}
 .page-hero{text-align:center;padding:40px 0 32px;border-bottom:1px solid var(--border);margin-bottom:40px;}
 .page-hero h1{font-family:var(--font);font-size:clamp(28px,5vw,42px);font-weight:800;letter-spacing:-0.04em;line-height:1.15;margin-bottom:12px;}
@@ -108,17 +104,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
         <button class="tp-btn" onclick="setLang('hi')" id="btn-hi">🇮🇳 <span class="tp-label">हिंदी</span></button>
       </div>
       <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" id="themeBtn">🌙</button>
-      <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Open menu" title="Menu">☰</button>
-    </div>
-  </div>
-  <div class="mobile-nav" id="mobileNav">
-    <div class="toggle-pill">
-      <a class="tp-btn" href="https://satzzxzxx.me/" style="text-decoration:none;">🧮 <span>Calc</span></a>
-      <a class="tp-btn" href="https://satzzxzxx.me/blog/" style="text-decoration:none;">📝 <span>Blog</span></a>
-    </div>
-    <div class="toggle-pill">
-      <button class="tp-btn active" onclick="setLang('en');toggleMobileMenu()" id="btn-en-m">🇬🇧 <span>EN</span></button>
-      <button class="tp-btn" onclick="setLang('hi');toggleMobileMenu()" id="btn-hi-m">🇮🇳 <span>हिंदी</span></button>
     </div>
   </div>
 </header>
@@ -260,8 +245,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 <script>
 function toggleTheme(){const t=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';localStorage.setItem('fincalc-theme',t);}
 (function(){const s=localStorage.getItem('fincalc-theme');if(s==='dark'){document.documentElement.setAttribute('data-theme','dark');setTimeout(()=>{const b=document.getElementById('themeBtn');if(b)b.textContent='☀️';},0);}})();
-function setLang(l){const em=document.getElementById('btn-en'),hm=document.getElementById('btn-hi'),emm=document.getElementById('btn-en-m'),hmm=document.getElementById('btn-hi-m');if(em)em.classList.toggle('active',l==='en');if(hm)hm.classList.toggle('active',l==='hi');if(emm)emm.classList.toggle('active',l==='en');if(hmm)hmm.classList.toggle('active',l==='hi');}
-function toggleMobileMenu(){const n=document.getElementById('mobileNav'),b=document.getElementById('mobileMenuBtn');if(!n)return;const o=n.classList.toggle('open');if(b){b.textContent=o?'✕':'☰';b.setAttribute('aria-label',o?'Close menu':'Open menu');}}
+function setLang(l){const em=document.getElementById('btn-en'),hm=document.getElementById('btn-hi');if(em)em.classList.toggle('active',l==='en');if(hm)hm.classList.toggle('active',l==='hi');}
+
 if(location.hostname==='satzzxzxx.me'){
   (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtag/js?id=G-NTKNL4QDZN';f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','G-NTKNL4QDZN');
   window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-NTKNL4QDZN');
