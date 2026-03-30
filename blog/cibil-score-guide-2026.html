@@ -154,6 +154,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 .footer-links a{color:rgba(255,255,255,0.5);text-decoration:none;margin:0 8px;transition:color 0.25s;}
 .footer-links a:hover{color:var(--accent);}
 @media(max-width:680px){
+  .header-inner{padding:0 10px;gap:6px;}
+  .toggle-pill{gap:0;padding:2px;}
+  .toggle-pill .tp-btn{padding:4px 7px;font-size:10px;gap:3px;}
+  .toggle-pill .tp-label{display:none;}
+  .toggle-pill .tp-btn.active .tp-label{display:inline;font-size:9px;}
+  .theme-toggle{width:30px;height:30px;min-width:30px;font-size:13px;}
+  .logo{font-size:13px;gap:6px;}
+  .logo-icon{width:26px;height:26px;}
   .info-cards{grid-template-columns:1fr 1fr;}
   .related-grid{grid-template-columns:1fr;}
   .share-btns{flex-direction:column;align-items:center;}

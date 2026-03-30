@@ -84,7 +84,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 .podcast-main{max-width:1100px;margin:0 auto;padding:52px 24px 80px;}
 
 /* CATEGORY PILLS */
-.cat-filter-wrap{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;margin-bottom:44px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.cat-filter-wrap{display:flex;flex-wrap:nowrap;gap:10px;overflow-x:auto;padding-bottom:6px;margin-bottom:44px;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none;}
 .cat-filter-wrap::-webkit-scrollbar{display:none;}
 .cat-pill{flex-shrink:0;font-family:var(--font);font-size:13px;font-weight:700;padding:9px 22px;border-radius:24px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all 0.22s;white-space:nowrap;letter-spacing:0.02em;}
 .cat-pill:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);}
@@ -166,13 +166,26 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 
 /* RESPONSIVE */
 @media(max-width:640px){
+  .header-inner{padding:0 10px;gap:6px;}
+  .toggle-pill{gap:0;padding:2px;}
+  .toggle-pill .tp-btn{padding:4px 7px;font-size:10px;gap:3px;}
+  .toggle-pill .tp-label{display:none;}
+  .toggle-pill .tp-btn.active .tp-label{display:inline;font-size:9px;}
+  .theme-toggle{width:30px;height:30px;min-width:30px;font-size:13px;}
+  .logo{font-size:13px;gap:6px;}
+  .logo-icon{width:26px;height:26px;}
   .card-top{flex-direction:column;}
   .episode-thumb{width:64px;height:64px;font-size:26px;}
   .podcast-hero{padding:48px 20px 40px;}
-  .podcast-main{padding:32px 16px 60px;}
+  .podcast-main{padding:32px 16px 60px;overflow-x:hidden;}
   .subscribe-section{padding:32px 20px;}
   .cta-box{padding:36px 20px;}
   .audio-player{gap:10px;}
+  .podcast-card{max-width:100%;overflow:hidden;word-break:break-word;}
+}
+@media(max-width:400px){
+  .toggle-pill .tp-btn{padding:4px 5px;font-size:9px;}
+  .logo{font-size:12px;}
 }
 </style>
 </head>
