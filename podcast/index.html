@@ -282,8 +282,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 .subscribe-section h2{font-family:var(--font-display);font-size:clamp(22px,4vw,30px);font-weight:800;color:var(--text);margin-bottom:10px;letter-spacing:-.02em;}
 .subscribe-section p{font-size:14px;color:var(--muted);margin-bottom:24px;line-height:1.6;}
 .platforms{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:28px;}
-.platform-btn{display:flex;align-items:center;gap:7px;padding:10px 18px;border-radius:10px;border:1.5px solid var(--border2);background:var(--surface);color:var(--text2);text-decoration:none;font-size:13px;font-weight:700;transition:all .22s;position:relative;}
-.platform-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-bg);transform:translateY(-1px);}
+.platform-btn{display:flex;align-items:center;gap:7px;padding:10px 18px;border-radius:10px;border:1.5px solid;background:rgba(255,255,255,.05);text-decoration:none;font-size:13px;font-weight:700;transition:all .3s ease;position:relative;}
 .notify-form{display:flex;gap:8px;max-width:400px;margin:0 auto;}
 .notify-input{flex:1;padding:11px 16px;border-radius:9px;border:1.5px solid var(--border2);background:var(--surface);color:var(--text);font-family:var(--font);font-size:13px;outline:none;transition:border-color .2s;}
 .notify-input:focus{border-color:var(--accent);}
@@ -459,19 +458,31 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
     <h2>&#x1F3A7; Listen on Your Favourite App</h2>
     <p>New episodes every week. Subscribe so you never miss a session on EMI, SIP, tax or credit.</p>
     <div class="platforms">
-      <a class="platform-btn" href="#" title="Coming soon on Spotify" target="_blank" rel="noopener noreferrer">
+      <a class="platform-btn" href="#" title="Coming soon on Spotify" target="_blank" rel="noopener noreferrer"
+         style="color:#1DB954;border-color:rgba(29,185,84,0.35);background:rgba(29,185,84,0.06);"
+         onmouseover="this.style.background='rgba(29,185,84,0.16)';this.style.borderColor='rgba(29,185,84,0.55)';this.style.boxShadow='0 0 20px rgba(29,185,84,0.28)';this.style.transform='translateY(-2px)';"
+         onmouseout="this.style.background='rgba(29,185,84,0.06)';this.style.borderColor='rgba(29,185,84,0.35)';this.style.boxShadow='none';this.style.transform='translateY(0)';">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
         Spotify
       </a>
-      <a class="platform-btn" href="#" title="Coming soon on Apple Podcasts" target="_blank" rel="noopener noreferrer">
+      <a class="platform-btn" href="#" title="Coming soon on Apple Podcasts" target="_blank" rel="noopener noreferrer"
+         style="color:#872EC4;border-color:rgba(135,46,196,0.35);background:rgba(135,46,196,0.06);"
+         onmouseover="this.style.background='rgba(135,46,196,0.16)';this.style.borderColor='rgba(135,46,196,0.55)';this.style.boxShadow='0 0 20px rgba(135,46,196,0.28)';this.style.transform='translateY(-2px)';"
+         onmouseout="this.style.background='rgba(135,46,196,0.06)';this.style.borderColor='rgba(135,46,196,0.35)';this.style.boxShadow='none';this.style.transform='translateY(0)';">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12c0 6.628 5.373 12 12 12 6.628 0 12-5.372 12-12C24 5.373 18.628 0 12 0zm0 4.36a7.64 7.64 0 0 1 7.64 7.64A7.64 7.64 0 0 1 12 19.64 7.64 7.64 0 0 1 4.36 12 7.64 7.64 0 0 1 12 4.36zm0 2.29a1.527 1.527 0 1 0 0 3.054A1.527 1.527 0 0 0 12 6.65zm-.763 4.963v5.343a.763.763 0 0 0 1.526 0v-5.343a.763.763 0 0 0-1.526 0z"/></svg>
         Apple Podcasts
       </a>
-      <a class="platform-btn" href="https://t.me/InvestGrow_IN" target="_blank" rel="noopener noreferrer">
+      <a class="platform-btn" href="https://t.me/InvestGrow_IN" target="_blank" rel="noopener noreferrer"
+         style="color:#26A5E4;border-color:rgba(38,165,228,0.35);background:rgba(38,165,228,0.06);"
+         onmouseover="this.style.background='rgba(38,165,228,0.16)';this.style.borderColor='rgba(38,165,228,0.55)';this.style.boxShadow='0 0 20px rgba(38,165,228,0.28)';this.style.transform='translateY(-2px)';"
+         onmouseout="this.style.background='rgba(38,165,228,0.06)';this.style.borderColor='rgba(38,165,228,0.35)';this.style.boxShadow='none';this.style.transform='translateY(0)';">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
         Telegram
       </a>
-      <a class="platform-btn" href="/podcast/feed.xml" target="_blank" rel="noopener noreferrer">
+      <a class="platform-btn" href="/podcast/feed.xml" target="_blank" rel="noopener noreferrer"
+         style="color:#EE802F;border-color:rgba(238,128,47,0.35);background:rgba(238,128,47,0.06);"
+         onmouseover="this.style.background='rgba(238,128,47,0.16)';this.style.borderColor='rgba(238,128,47,0.55)';this.style.boxShadow='0 0 20px rgba(238,128,47,0.28)';this.style.transform='translateY(-2px)';"
+         onmouseout="this.style.background='rgba(238,128,47,0.06)';this.style.borderColor='rgba(238,128,47,0.35)';this.style.boxShadow='none';this.style.transform='translateY(0)';">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19.01 7.38 20 6.18 20C4.98 20 4 19.01 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1z"/></svg>
         RSS Feed
       </a>
@@ -536,23 +547,23 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
   <div class="footer-social">
     <a href="https://www.instagram.com/__.satzzxzxx?igsh=MWhlMXAxZ3M2dGZtMA==" target="_blank" rel="noopener noreferrer"
        class="soc-btn" style="color:#E1306C;border-color:rgba(225,48,108,0.3);"
-       onmouseover="this.style.background='rgba(225,48,108,0.12)';this.style.borderColor='rgba(225,48,108,0.5)';this.style.transform='translateY(-2px)';"
-       onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.borderColor='rgba(225,48,108,0.3)';this.style.transform='translateY(0)';">
+       onmouseover="this.style.background='rgba(225,48,108,0.12)';this.style.borderColor='rgba(225,48,108,0.5)';this.style.boxShadow='0 0 20px rgba(225,48,108,0.25)';this.style.transform='translateY(-2px)';"
+       onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.borderColor='rgba(225,48,108,0.3)';this.style.boxShadow='none';this.style.transform='translateY(0)';">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>Instagram</a>
     <a href="https://x.com/satzzxzxx" target="_blank" rel="noopener noreferrer"
        class="soc-btn" style="color:#1DA1F2;border-color:rgba(29,161,242,0.3);"
-       onmouseover="this.style.background='rgba(29,161,242,0.12)';this.style.borderColor='rgba(29,161,242,0.5)';this.style.transform='translateY(-2px)';"
-       onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.borderColor='rgba(29,161,242,0.3)';this.style.transform='translateY(0)';">
+       onmouseover="this.style.background='rgba(29,161,242,0.12)';this.style.borderColor='rgba(29,161,242,0.5)';this.style.boxShadow='0 0 20px rgba(29,161,242,0.25)';this.style.transform='translateY(-2px)';"
+       onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.borderColor='rgba(29,161,242,0.3)';this.style.boxShadow='none';this.style.transform='translateY(0)';">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>X</a>
     <a href="https://github.com/S2zxx0zxx" target="_blank" rel="noopener noreferrer"
        class="soc-btn" style="color:#a78bfa;border-color:rgba(167,139,250,0.3);"
-       onmouseover="this.style.background='rgba(167,139,250,0.12)';this.style.borderColor='rgba(167,139,250,0.5)';this.style.transform='translateY(-2px)';"
-       onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.borderColor='rgba(167,139,250,0.3)';this.style.transform='translateY(0)';">
+       onmouseover="this.style.background='rgba(167,139,250,0.12)';this.style.borderColor='rgba(167,139,250,0.5)';this.style.boxShadow='0 0 20px rgba(167,139,250,0.25)';this.style.transform='translateY(-2px)';"
+       onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.borderColor='rgba(167,139,250,0.3)';this.style.boxShadow='none';this.style.transform='translateY(0)';">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>GitHub</a>
     <a href="https://t.me/InvestGrow_IN" target="_blank" rel="noopener noreferrer"
        class="soc-btn" style="color:#26A5E4;border-color:rgba(38,165,228,0.3);"
-       onmouseover="this.style.background='rgba(38,165,228,0.12)';this.style.borderColor='rgba(38,165,228,0.5)';this.style.transform='translateY(-2px)';"
-       onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.borderColor='rgba(38,165,228,0.3)';this.style.transform='translateY(0)';">
+       onmouseover="this.style.background='rgba(38,165,228,0.12)';this.style.borderColor='rgba(38,165,228,0.5)';this.style.boxShadow='0 0 20px rgba(38,165,228,0.25)';this.style.transform='translateY(-2px)';"
+       onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.borderColor='rgba(38,165,228,0.3)';this.style.boxShadow='none';this.style.transform='translateY(0)';">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>Telegram</a>
   </div>
   <div style="font-family:monospace;font-size:11px;color:rgba(255,255,255,0.2);margin-bottom:8px;">
