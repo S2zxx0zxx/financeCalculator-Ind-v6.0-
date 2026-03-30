@@ -24,19 +24,20 @@
 html{scroll-behavior:smooth;overflow-x:hidden;width:100%;}
 body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16px;line-height:1.8;-webkit-font-smoothing:antialiased;transition:background 0.3s,color 0.3s;overflow-x:hidden;width:100%;max-width:100vw;}
 .site-header{background:var(--header-bg);position:sticky;top:0;z-index:1000;box-shadow:0 2px 24px rgba(0,0,0,0.2);backdrop-filter:blur(12px);overflow:hidden;}
-.header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:56px;overflow:hidden;}
+.header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:60px;gap:12px;}
 .logo{font-family:var(--font);font-size:16px;font-weight:800;color:#fff;letter-spacing:-0.03em;display:flex;align-items:center;gap:8px;text-decoration:none;white-space:nowrap;flex-shrink:0;}
 .logo-icon{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#e0a030,#c8821a);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(200,130,26,0.3);padding:2px;flex-shrink:0;overflow:hidden;}
 .logo-icon img{width:24px;height:24px;border-radius:5px;object-fit:cover;background:#fff;}
 .logo-badge{background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.6);font-size:8px;padding:2px 6px;border-radius:20px;letter-spacing:0.08em;text-transform:uppercase;font-weight:700;}
 .header-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;overflow:hidden;}
-.toggle-pill{display:flex;align-items:center;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:3px;position:relative;gap:0;}
-.toggle-pill .tp-btn{font-family:var(--font);font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);padding:5px 12px;border-radius:16px;cursor:pointer;border:none;background:none;display:flex;align-items:center;gap:4px;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);position:relative;z-index:1;white-space:nowrap;letter-spacing:0.02em;text-decoration:none;}
-.toggle-pill .tp-btn:hover{color:rgba(255,255,255,0.8);}
-.toggle-pill .tp-btn.active{background:rgba(224,160,48,0.2);color:#e0a030;box-shadow:0 2px 8px rgba(224,160,48,0.15);border:1px solid rgba(224,160,48,0.3);}
-.toggle-pill .tp-label{font-size:10px;letter-spacing:0.04em;}
-.theme-toggle{width:34px;height:34px;border-radius:7px;background:rgba(255,255,255,0.08);border:none;color:#fff;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.25s;flex-shrink:0;min-width:34px;}
-.theme-toggle:hover{background:rgba(255,255,255,0.15);}
+.header-nav{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:4px;}
+.nav-btn{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:10px;font-family:var(--font);font-size:13px;font-weight:700;color:rgba(255,255,255,0.5);text-decoration:none;white-space:nowrap;transition:all 0.25s cubic-bezier(0.4,0,0.2,1);letter-spacing:0.02em;cursor:pointer;border:none;background:none;line-height:1;}
+.nav-btn:hover{color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.08);}
+.nav-btn.active{background:rgba(224,160,48,0.18);color:#e0a030;box-shadow:0 2px 12px rgba(224,160,48,0.2),inset 0 1px 0 rgba(255,255,255,0.1);border:1px solid rgba(224,160,48,0.35);}
+.nav-icon{font-size:16px;line-height:1;flex-shrink:0;}
+.nav-label{font-size:13px;font-weight:700;}
+.theme-toggle{width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.25s;flex-shrink:0;min-width:40px;}
+.theme-toggle:hover{background:rgba(255,255,255,0.14);border-color:rgba(255,255,255,0.2);}
 .page-wrap{max-width:800px;margin:0 auto;padding:48px 24px 80px;}
 .page-hero{text-align:center;padding:40px 0 32px;border-bottom:1px solid var(--border);margin-bottom:40px;}
 .page-hero h1{font-family:var(--font);font-size:clamp(28px,5vw,42px);font-weight:800;letter-spacing:-0.04em;line-height:1.15;margin-bottom:12px;}
@@ -57,10 +58,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 .footer-links a:hover{color:var(--accent);}
 @media(max-width:768px){
   .header-inner{padding:0 10px;gap:6px;}
-  .toggle-pill{gap:0;padding:2px;}
-  .toggle-pill .tp-btn{padding:4px 7px;font-size:10px;gap:3px;}
-  .toggle-pill .tp-label{display:none;}
-  .toggle-pill .tp-btn.active .tp-label{display:inline;font-size:9px;}
+  .header-inner{padding:0 14px;height:56px;gap:8px;}
+  .header-nav{gap:2px;padding:3px;border-radius:12px;}
+  .nav-btn{padding:8px 10px;gap:0;}
+  .nav-label{display:none;}
+  .nav-btn.active{padding:7px 12px;gap:5px;}
+  .nav-btn.active .nav-label{display:inline;font-size:12px;}
+  .nav-icon{font-size:17px;}
+  .theme-toggle{width:36px;height:36px;min-width:36px;font-size:17px;border-radius:9px;}
   .theme-toggle{width:30px;height:30px;min-width:30px;font-size:13px;}
   .logo{font-size:13px;gap:6px;}
   .logo-icon{width:26px;height:26px;}
@@ -87,10 +92,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
       <span class="logo-badge">v2.0</span>
     </a>
     <div class="header-actions">
-      <div class="toggle-pill" id="navToggle">
-        <a class="tp-btn" id="btn-calc" href="https://satzzxzxx.me/" style="text-decoration:none;">🧮 <span class="tp-label">Calc</span></a>
-        <a class="tp-btn" id="btn-blog" href="https://satzzxzxx.me/blog/" style="text-decoration:none;">📝 <span class="tp-label">Blog</span></a>
-      </div>
+      <nav class="header-nav" id="navToggle">
+        <a class="nav-btn" id="btn-calc" href="https://satzzxzxx.me/"><span class="nav-icon">🧮</span><span class="nav-label">Calc</span></a>
+        <a class="nav-btn" id="btn-blog" href="https://satzzxzxx.me/blog/"><span class="nav-icon">📝</span><span class="nav-label">Blog</span></a>
+        <a class="nav-btn" id="btn-podcast" href="https://satzzxzxx.me/podcast/"><span class="nav-icon">🎙️</span><span class="nav-label">Podcast</span></a>
+      </nav>
       <div class="toggle-pill">
         <button class="tp-btn active" onclick="setLang('en')" id="btn-en">🇬🇧 <span class="tp-label">EN</span></button>
         <button class="tp-btn" onclick="setLang('hi')" id="btn-hi">🇮🇳 <span class="tp-label">हिंदी</span></button>
