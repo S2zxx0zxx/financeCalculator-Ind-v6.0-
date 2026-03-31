@@ -15,6 +15,12 @@
 <meta property="og:description" content="Read expert articles on SIP vs FD, home loan EMI, income tax 2026-27, GST calculation and more.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://satzzxzxx.me/blog/">
+<meta property="og:image" content="https://satzzxzxx.me/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="FinCalc India — Personal Finance Blog">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://satzzxzxx.me/og-image.png">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Blog","name":"FinCalc India Blog","url":"https://satzzxzxx.me/blog/","description":"India's most practical personal finance blog — SIP, FD, home loans, income tax, GST and more.","publisher":{"@type":"Organization","name":"FinCalc India","url":"https://satzzxzxx.me"},"blogPost":[{"@type":"BlogPosting","headline":"CIBIL Score Guide 2026 — What It Is, How to Check & Improve Your Credit Score","url":"https://satzzxzxx.me/blog/cibil-score-guide-2026.html","datePublished":"2026-03-29","author":{"@type":"Person","name":"Satyam Kumar"}},{"@type":"BlogPosting","headline":"₹50 Lakh Home Loan EMI — SBI, HDFC, ICICI Comparison 2026","url":"https://satzzxzxx.me/blog/home-loan-emi-50-lakh-2026.html","datePublished":"2026-03-26","author":{"@type":"Person","name":"Satyam Kumar"}},{"@type":"BlogPosting","headline":"GST Calculation Guide — Slabs, ITC, HSN Codes & Filing","url":"https://satzzxzxx.me/blog/gst-calculation-guide-india.html","datePublished":"2026-03-25","author":{"@type":"Person","name":"Satyam Kumar"}},{"@type":"BlogPosting","headline":"SIP vs FD in 2026 — Where Should You Invest?","url":"https://satzzxzxx.me/blog/sip-vs-fd-2026-v2.html","datePublished":"2026-03-24","author":{"@type":"Person","name":"Satyam Kumar"}},{"@type":"BlogPosting","headline":"Income Tax Guide 2026-27 — New vs Old Regime","url":"https://satzzxzxx.me/blog/income-tax-2026-27-guide.html","datePublished":"2026-03-23","author":{"@type":"Person","name":"Satyam Kumar"}}]}
 </script>
@@ -130,6 +136,42 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
   .logo{font-size:12px;}
 }
 @keyframes wave{0%,100%{transform:rotate(0deg)}25%{transform:rotate(14deg)}75%{transform:rotate(-14deg)}}
+/* CARD TOP ROW: category badge + read time side by side */
+.card-top-row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+/* READING TIME BADGE */
+.read-time-badge{font-size:11px;font-weight:600;color:var(--muted);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:3px 10px;display:inline-flex;align-items:center;gap:4px;white-space:nowrap;flex-shrink:0;}
+/* FEATURED / MOST READ BADGES */
+.special-badge{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;}
+.special-badge.featured{background:var(--accent-bg);color:var(--accent);border:1px solid var(--accent);}
+.special-badge.most-read{background:rgba(255,80,0,0.1);color:#c84010;border:1px solid rgba(255,80,0,0.3);}
+[data-theme="dark"] .special-badge.most-read{color:#ff7040;background:rgba(255,80,0,0.15);}
+.badge-group{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+/* SEARCH BAR */
+.search-wrap{max-width:600px;margin:24px auto 0;padding:0 24px;box-sizing:border-box;}
+.search-bar-inner{display:flex;align-items:center;background:var(--surface);border:1.5px solid var(--border);border-radius:40px;padding:10px 18px;gap:10px;transition:border-color 0.25s,box-shadow 0.25s;}
+.search-bar-inner:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px rgba(200,130,26,0.18);}
+[data-theme="dark"] .search-bar-inner:focus-within{box-shadow:0 0 0 3px rgba(224,160,48,0.2);}
+.search-icon{color:var(--muted);font-size:16px;flex-shrink:0;}
+#searchInput{flex:1;font-family:var(--font);font-size:14px;background:transparent;border:none;outline:none;color:var(--text);}
+#searchInput::placeholder{color:var(--muted);}
+.search-clear-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:0 2px;line-height:1;display:none;transition:color 0.2s;}
+.search-clear-btn:hover{color:var(--text);}
+.search-clear-btn.visible{display:block;}
+.no-results{text-align:center;padding:40px 20px;color:var(--muted);font-size:15px;display:none;}
+.no-results.visible{display:block;}
+/* LOAD MORE BUTTON */
+.load-more-wrap{text-align:center;margin:8px 0 32px;}
+.load-more-btn{font-family:var(--font);font-size:14px;font-weight:700;padding:13px 36px;border-radius:10px;border:2px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;transition:background 0.2s,color 0.2s,transform 0.15s,box-shadow 0.2s;letter-spacing:0.02em;}
+.load-more-btn:hover{background:var(--accent);color:#fff;transform:translateY(-2px);box-shadow:0 6px 20px rgba(200,130,26,0.3);}
+[data-theme="light"] .load-more-btn:hover{color:#1b1710;}
+.load-more-btn:disabled,.load-more-btn.hidden{opacity:0;pointer-events:none;}
+/* HERO FLOATING EMOJI */
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.hero-float{display:inline-block;animation:float 3s ease-in-out infinite;}
+/* INTERSECTION OBSERVER REVEAL (for Load More cards) */
+.blog-card.io-hidden{opacity:0;transform:translateY(18px);}
+.blog-card.io-visible{opacity:1;transform:translateY(0);transition:opacity 0.45s ease,transform 0.45s ease;}
+@media(max-width:680px){.search-wrap{padding:0 16px;}.search-bar-inner{padding:9px 14px;}}
 </style>
 </head>
 <body>
@@ -151,12 +193,19 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 </header>
 
 <section class="blog-hero">
-  <h1>FinCalc India <span class="accent">Blog</span></h1>
+  <h1>FinCalc India <span class="accent">Blog</span> <span class="hero-float">📝</span></h1>
   <p class="subtitle">Expert guides on EMI, SIP, Tax, GST &amp; smart money management for every Indian</p>
   <div class="hero-stats">
-    <div class="hero-stat"><strong>4</strong>&nbsp;Articles</div>
+    <div class="hero-stat"><strong id="articleCount">5</strong>&nbsp;Articles</div>
     <div class="hero-stat"><strong>5</strong>&nbsp;Categories</div>
     <div class="hero-stat">&#10022; Updated Weekly</div>
+  </div>
+  <div class="search-wrap">
+    <div class="search-bar-inner">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search articles... e.g. SIP, home loan, tax" autocomplete="off" aria-label="Search articles">
+      <button class="search-clear-btn" id="searchClear" aria-label="Clear search">✕</button>
+    </div>
   </div>
 </section>
 
@@ -180,7 +229,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
   <div class="blog-grid" id="blogGrid">
 
     <a class="blog-card" data-category="loans" href="home-loan-emi-50-lakh-2026.html" style="animation-delay:0.05s;">
-      <span class="card-cat-badge loans">&#x1F3E0; Loans &amp; EMI</span>
+      <div class="card-top-row">
+        <span class="card-cat-badge loans">&#x1F3E0; Loans &amp; EMI</span>
+        <span class="read-time-badge">⏱ 7 min read</span>
+      </div>
       <h2>&#x20B9;50 Lakh Home Loan EMI &mdash; SBI, HDFC, ICICI Comparison 2026</h2>
       <p class="excerpt">Complete EMI comparison with bank rates, prepayment savings, eligibility rules &amp; tips.</p>
       <div class="card-meta">
@@ -194,7 +246,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
     </a>
 
     <a class="blog-card" data-category="gst" href="gst-calculation-guide-india.html" style="animation-delay:0.1s;">
-      <span class="card-cat-badge gst">&#x1F9FE; GST</span>
+      <div class="card-top-row">
+        <span class="card-cat-badge gst">&#x1F9FE; GST</span>
+        <span class="read-time-badge">⏱ 5 min read</span>
+      </div>
       <h2>GST Calculation Guide &mdash; Slabs, ITC, HSN Codes &amp; Filing</h2>
       <p class="excerpt">Everything about GST rates, input tax credit, HSN/SAC codes, return filing dates.</p>
       <div class="card-meta">
@@ -208,7 +263,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
     </a>
 
     <a class="blog-card" data-category="investment" href="sip-vs-fd-2026-v2.html" style="animation-delay:0.15s;">
-      <span class="card-cat-badge investment">&#x1F4C8; Investment</span>
+      <div class="card-top-row">
+        <span class="card-cat-badge investment">&#x1F4C8; Investment</span>
+        <span class="read-time-badge">⏱ 6 min read</span>
+      </div>
       <h2>SIP vs FD in 2026 &mdash; Where Should You Invest?</h2>
       <p class="excerpt">Returns comparison, risk analysis, tax treatment &amp; smart allocation strategy.</p>
       <div class="card-meta">
@@ -222,7 +280,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
     </a>
 
     <a class="blog-card" data-category="tax" href="income-tax-2026-27-guide.html" style="animation-delay:0.2s;">
-      <span class="card-cat-badge tax">&#x1F4CB; Tax &amp; ITR</span>
+      <div class="card-top-row">
+        <div class="badge-group">
+          <span class="card-cat-badge tax">&#x1F4CB; Tax &amp; ITR</span>
+          <span class="special-badge most-read">🔥 Most Read</span>
+        </div>
+        <span class="read-time-badge">⏱ 7 min read</span>
+      </div>
       <h2>Income Tax Guide 2026-27 &mdash; New vs Old Regime</h2>
       <p class="excerpt">Complete comparison with slabs, deductions, charts and which regime saves you more.</p>
       <div class="card-meta">
@@ -236,7 +300,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
     </a>
 
     <a class="blog-card" data-category="credit" href="cibil-score-guide-2026.html" style="animation-delay:0.25s;">
-      <span class="card-cat-badge credit">&#x1F4B3; Credit Score</span>
+      <div class="card-top-row">
+        <div class="badge-group">
+          <span class="card-cat-badge credit">&#x1F4B3; Credit Score</span>
+          <span class="special-badge featured">⭐ Featured</span>
+        </div>
+        <span class="read-time-badge">⏱ 6 min read</span>
+      </div>
       <h2>CIBIL Score Guide 2026 &mdash; How to Check &amp; Improve Fast</h2>
       <p class="excerpt">Score ranges, interest rate impact, 7 improvement strategies, 6 myths busted &amp; free check methods.</p>
       <div class="card-meta">
@@ -251,20 +321,27 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 
   </div>
 
+  <p class="no-results" id="noResults">No articles found. Try a different search term.</p>
+
+  <div class="load-more-wrap" id="loadMoreWrap">
+    <button class="load-more-btn" id="loadMoreBtn">Load More Articles ↓</button>
+  </div>
+
   <div class="ad-slot">
     <div class="ad-label">Advertisement</div>
     <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2931447769544799" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
   </div>
 
   <div class="newsletter-section">
-    <h2>Stay Updated &#x1F4EC;</h2>
-    <p>Get weekly finance tips, calculator updates &amp; tax-saving strategies</p>
-    <form class="newsletter-form" action="https://formsubmit.co/YOUR_EMAIL" method="POST">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_template" value="table">
-      <input class="newsletter-input" type="email" name="email" placeholder="Enter your email address" required>
-      <button class="newsletter-btn" type="submit">Subscribe</button>
-    </form>
+    <h2>Get Finance Tips in Your Inbox &#x1F4EC;</h2>
+    <p>Weekly SIP, tax &amp; loan updates. No spam.</p>
+    <div id="newsletterForm">
+      <form class="newsletter-form" id="nlForm" novalidate>
+        <input class="newsletter-input" type="email" id="nlEmail" placeholder="Enter your email address" required aria-label="Email address">
+        <button class="newsletter-btn" type="submit">Subscribe</button>
+      </form>
+    </div>
+    <div id="newsletterThanks" style="display:none;padding:16px;color:var(--accent);font-weight:700;font-size:15px;">&#x2714; You're subscribed! Great financial tips coming your way.</div>
     <p class="newsletter-note">No spam. Unsubscribe anytime.</p>
   </div>
 
@@ -326,26 +403,115 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 (function(){var ads=document.querySelectorAll('.adsbygoogle');ads.forEach(function(){try{(adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){}})})();
 </script>
 <script>
+/* --- THEME TOGGLE --- */
 function toggleTheme(){var h=document.documentElement,t=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'\u2600\uFE0F':'\uD83C\uDF19';try{localStorage.setItem('fincalc-theme',t);}catch(e){}}
-(function(){try{var t=localStorage.getItem('fincalc-theme');if(t){document.documentElement.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'\u2600\uFE0F':'\uD83C\uDF19';}}catch(e){}}
-)();
+(function(){try{var t=localStorage.getItem('fincalc-theme');if(t){document.documentElement.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'\u2600\uFE0F':'\uD83C\uDF19';}}catch(e){}})();
+
+/* --- NEWSLETTER (localStorage, no backend) --- */
 (function(){
+  try{
+    if(localStorage.getItem('fincalc-nl-subscribed')){
+      document.getElementById('newsletterForm').style.display='none';
+      document.getElementById('newsletterThanks').style.display='block';
+    }
+  }catch(e){}
+  var form=document.getElementById('nlForm');
+  if(form){
+    form.addEventListener('submit',function(e){
+      e.preventDefault();
+      var email=document.getElementById('nlEmail').value.trim();
+      var emailInput=document.getElementById('nlEmail');
+      if(!email||!emailInput.checkValidity())return;
+      try{localStorage.setItem('fincalc-nl-subscribed','1');}catch(ex){}
+      document.getElementById('newsletterForm').style.display='none';
+      document.getElementById('newsletterThanks').style.display='block';
+    });
+  }
+})();
+
+/* --- SEARCH + CATEGORY FILTER (integrated) --- */
+(function(){
+  var searchInput=document.getElementById('searchInput');
+  var clearBtn=document.getElementById('searchClear');
+  var noResults=document.getElementById('noResults');
+  var cards=Array.prototype.slice.call(document.querySelectorAll('#blogGrid .blog-card'));
   var pills=document.querySelectorAll('#catFilter .cat-pill');
-  var cards=document.querySelectorAll('#blogGrid .blog-card');
+  var activeCat='all';
+
+  function filterCards(){
+    var q=(searchInput?searchInput.value:'').toLowerCase().trim();
+    var hasVisible=false;
+    cards.forEach(function(card){
+      var cat=card.getAttribute('data-category')||'';
+      var title=(card.querySelector('h2')||{}).textContent||'';
+      var excerpt=(card.querySelector('.excerpt')||{}).textContent||'';
+      var badge=(card.querySelector('.card-cat-badge')||{}).textContent||'';
+      var matchCat=(activeCat==='all'||cat===activeCat);
+      var matchSearch=(!q||title.toLowerCase().includes(q)||excerpt.toLowerCase().includes(q)||badge.toLowerCase().includes(q)||cat.includes(q));
+      if(matchCat&&matchSearch){card.classList.remove('hidden');hasVisible=true;}
+      else{card.classList.add('hidden');}
+    });
+    if(clearBtn)clearBtn.classList.toggle('visible',q.length>0);
+    if(noResults)noResults.classList.toggle('visible',!hasVisible);
+  }
+
+  if(searchInput){searchInput.addEventListener('input',filterCards);}
+  if(clearBtn){
+    clearBtn.addEventListener('click',function(){
+      if(searchInput)searchInput.value='';
+      filterCards();
+      if(searchInput)searchInput.focus();
+    });
+  }
   pills.forEach(function(pill){
     pill.addEventListener('click',function(){
       pills.forEach(function(p){p.classList.remove('active');});
       this.classList.add('active');
-      var cat=this.getAttribute('data-cat');
-      cards.forEach(function(card){
-        if(cat==='all'||card.getAttribute('data-category')===cat){
-          card.classList.remove('hidden');
-        }else{
-          card.classList.add('hidden');
-        }
-      });
+      activeCat=this.getAttribute('data-cat')||'all';
+      filterCards();
     });
   });
+})();
+
+/* --- LOAD MORE (pagination-ready) --- */
+(function(){
+  var INITIAL_SHOW=6;
+  var STAGGER_DELAY=80;
+  var grid=document.getElementById('blogGrid');
+  var btn=document.getElementById('loadMoreBtn');
+  if(!grid||!btn)return;
+  var allCards=Array.prototype.slice.call(grid.querySelectorAll('.blog-card'));
+  /* Update article count dynamically */
+  var countEl=document.getElementById('articleCount');
+  if(countEl)countEl.textContent=allCards.length;
+  var extras=allCards.slice(INITIAL_SHOW);
+  extras.forEach(function(c){c.style.display='none';});
+  if(extras.length===0){btn.classList.add('hidden');return;}
+  btn.addEventListener('click',function(){
+    var hidden=extras.filter(function(c){return c.style.display==='none';});
+    var toShow=hidden.slice(0,INITIAL_SHOW);
+    toShow.forEach(function(c,i){
+      c.style.display='';
+      /* Allow browser to render display change before starting transition */
+      setTimeout(function(){c.classList.add('io-visible');},i*STAGGER_DELAY+16);
+    });
+    if(hidden.length-toShow.length===0){btn.disabled=true;btn.textContent='All articles loaded \u2713';}
+  });
+})();
+
+/* --- INTERSECTION OBSERVER (scroll reveal) --- */
+(function(){
+  if(!('IntersectionObserver' in window))return;
+  var observer=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.remove('io-hidden');
+        entry.target.classList.add('io-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  },{threshold:0.12});
+  document.querySelectorAll('.blog-card.io-hidden').forEach(function(c){observer.observe(c);});
 })();
 </script>
 </body>
