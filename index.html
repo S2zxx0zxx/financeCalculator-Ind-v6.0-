@@ -729,6 +729,58 @@ input[type=range]::-moz-range-thumb {
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Calculator Partner Cards */
+.partner-card {
+  display: none;
+  margin-top: 12px;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-bg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  transform: translateY(8px);
+}
+.partner-card.show {
+  display: block;
+  animation: resultReveal 0.35s cubic-bezier(0.4,0,0.2,1) 0.15s forwards;
+}
+.partner-card-heading {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.partner-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.partner-btn {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--accent);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+.partner-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.partner-disclaimer {
+  font-size: 10px;
+  color: var(--text3);
+  margin-top: 2px;
+}
+
 .result-highlight {
   padding: 24px; text-align: center;
   position: relative; overflow: hidden;
@@ -1212,7 +1264,7 @@ input[type=range]::-moz-range-thumb {
 @media print {
   .site-header, .sidebar, .tool-tabs, .ad-slot, .site-footer,
   .calc-btn, .result-actions, .tabs-container, .cookie-banner,
-  .newsletter-section, .affiliate-section, .exit-overlay { display: none !important; }
+  .newsletter-section, .affiliate-section, .exit-overlay, .partner-card { display: none !important; }
   .main-wrap { grid-template-columns: 1fr !important; }
   .results-box { opacity: 1 !important; max-height: none !important; }
 }
@@ -2002,6 +2054,15 @@ input[type=range]::-moz-range-thumb {
             </div>
           </div>
         </div>
+        <div class="partner-card" id="emi-affiliate">
+          <div class="partner-card-heading">🏦 Get Best Loan Rates</div>
+          <div class="partner-btns">
+            <a href="https://www.bajajfinserv.in/personal-loan" target="_blank" rel="noopener noreferrer sponsored" class="partner-btn">Apply on Bajaj Finserv →</a>
+            <a href="https://www.hdfcbank.com/personal-loan" target="_blank" rel="noopener noreferrer sponsored" class="partner-btn">Check HDFC Rates →</a>
+            <a href="https://www.bankbazaar.com/personal-loan.html" target="_blank" rel="noopener noreferrer sponsored" class="partner-btn">Compare on BankBazaar →</a>
+          </div>
+          <div class="partner-disclaimer">* Partner links. Compare before applying.</div>
+        </div>
       </div>
     </div>
 
@@ -2073,6 +2134,15 @@ input[type=range]::-moz-range-thumb {
             </div>
           </div>
         </div>
+        <div class="partner-card" id="sip-affiliate">
+          <div class="partner-card-heading">📈 Start Your SIP Today</div>
+          <div class="partner-btns">
+            <a href="https://groww.in" target="_blank" rel="noopener noreferrer sponsored" class="partner-btn">Invest on Groww →</a>
+            <a href="https://zerodha.com" target="_blank" rel="noopener noreferrer sponsored" class="partner-btn">Open Zerodha →</a>
+            <a href="https://www.etmoney.com" target="_blank" rel="noopener noreferrer sponsored" class="partner-btn">Try ET Money →</a>
+          </div>
+          <div class="partner-disclaimer">* Partner links. Compare before applying.</div>
+        </div>
       </div>
     </div>
 
@@ -2136,6 +2206,15 @@ input[type=range]::-moz-range-thumb {
             <div class="cell-label" style="margin-bottom:8px;">New Regime — Tax Breakup</div>
             <table class="tax-table" id="tax-breakup-table"></table>
           </div>
+        </div>
+        <div class="partner-card" id="tax-affiliate">
+          <div class="partner-card-heading">💰 Save More Tax Legally</div>
+          <div class="partner-btns">
+            <a href="https://groww.in/elss" target="_blank" rel="noopener noreferrer sponsored" class="partner-btn">Open ELSS on Groww →</a>
+            <a href="https://enps.nsdl.com" target="_blank" rel="noopener noreferrer sponsored" class="partner-btn">NPS Account →</a>
+            <a href="https://www.policybazaar.com/life-insurance" target="_blank" rel="noopener noreferrer sponsored" class="partner-btn">Life Insurance →</a>
+          </div>
+          <div class="partner-disclaimer">* Partner links. Compare before applying.</div>
         </div>
       </div>
     </div>
@@ -2259,6 +2338,15 @@ input[type=range]::-moz-range-thumb {
               <div class="legend-item"><span class="legend-dot" style="background:var(--green)"></span>Interest Earned</div>
             </div>
           </div>
+        </div>
+        <div class="partner-card" id="fd-affiliate">
+          <div class="partner-card-heading">🏦 Compare FD Rates</div>
+          <div class="partner-btns">
+            <a href="https://stablemoney.in" target="_blank" rel="noopener noreferrer sponsored" class="partner-btn">Stable Money →</a>
+            <a href="https://www.bankbazaar.com/fixed-deposit.html" target="_blank" rel="noopener noreferrer sponsored" class="partner-btn">Compare on BankBazaar →</a>
+            <a href="https://smallcase.com" target="_blank" rel="noopener noreferrer sponsored" class="partner-btn">Check Smallcase →</a>
+          </div>
+          <div class="partner-disclaimer">* Partner links. Compare before applying.</div>
         </div>
       </div>
     </div>
@@ -3449,6 +3537,7 @@ function calcEMI() {
   $('emi-interest-r').textContent = fmtCr(interest);
   $('emi-total-r').textContent = fmtCr(total);
   $('emi-result').classList.add('show');
+  $('emi-affiliate').classList.add('show');
   setTimeout(() => drawDonut('emi-chart', P, interest,
     getComputedStyle(document.documentElement).getPropertyValue('--green').trim(),
     getComputedStyle(document.documentElement).getPropertyValue('--red').trim(),
@@ -3474,6 +3563,7 @@ function calcSIP() {
   $('sip-gain').textContent = fmtCr(gain);
   $('sip-roi').textContent = roi + '% returns';
   $('sip-result').classList.add('show');
+  $('sip-affiliate').classList.add('show');
   setTimeout(() => drawDonut('sip-chart', invested, gain,
     getComputedStyle(document.documentElement).getPropertyValue('--blue').trim(),
     getComputedStyle(document.documentElement).getPropertyValue('--green').trim(),
@@ -3553,6 +3643,7 @@ function calcTax() {
   rows += `<tr style="background:var(--surface2)"><td colspan="3">Total + Cess (4%)</td><td style="color:var(--red)">${fmtCr(totalNew)}</td></tr>`;
   $('tax-breakup-table').innerHTML = rows;
   $('tax-result').classList.add('show');
+  $('tax-affiliate').classList.add('show');
   lastCalcData.tax = { type:'Tax', newTax: fmtCr(totalNew), oldTax: fmtCr(totalOld), better, savings: fmtCr(savings) };
   if(typeof trackCalc === 'function') trackCalc('Tax');
 }
@@ -3595,6 +3686,7 @@ function calcFD() {
   $('fd-princ-r').textContent = fmtCr(P);
   $('fd-interest-r').textContent = fmtCr(interest);
   $('fd-result').classList.add('show');
+  $('fd-affiliate').classList.add('show');
   setTimeout(() => drawDonut('fd-chart', P, interest,
     getComputedStyle(document.documentElement).getPropertyValue('--blue').trim(),
     getComputedStyle(document.documentElement).getPropertyValue('--green').trim(),
