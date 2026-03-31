@@ -335,8 +335,16 @@ input[type=range] { touch-action: pan-x; }
   align-items: center; justify-content: center;
   flex-shrink: 0;
   transition: background var(--transition);
+  animation: neonPulse 2s ease-in-out infinite;
 }
 .mobile-menu-btn:hover { background: rgba(255,255,255,0.15); }
+@keyframes neonPulse {
+  0%,100% { box-shadow: 0 0 4px rgba(200,130,26,0.4), 0 0 8px rgba(200,130,26,0.2); }
+  50%     { box-shadow: 0 0 10px #c8821a, 0 0 20px rgba(200,130,26,0.7), 0 0 32px rgba(200,130,26,0.35); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu-btn { animation: none; }
+}
 
 /* Mobile nav dropdown */
 .mobile-nav {
