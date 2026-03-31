@@ -4036,5 +4036,122 @@ if('IntersectionObserver' in window) {
   window.safeStorage = safeStorage;
 }());
 </script>
+
+<!-- ── URL Parameter Parsing ─────────────────────────────────────────────
+     Loads calculator state from query string parameters.
+     Example: /?calc=emi&principal=500000&rate=8.5&tenure=20
+──────────────────────────────────────────────────────────────────────── -->
+<script>
+(function () {
+  // Map each calculator name to: { urlParam -> elementId }
+  // Only inputs that accept a URL-settable value are listed.
+  // Range-slider pairs are handled automatically below.
+  var CALC_FIELDS = {
+    emi: {
+      principal: 'emi-principal',
+      rate:      'emi-rate',
+      tenure:    'emi-tenure'
+    },
+    sip: {
+      monthly: 'sip-monthly',
+      rate:    'sip-rate',
+      years:   'sip-years'
+    },
+    tax: {
+      income:       'tax-income',
+      age:          'tax-age',
+      deduction80c: 'tax-80c'
+    },
+    gst: {
+      amount: 'gst-amount',
+      rate:   'gst-rate',
+      type:   'gst-type'
+    },
+    fd: {
+      principal: 'fd-principal',
+      rate:      'fd-rate',
+      tenure:    'fd-tenure',
+      compound:  'fd-compound'
+    },
+    rd: {
+      monthly: 'rd-monthly',
+      rate:    'rd-rate',
+      tenure:  'rd-tenure'
+    },
+    retire: {
+      age:       'retire-age',
+      target:    'retire-target',
+      expense:   'retire-expense',
+      inflation: 'retire-inflation',
+      returns:   'retire-returns'
+    },
+    inflation: {
+      amount: 'inf-amount',
+      rate:   'inf-rate',
+      years:  'inf-years'
+    },
+    eligibility: {
+      income:   'elig-income',
+      existing: 'elig-existing',
+      rate:     'elig-rate',
+      tenure:   'elig-tenure'
+    },
+    rentvsbuy: {
+      property: 'rvb-property',
+      rent:     'rvb-rent',
+      rentinc:  'rvb-rentinc',
+      rate:     'rvb-rate',
+      growth:   'rvb-growth',
+      years:    'rvb-years'
+    },
+    cibil: {
+      score: 'cibil-score'
+    }
+  };
+
+  // Input IDs that have a paired range slider (<id>-r).
+  var RANGE_PAIRS = [
+    'emi-principal',
+    'sip-monthly',
+    'tax-income',
+    'fd-principal',
+    'rd-monthly',
+    'cibil-score'
+  ];
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var params = new URLSearchParams(window.location.search);
+    var calcName = (params.get('calc') || '').toLowerCase();
+
+    if (!calcName || !CALC_FIELDS[calcName]) return;
+
+    var fields = CALC_FIELDS[calcName];
+
+    // Set each recognised field value.
+    Object.keys(fields).forEach(function (param) {
+      var val = params.get(param);
+      if (val === null) return;
+      var el = document.getElementById(fields[param]);
+      if (!el) return;
+      el.value = val;
+      // Keep range slider in sync if one exists for this input.
+      if (RANGE_PAIRS.indexOf(fields[param]) !== -1) {
+        var rangeEl = document.getElementById(fields[param] + '-r');
+        if (rangeEl) rangeEl.value = val;
+      }
+    });
+
+    // Switch to the requested calculator tab.
+    if (typeof switchTab === 'function') {
+      switchTab(calcName);
+    }
+
+    // Trigger calculation.
+    if (typeof liveCalc === 'function') {
+      liveCalc(calcName);
+    }
+  });
+}());
+</script>
 </body>
 </html>
