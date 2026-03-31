@@ -3919,5 +3919,122 @@ if('IntersectionObserver' in window) {
   document.querySelectorAll('.adsbygoogle').forEach(ad => adObserver.observe(ad));
 }
 </script>
+
+<!-- ============================
+     SAFE LOCALSTORAGE WRAPPER
+     Provides safeStorage.getItem / setItem / removeItem / clear
+     Falls back to an in-memory store when localStorage is
+     unavailable (private-browsing, quota exceeded, SecurityError).
+     Does NOT modify any existing code.
+     ============================ -->
+<script>
+(function () {
+  'use strict';
+
+  // ── 1. Detect whether localStorage is actually usable (cached once) ─
+  var _lsAvailable = (function () {
+    try {
+      var testKey = '__fincalc_ls_test__';
+      localStorage.setItem(testKey, '1');
+      localStorage.removeItem(testKey);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }());
+
+  // ── 2. In-memory fallback (survives only for the current page load) ─
+  var _memStore = Object.create(null);
+
+  var _fallback = {
+    getItem: function (key) {
+      return Object.prototype.hasOwnProperty.call(_memStore, key)
+        ? _memStore[key]
+        : null;
+    },
+    setItem: function (key, value) {
+      _memStore[key] = String(value);
+    },
+    removeItem: function (key) {
+      delete _memStore[key];
+    },
+    clear: function () {
+      // Delete all own properties rather than reassigning the variable
+      // so every method that closes over _memStore sees the same object.
+      var keys = Object.keys(_memStore);
+      for (var i = 0; i < keys.length; i++) {
+        delete _memStore[keys[i]];
+      }
+    }
+  };
+
+  // ── 3. Safe wrapper – tries localStorage, falls back to _fallback ───
+  var safeStorage = {
+    /**
+     * Retrieve a value by key.
+     * Returns null if the key does not exist or on any error.
+     */
+    getItem: function (key) {
+      if (_lsAvailable) {
+        try {
+          return localStorage.getItem(key);
+        } catch (e) {
+          // fall through to memory fallback
+        }
+      }
+      return _fallback.getItem(key);
+    },
+
+    /**
+     * Store a key/value pair.
+     * Silently falls back to in-memory storage on quota or security errors.
+     */
+    setItem: function (key, value) {
+      if (_lsAvailable) {
+        try {
+          localStorage.setItem(key, value);
+          return;
+        } catch (e) {
+          // fall through to memory fallback
+        }
+      }
+      _fallback.setItem(key, value);
+    },
+
+    /**
+     * Remove a key from storage.
+     */
+    removeItem: function (key) {
+      if (_lsAvailable) {
+        try {
+          localStorage.removeItem(key);
+          return;
+        } catch (e) {
+          // fall through to memory fallback
+        }
+      }
+      _fallback.removeItem(key);
+    },
+
+    /**
+     * Clear all keys from storage.
+     */
+    clear: function () {
+      if (_lsAvailable) {
+        try {
+          localStorage.clear();
+          return;
+        } catch (e) {
+          // fall through to memory fallback
+        }
+      }
+      _fallback.clear();
+    }
+  };
+
+  // ── 4. Expose globally so any script on the page can use it ────────
+  window.safeStorage = safeStorage;
+}());
+</script>
 </body>
 </html>
