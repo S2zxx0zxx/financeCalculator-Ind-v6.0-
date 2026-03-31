@@ -1,0 +1,27 @@
+{
+  "name": "FinCalc India",
+  "short_name": "FinCalc",
+  "description": "India's #1 Free Finance Calculator Suite — EMI, SIP, Income Tax, GST, FD, RD, Retirement & more.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1b1710",
+  "theme_color": "#1b1710",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-IN",
+  "categories": ["finance", "utilities"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
