@@ -1644,6 +1644,179 @@ input[type=range]::-moz-range-thumb {
   transition: background var(--transition), color var(--transition);
 }
 .a2hs-close:hover { background: var(--red-bg); color: var(--red); }
+
+/* ===== TOP CALCULATORS CARD GRID ===== */
+.fin-card-section {
+  padding: 0 16px 32px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.fin-card-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.fin-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 4vw, 28px);
+  color: var(--text, #f5f0e8);
+  margin: 0 0 4px;
+}
+.fin-card-subtitle {
+  font-size: 13px;
+  color: var(--muted, #a89070);
+  margin: 0;
+}
+.fin-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+@media (max-width: 600px) {
+  .fin-card-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+@media (max-width: 340px) {
+  .fin-card-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+}
+.fin-calc-card {
+  position: relative;
+  border-radius: 16px;
+  border: 1px solid rgba(200, 130, 26, 0.2);
+  padding: 16px 14px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s ease,
+              box-shadow 0.2s ease,
+              border-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+}
+.fin-calc-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(200, 130, 26, 0.5);
+  box-shadow: 0 8px 24px rgba(200, 130, 26, 0.15);
+}
+.fin-calc-card:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(200, 130, 26, 0.2);
+}
+.fin-calc-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(200, 130, 26, 0.06),
+    transparent
+  );
+  transition: left 0.5s ease;
+  pointer-events: none;
+}
+.fin-calc-card:hover::before {
+  left: 150%;
+}
+.fin-card-badge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 3px 7px;
+  border-radius: 20px;
+  color: #fff;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+.fin-card-emoji {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 8px;
+  line-height: 1;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.fin-calc-card:hover .fin-card-emoji {
+  transform: scale(1.15) rotate(-5deg);
+}
+.fin-card-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(12px, 3vw, 14px);
+  font-weight: 700;
+  color: var(--text, #f5f0e8);
+  margin: 0 0 4px;
+  line-height: 1.2;
+}
+.fin-card-desc {
+  font-size: clamp(10px, 2.5vw, 11px);
+  color: var(--muted, #a89070);
+  margin: 0 0 12px;
+  line-height: 1.3;
+}
+.fin-card-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(200, 130, 26, 0.35);
+  background: rgba(200, 130, 26, 0.1);
+  color: #c8821a;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease,
+              border-color 0.2s ease,
+              transform 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.fin-card-btn:hover {
+  background: rgba(200, 130, 26, 0.2);
+  border-color: rgba(200, 130, 26, 0.6);
+}
+.fin-card-btn:active {
+  transform: scale(0.96);
+}
+.fin-card-arrow {
+  display: inline-block;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-style: normal;
+}
+.fin-calc-card:hover .fin-card-arrow {
+  transform: translateX(4px);
+}
+@keyframes finCardIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fin-calc-card {
+  animation: finCardIn 0.4s ease forwards;
+  opacity: 0;
+}
+.fin-calc-card:nth-child(1) { animation-delay: 0.05s; }
+.fin-calc-card:nth-child(2) { animation-delay: 0.10s; }
+.fin-calc-card:nth-child(3) { animation-delay: 0.15s; }
+.fin-calc-card:nth-child(4) { animation-delay: 0.20s; }
+.fin-calc-card:nth-child(5) { animation-delay: 0.25s; }
+.fin-calc-card:nth-child(6) { animation-delay: 0.30s; }
+@media (prefers-reduced-motion: reduce) {
+  .fin-calc-card {
+    animation: none;
+    opacity: 1;
+  }
+  .fin-calc-card:hover { transform: none; }
+  .fin-calc-card::before { display: none; }
+}
+/* ===== END TOP CALCULATORS CARD GRID ===== */
 </style>
 </head>
 <body>
@@ -1714,6 +1887,15 @@ input[type=range]::-moz-range-thumb {
     <div class="hero-stat"><div class="hero-stat-num">2L+</div><div class="hero-stat-label" data-i18n="statUsers">Users</div></div>
     <div class="hero-stat"><div class="hero-stat-num">4.8★</div><div class="hero-stat-label" data-i18n="statRating">Rating</div></div>
   </div>
+</section>
+
+<!-- TOP CALCULATORS CARD GRID -->
+<section class="fin-card-section">
+  <div class="fin-card-header">
+    <h2 class="fin-card-title">Top Calculators</h2>
+    <p class="fin-card-subtitle">Quick access to your favourite tools</p>
+  </div>
+  <div class="fin-card-grid"></div>
 </section>
 
 <!-- AD SLOT TOP — Responsive Banner -->
@@ -4385,5 +4567,123 @@ if('IntersectionObserver' in window) {
   window.addEventListener('beforeunload', function() { clearTimeout(_timer); });
 }());
 </script>
+<!-- ===== TOP CALCULATORS CARD GRID JS ===== -->
+<script>
+(function() {
+  var FIN_CARDS = [
+    {
+      emoji: '🏠',
+      title: 'EMI Calculator',
+      desc: 'Home \u00b7 Car \u00b7 Personal Loan',
+      badge: '\uD83D\uDD25 Most Used',
+      badgeColor: '#ef4444',
+      tab: 'emi',
+      gradient: 'linear-gradient(135deg, #c8821a22, #c8821a08)'
+    },
+    {
+      emoji: '📈',
+      title: 'SIP Returns',
+      desc: 'Mutual Fund \u00b7 Wealth Growth',
+      badge: '\u2B50 Trending',
+      badgeColor: '#8b5cf6',
+      tab: 'sip',
+      gradient: 'linear-gradient(135deg, #8b5cf622, #8b5cf608)'
+    },
+    {
+      emoji: '🧾',
+      title: 'Income Tax',
+      desc: 'New vs Old Regime \u00b7 2025-26',
+      badge: '\uD83D\uDC8E Popular',
+      badgeColor: '#3b82f6',
+      tab: 'tax',
+      gradient: 'linear-gradient(135deg, #3b82f622, #3b82f608)'
+    },
+    {
+      emoji: '🏦',
+      title: 'FD Calculator',
+      desc: 'Fixed Deposit \u00b7 Best Rates',
+      badge: null,
+      badgeColor: null,
+      tab: 'fd',
+      gradient: 'linear-gradient(135deg, #22c55e22, #22c55e08)'
+    },
+    {
+      emoji: '📊',
+      title: 'GST Calculator',
+      desc: 'Add \u00b7 Remove \u00b7 CGST/SGST',
+      badge: null,
+      badgeColor: null,
+      tab: 'gst',
+      gradient: 'linear-gradient(135deg, #f59e0b22, #f59e0b08)'
+    },
+    {
+      emoji: '🎯',
+      title: 'CIBIL Score',
+      desc: 'Check \u00b7 Improve \u00b7 Free',
+      badge: '\u2728 New',
+      badgeColor: '#c8821a',
+      tab: 'cibil',
+      gradient: 'linear-gradient(135deg, #c8821a22, #c8821a08)'
+    }
+  ];
+
+  function renderFinCards() {
+    var grid = document.querySelector('.fin-card-grid');
+    if (!grid) return;
+
+    FIN_CARDS.forEach(function(card) {
+      var el = document.createElement('div');
+      el.className = 'fin-calc-card';
+      el.style.background = card.gradient;
+      el.setAttribute('role', 'button');
+      el.setAttribute('tabindex', '0');
+      el.setAttribute('aria-label', 'Open ' + card.title);
+
+      el.innerHTML =
+        (card.badge
+          ? '<span class="fin-card-badge" style="background:' + card.badgeColor + '">' + card.badge + '</span>'
+          : '<span style="display:block;height:20px;margin-bottom:10px"></span>'
+        ) +
+        '<span class="fin-card-emoji">' + card.emoji + '</span>' +
+        '<p class="fin-card-name">' + card.title + '</p>' +
+        '<p class="fin-card-desc">' + card.desc + '</p>' +
+        '<button class="fin-card-btn" tabindex="-1">' +
+          '<span>Calculate</span>' +
+          '<i class="fin-card-arrow">\u2192</i>' +
+        '</button>';
+
+      function activate() {
+        var tabEl = document.getElementById('tab-' + card.tab);
+        if (tabEl) {
+          tabEl.click();
+          var calcSection = document.querySelector('.tabs-container');
+          if (calcSection) {
+            setTimeout(function() {
+              calcSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+          }
+        }
+      }
+
+      el.addEventListener('click', activate);
+      el.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          activate();
+        }
+      });
+
+      grid.appendChild(el);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderFinCards);
+  } else {
+    renderFinCards();
+  }
+}());
+</script>
+<!-- ===== END TOP CALCULATORS CARD GRID JS ===== -->
 </body>
 </html>
