@@ -4790,5 +4790,335 @@ if('IntersectionObserver' in window) {
 }());
 </script>
 <!-- ===== END TOP CALCULATORS CARD GRID JS ===== -->
+
+<!-- ===== VERSION UPDATE POPUP v2.1.1 ===== -->
+<style>
+@keyframes versionBdIn {
+  from { opacity: 0; backdrop-filter: blur(0); }
+  to   { opacity: 1; backdrop-filter: blur(8px); }
+}
+@keyframes versionBdOut {
+  to { opacity: 0; }
+}
+@keyframes versionPopIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.85) rotateX(12deg) translateY(30px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) rotateX(0deg) translateY(0);
+    filter: blur(0);
+  }
+}
+@keyframes versionPopOut {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9) rotateX(-8deg) translateY(-20px);
+    filter: blur(6px);
+  }
+}
+@keyframes versionBadgePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(200,130,26,0.4); }
+  50%       { box-shadow: 0 0 0 6px rgba(200,130,26,0); }
+}
+@keyframes versionStrike {
+  from { text-decoration-color: transparent; }
+  to   { text-decoration-color: rgba(255,255,255,0.5); }
+}
+@keyframes versionArrowIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes versionNewVer {
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes versionFadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes versionParticle {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-12px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #fin-version-backdrop,
+  #fin-version-popup,
+  #fin-version-popup * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+</style>
+<script>
+(function() {
+  var VERSION = '2.1.1';
+  var LS_KEY = 'fincalc-version-seen';
+
+  if (localStorage.getItem(LS_KEY) === VERSION) return;
+
+  var countdownTimer = null;
+  var dismissed = false;
+
+  function dismiss() {
+    if (dismissed) return;
+    dismissed = true;
+    if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
+    var card = document.getElementById('fin-version-popup');
+    var backdrop = document.getElementById('fin-version-backdrop');
+    if (!card) return;
+    card.style.animation = 'versionPopOut 0.35s cubic-bezier(0.4,0,1,1) forwards';
+    backdrop.style.animation = 'versionBdOut 0.35s ease forwards';
+    setTimeout(function() {
+      if (backdrop && backdrop.parentNode) backdrop.parentNode.removeChild(backdrop);
+      localStorage.setItem(LS_KEY, VERSION);
+    }, 350);
+  }
+
+  function startCountdown() {
+    var seconds = 12;
+    var countEl = document.getElementById('fin-version-count');
+    var progressEl = document.getElementById('fin-version-progress');
+    if (progressEl) {
+      progressEl.style.transition = 'width ' + seconds + 's linear';
+      setTimeout(function() { progressEl.style.width = '0%'; }, 50);
+    }
+    countdownTimer = setInterval(function() {
+      seconds--;
+      if (countEl) countEl.textContent = seconds;
+      if (seconds <= 0) {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+        dismiss();
+      }
+    }, 1000);
+  }
+
+  function buildPopup() {
+    var html = '<div id="fin-version-backdrop" style="'
+      + 'position:fixed;inset:0;'
+      + 'background:rgba(0,0,0,0.75);'
+      + 'backdrop-filter:blur(8px);'
+      + '-webkit-backdrop-filter:blur(8px);'
+      + 'z-index:999999;'
+      + 'animation:versionBdIn 0.4s ease forwards;'
+      + '">'
+
+      + '<div id="fin-version-popup" style="'
+      + 'position:fixed;'
+      + 'top:50%;left:50%;'
+      + 'transform:translate(-50%,-50%);'
+      + 'width:min(420px,calc(100vw - 32px));'
+      + 'background:linear-gradient(145deg,#1a1209,#0f0d0a);'
+      + 'border:1px solid rgba(200,130,26,0.4);'
+      + 'border-radius:24px;'
+      + 'box-shadow:0 0 0 1px rgba(200,130,26,0.15),'
+      +   '0 20px 60px rgba(0,0,0,0.6),'
+      +   '0 0 80px rgba(200,130,26,0.08),'
+      +   'inset 0 1px 0 rgba(255,255,255,0.05);'
+      + 'padding:32px 28px 28px;'
+      + 'overflow:hidden;'
+      + 'perspective:1000px;'
+      + 'animation:versionPopIn 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;'
+      + 'font-family:"DM Sans",sans-serif;'
+      + 'box-sizing:border-box;'
+      + '">'
+
+      /* Corner decoration */
+      + '<div style="'
+      + 'position:absolute;top:-20px;right:-20px;'
+      + 'width:80px;height:80px;'
+      + 'background:radial-gradient(circle,rgba(200,130,26,0.12),transparent);'
+      + 'pointer-events:none;">'
+      + '</div>'
+
+      /* Floating particles */
+      + '<div style="position:absolute;top:18px;left:22px;width:6px;height:6px;border-radius:50%;background:rgba(200,130,26,0.18);filter:blur(1px);pointer-events:none;animation:versionParticle 4s ease-in-out infinite;"></div>'
+      + '<div style="position:absolute;top:60px;right:30px;width:4px;height:4px;border-radius:50%;background:rgba(224,160,48,0.15);filter:blur(1px);pointer-events:none;animation:versionParticle 6s ease-in-out 1s infinite;"></div>'
+      + '<div style="position:absolute;bottom:60px;left:16px;width:8px;height:8px;border-radius:50%;background:rgba(200,130,26,0.12);filter:blur(1px);pointer-events:none;animation:versionParticle 5s ease-in-out 0.5s infinite;"></div>'
+      + '<div style="position:absolute;bottom:40px;right:18px;width:5px;height:5px;border-radius:50%;background:rgba(240,184,72,0.14);filter:blur(1px);pointer-events:none;animation:versionParticle 7s ease-in-out 2s infinite;"></div>'
+      + '<div style="position:absolute;top:120px;left:10px;width:4px;height:4px;border-radius:50%;background:rgba(200,130,26,0.10);filter:blur(1px);pointer-events:none;animation:versionParticle 3s ease-in-out 1.5s infinite;"></div>'
+      + '<div style="position:absolute;top:80px;right:10px;width:6px;height:6px;border-radius:50%;background:rgba(224,160,48,0.13);filter:blur(1px);pointer-events:none;animation:versionParticle 5.5s ease-in-out 0.8s infinite;"></div>'
+
+      /* Section 1 — Badge */
+      + '<div style="text-align:center;margin-bottom:14px;">'
+      + '<span style="'
+      + 'display:inline-block;'
+      + 'background:rgba(200,130,26,0.15);'
+      + 'border:1px solid rgba(200,130,26,0.4);'
+      + 'color:#c8821a;'
+      + 'font-size:10px;'
+      + 'font-weight:800;'
+      + 'letter-spacing:0.15em;'
+      + 'padding:4px 14px;'
+      + 'border-radius:20px;'
+      + 'animation:versionBadgePulse 2s ease-in-out infinite;'
+      + '">⚡ SYSTEM UPDATE</span>'
+      + '</div>'
+
+      /* Section 2 — Version display */
+      + '<div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:6px;">'
+      + '<span style="'
+      + 'font-size:16px;'
+      + 'color:rgba(255,255,255,0.3);'
+      + 'text-decoration:line-through;'
+      + 'text-decoration-color:rgba(255,255,255,0.5);'
+      + 'animation:versionStrike 0.4s 0.2s ease forwards;'
+      + '">v2.1</span>'
+      + '<span style="'
+      + 'color:#c8821a;'
+      + 'font-size:20px;'
+      + 'animation:versionArrowIn 0.4s 0.3s ease both;'
+      + '">→</span>'
+      + '<span style="'
+      + 'font-size:32px;'
+      + 'font-weight:800;'
+      + 'background:linear-gradient(135deg,#e0a030,#c8821a,#f0b848);'
+      + '-webkit-background-clip:text;'
+      + '-webkit-text-fill-color:transparent;'
+      + 'background-clip:text;'
+      + 'filter:drop-shadow(0 0 20px rgba(200,130,26,0.5));'
+      + 'animation:versionNewVer 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.4s both;'
+      + '">v2.1.1</span>'
+      + '</div>'
+
+      /* Section 3 — Title */
+      + '<div style="'
+      + 'font-size:clamp(18px,4vw,22px);'
+      + 'font-weight:800;'
+      + 'color:#f5f0e8;'
+      + 'text-align:center;'
+      + 'margin-top:16px;'
+      + 'margin-bottom:16px;'
+      + 'animation:versionFadeUp 0.5s 0.5s ease both;'
+      + '">FinCalc India Just Got Better 🚀</div>'
+
+      /* Section 4 — Changelog */
+      + '<div style="margin-bottom:20px;">'
+
+      + '<div style="'
+      + 'display:flex;align-items:center;'
+      + 'border-left:2px solid #22c55e;'
+      + 'background:rgba(255,255,255,0.03);'
+      + 'padding:10px 14px;border-radius:10px;margin-bottom:8px;'
+      + 'animation:versionFadeUp 0.5s 0.55s ease both;'
+      + '">'
+      + '<span style="font-size:16px;margin-right:10px;">🟢</span>'
+      + '<span style="font-size:13px;color:rgba(255,255,255,0.8);">PWA Support — Install as App on your phone</span>'
+      + '</div>'
+
+      + '<div style="'
+      + 'display:flex;align-items:center;'
+      + 'border-left:2px solid #3b82f6;'
+      + 'background:rgba(255,255,255,0.03);'
+      + 'padding:10px 14px;border-radius:10px;margin-bottom:8px;'
+      + 'animation:versionFadeUp 0.5s 0.65s ease both;'
+      + '">'
+      + '<span style="font-size:16px;margin-right:10px;">🔵</span>'
+      + '<span style="font-size:13px;color:rgba(255,255,255,0.8);">Smart Calculator Cards — Find tools instantly</span>'
+      + '</div>'
+
+      + '<div style="'
+      + 'display:flex;align-items:center;'
+      + 'border-left:2px solid #f59e0b;'
+      + 'background:rgba(255,255,255,0.03);'
+      + 'padding:10px 14px;border-radius:10px;margin-bottom:8px;'
+      + 'animation:versionFadeUp 0.5s 0.75s ease both;'
+      + '">'
+      + '<span style="font-size:16px;margin-right:10px;">🟡</span>'
+      + '<span style="font-size:13px;color:rgba(255,255,255,0.8);">Calculation History — Auto-saved locally</span>'
+      + '</div>'
+
+      + '<div style="'
+      + 'display:flex;align-items:center;'
+      + 'border-left:2px solid #c8821a;'
+      + 'background:rgba(255,255,255,0.03);'
+      + 'padding:10px 14px;border-radius:10px;margin-bottom:0;'
+      + 'animation:versionFadeUp 0.5s 0.85s ease both;'
+      + '">'
+      + '<span style="font-size:16px;margin-right:10px;">⚡</span>'
+      + '<span style="font-size:13px;color:rgba(255,255,255,0.8);">Performance boost — 40% faster load</span>'
+      + '</div>'
+
+      + '</div>'
+
+      /* Section 5 — Bottom bar */
+      + '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">'
+
+      + '<div style="flex:1;min-width:0;">'
+      + '<div style="font-size:11px;color:rgba(255,255,255,0.3);white-space:nowrap;margin-bottom:5px;">'
+      + 'Closing in <span id="fin-version-count">12</span>s...'
+      + '</div>'
+      + '<div style="height:2px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;">'
+      + '<div id="fin-version-progress" style="height:100%;width:100%;background:#c8821a;border-radius:2px;"></div>'
+      + '</div>'
+      + '</div>'
+
+      + '<button id="fin-version-btn" style="'
+      + 'background:linear-gradient(135deg,#c8821a,#e0a030);'
+      + 'color:#fff;'
+      + 'font-family:"DM Sans",sans-serif;'
+      + 'font-size:13px;'
+      + 'font-weight:700;'
+      + 'padding:10px 20px;'
+      + 'border-radius:12px;'
+      + 'border:none;'
+      + 'cursor:pointer;'
+      + 'white-space:nowrap;'
+      + 'box-shadow:0 4px 16px rgba(200,130,26,0.35);'
+      + 'transition:filter 0.2s,transform 0.1s;'
+      + '">Got it, let\'s go! →</button>'
+
+      + '</div>'
+
+      + '</div>'  /* end popup card */
+      + '</div>'; /* end backdrop */
+
+    var wrapper = document.createElement('div');
+    wrapper.innerHTML = html;
+    document.body.appendChild(wrapper.firstChild);
+
+    /* Button hover / active effects */
+    var btn = document.getElementById('fin-version-btn');
+    if (btn) {
+      btn.addEventListener('mouseover', function() {
+        btn.style.filter = 'brightness(1.1)';
+        btn.style.transform = 'translateY(-1px)';
+      });
+      btn.addEventListener('mouseout', function() {
+        btn.style.filter = '';
+        btn.style.transform = '';
+      });
+      btn.addEventListener('mousedown', function() { btn.style.transform = 'scale(0.97)'; });
+      btn.addEventListener('mouseup', function() { btn.style.transform = ''; });
+      btn.addEventListener('click', dismiss);
+    }
+
+    /* Backdrop click */
+    var backdrop = document.getElementById('fin-version-backdrop');
+    if (backdrop) {
+      backdrop.addEventListener('click', function(e) {
+        if (e.target === backdrop) dismiss();
+      });
+    }
+
+    startCountdown();
+
+    /* ESC key — attached inside buildPopup so it only fires when popup exists */
+    document.addEventListener('keydown', function escHandler(e) {
+      if (e.key === 'Escape') {
+        dismiss();
+        document.removeEventListener('keydown', escHandler);
+      }
+    });
+  }
+
+  /* Show after 800ms */
+  setTimeout(buildPopup, 800);
+}());
+</script>
+<!-- ===== END VERSION UPDATE POPUP v2.1.1 ===== -->
 </body>
 </html>
