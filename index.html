@@ -1944,6 +1944,16 @@ input[type=range]::-moz-range-thumb {
   .fin-calc-card::before { display: none; }
 }
 /* ===== END TOP CALCULATORS CARD GRID ===== */
+
+/* ===== ACCESSIBILITY: SKIP LINK ===== */
+.skip-link {
+  position: absolute; top: -100%; left: 0;
+  background: var(--accent); color: #fff;
+  padding: 10px 20px; font-weight: 700; font-size: 14px;
+  z-index: 9999; border-radius: 0 0 8px 0;
+  text-decoration: none; transition: top 0.2s;
+}
+.skip-link:focus { top: 0; }
 </style>
 </head>
 <body>
@@ -1973,9 +1983,9 @@ input[type=range]::-moz-range-thumb {
 
 <!-- SHARE MODAL -->
 <div class="modal-overlay" id="shareOverlay" onclick="closeShareModal()"></div>
-<div class="modal-box" id="shareModal">
-  <button class="modal-close" onclick="closeShareModal()">✕</button>
-  <div class="modal-title">📤 Share Results</div>
+<div class="modal-box" id="shareModal" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
+  <button class="modal-close" onclick="closeShareModal()" aria-label="Close share modal">✕</button>
+  <div class="modal-title" id="shareModalTitle">📤 Share Results</div>
   <div id="sharePreview" style="background:var(--surface2);padding:12px 16px;border-radius:8px;font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6;max-height:120px;overflow:auto;"></div>
   <div class="share-btns">
     <button class="share-btn wa" onclick="shareWhatsApp()">💬 WhatsApp</button>
@@ -2005,7 +2015,7 @@ input[type=range]::-moz-range-thumb {
         <button class="tp-btn active" onclick="setLang('en')" id="btn-en">🇬🇧 <span class="tp-label">EN</span></button>
         <button class="tp-btn" onclick="setLang('hi')" id="btn-hi">🇮🇳 <span class="tp-label">हिंदी</span></button>
       </div>
-      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" id="themeBtn">🌙</button>
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" id="themeBtn" aria-label="Toggle dark mode">🌙</button>
       <!-- Mobile hamburger button -->
       <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Open menu" title="Menu">☰</button>
     </div>
@@ -2058,19 +2068,19 @@ input[type=range]::-moz-range-thumb {
 </div>
 
 <!-- TOOL TABS -->
-<div class="tabs-container">
-  <div class="tabs-scroll">
-    <button class="tool-tab active" id="tab-emi" onclick="switchTab('emi',this)"><span class="tab-icon">🏠</span><span data-i18n="tabEmi">EMI</span><span class="tab-badge tab-badge-most-used">🔥 Most Used</span></button>
-    <button class="tool-tab" id="tab-sip" onclick="switchTab('sip',this)"><span class="tab-icon">📈</span><span data-i18n="tabSip">SIP</span><span class="tab-badge tab-badge-trending">⭐ Trending</span></button>
-    <button class="tool-tab" id="tab-tax" onclick="switchTab('tax',this)"><span class="tab-icon">📋</span><span data-i18n="tabTax">Income Tax</span><span class="tab-badge tab-badge-popular">💎 Popular</span></button>
-    <button class="tool-tab" id="tab-gst" onclick="switchTab('gst',this)"><span class="tab-icon">🧾</span><span data-i18n="tabGst">GST</span></button>
-    <button class="tool-tab" id="tab-fd" onclick="switchTab('fd',this)"><span class="tab-icon">🏦</span><span>FD</span> <span class="tab-new">New</span></button>
-    <button class="tool-tab" id="tab-rd" onclick="switchTab('rd',this)"><span class="tab-icon">💰</span><span>RD</span> <span class="tab-new">New</span></button>
-    <button class="tool-tab" id="tab-retire" onclick="switchTab('retire',this)"><span class="tab-icon">🏖️</span><span data-i18n="tabRetire">Retirement</span> <span class="tab-new">New</span></button>
-    <button class="tool-tab" id="tab-inflation" onclick="switchTab('inflation',this)"><span class="tab-icon">📊</span><span data-i18n="tabInflation">Inflation</span> <span class="tab-new">New</span></button>
-    <button class="tool-tab" id="tab-eligibility" onclick="switchTab('eligibility',this)"><span class="tab-icon">✅</span><span data-i18n="tabElig">Loan Eligibility</span> <span class="tab-new">New</span></button>
-    <button class="tool-tab" id="tab-rentvsbuy" onclick="switchTab('rentvsbuy',this)"><span class="tab-icon">🏡</span><span data-i18n="tabRvb">Rent vs Buy</span> <span class="tab-new">New</span></button>
-    <button class="tool-tab" id="tab-cibil" onclick="switchTab('cibil',this)"><span class="tab-icon">🎯</span><span>CIBIL Score</span> <span class="tab-new">New</span></button>
+<div class="tabs-container" id="main-content">
+  <div class="tabs-scroll" role="tablist" aria-label="Calculator tools">
+    <button class="tool-tab active" id="tab-emi" role="tab" aria-selected="true" aria-controls="sec-emi" onclick="switchTab('emi',this)"><span class="tab-icon" aria-hidden="true">🏠</span><span data-i18n="tabEmi">EMI</span><span class="tab-badge tab-badge-most-used" aria-hidden="true">🔥 Most Used</span></button>
+    <button class="tool-tab" id="tab-sip" role="tab" aria-selected="false" aria-controls="sec-sip" onclick="switchTab('sip',this)"><span class="tab-icon" aria-hidden="true">📈</span><span data-i18n="tabSip">SIP</span><span class="tab-badge tab-badge-trending" aria-hidden="true">⭐ Trending</span></button>
+    <button class="tool-tab" id="tab-tax" role="tab" aria-selected="false" aria-controls="sec-tax" onclick="switchTab('tax',this)"><span class="tab-icon" aria-hidden="true">📋</span><span data-i18n="tabTax">Income Tax</span><span class="tab-badge tab-badge-popular" aria-hidden="true">💎 Popular</span></button>
+    <button class="tool-tab" id="tab-gst" role="tab" aria-selected="false" aria-controls="sec-gst" onclick="switchTab('gst',this)"><span class="tab-icon" aria-hidden="true">🧾</span><span data-i18n="tabGst">GST</span></button>
+    <button class="tool-tab" id="tab-fd" role="tab" aria-selected="false" aria-controls="sec-fd" onclick="switchTab('fd',this)"><span class="tab-icon" aria-hidden="true">🏦</span><span>FD</span> <span class="tab-new" aria-label="New">New</span></button>
+    <button class="tool-tab" id="tab-rd" role="tab" aria-selected="false" aria-controls="sec-rd" onclick="switchTab('rd',this)"><span class="tab-icon" aria-hidden="true">💰</span><span>RD</span> <span class="tab-new" aria-label="New">New</span></button>
+    <button class="tool-tab" id="tab-retire" role="tab" aria-selected="false" aria-controls="sec-retire" onclick="switchTab('retire',this)"><span class="tab-icon" aria-hidden="true">🏖️</span><span data-i18n="tabRetire">Retirement</span> <span class="tab-new" aria-label="New">New</span></button>
+    <button class="tool-tab" id="tab-inflation" role="tab" aria-selected="false" aria-controls="sec-inflation" onclick="switchTab('inflation',this)"><span class="tab-icon" aria-hidden="true">📊</span><span data-i18n="tabInflation">Inflation</span> <span class="tab-new" aria-label="New">New</span></button>
+    <button class="tool-tab" id="tab-eligibility" role="tab" aria-selected="false" aria-controls="sec-eligibility" onclick="switchTab('eligibility',this)"><span class="tab-icon" aria-hidden="true">✅</span><span data-i18n="tabElig">Loan Eligibility</span> <span class="tab-new" aria-label="New">New</span></button>
+    <button class="tool-tab" id="tab-rentvsbuy" role="tab" aria-selected="false" aria-controls="sec-rentvsbuy" onclick="switchTab('rentvsbuy',this)"><span class="tab-icon" aria-hidden="true">🏡</span><span data-i18n="tabRvb">Rent vs Buy</span> <span class="tab-new" aria-label="New">New</span></button>
+    <button class="tool-tab" id="tab-cibil" role="tab" aria-selected="false" aria-controls="sec-cibil" onclick="switchTab('cibil',this)"><span class="tab-icon" aria-hidden="true">🎯</span><span>CIBIL Score</span> <span class="tab-new" aria-label="New">New</span></button>
   </div>
 </div>
 
@@ -2081,33 +2091,33 @@ input[type=range]::-moz-range-thumb {
   <div class="calc-panel">
 
     <!-- ===== EMI CALCULATOR ===== -->
-    <div class="calc-section active" id="sec-emi">
+    <div class="calc-section active" id="sec-emi" role="tabpanel" aria-labelledby="tab-emi" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">🏠 <span data-i18n="emiTitle">EMI Calculator</span></div>
         <div class="panel-desc" data-i18n="emiDesc">Home Loan, Car Loan, Personal Loan — calculate your monthly EMI instantly</div>
       </div>
       <div class="panel-body">
         <div class="form-row">
-          <label class="form-label"><span data-i18n="loanAmt">Loan Amount</span></label>
+          <label class="form-label" for="emi-principal"><span data-i18n="loanAmt">Loan Amount</span></label>
           <div class="input-wrap has-prefix">
             <span class="input-prefix">₹</span>
             <input type="number" id="emi-principal" value="50000" min="1000" max="100000000" oninput="syncRange('emi-principal','emi-principal-r');liveCalc('emi')">
           </div>
           <div class="range-wrap">
-            <input type="range" id="emi-principal-r" min="1000" max="100000000" step="1000" value="50000" oninput="syncInput('emi-principal-r','emi-principal');liveCalc('emi')">
+            <input type="range" id="emi-principal-r" min="1000" max="100000000" step="1000" value="50000" aria-label="Loan Amount slider" oninput="syncInput('emi-principal-r','emi-principal');liveCalc('emi')">
             <div class="range-labels"><span>₹1K</span><span>₹10Cr</span></div>
           </div>
         </div>
         <div class="form-2col">
           <div class="form-row">
-            <label class="form-label"><span data-i18n="intRate">Interest Rate</span> <span class="form-label-hint">% p.a.</span></label>
+            <label class="form-label" for="emi-rate"><span data-i18n="intRate">Interest Rate</span> <span class="form-label-hint">% p.a.</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="emi-rate" value="10" min="1" max="36" step="0.1" oninput="liveCalc('emi')">
               <span class="input-suffix">%</span>
             </div>
           </div>
           <div class="form-row">
-            <label class="form-label"><span data-i18n="tenure">Tenure</span> <span class="form-label-hint">Years</span></label>
+            <label class="form-label" for="emi-tenure"><span data-i18n="tenure">Tenure</span> <span class="form-label-hint">Years</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="emi-tenure" value="3" min="1" max="30" oninput="liveCalc('emi')">
               <span class="input-suffix">Yr</span>
@@ -2116,7 +2126,7 @@ input[type=range]::-moz-range-thumb {
         </div>
         <button class="calc-btn" onclick="calcEMI()"><span data-i18n="calcEmi">Calculate EMI</span> →</button>
 
-        <div class="results-box" id="emi-result">
+        <div class="results-box" id="emi-result" aria-live="polite" aria-atomic="true">
           <div class="result-actions">
             <button class="action-btn" onclick="openShare('emi')">📤 Share</button>
             <button class="action-btn" onclick="downloadPDF()">📄 PDF</button>
@@ -2141,7 +2151,7 @@ input[type=range]::-moz-range-thumb {
             </div>
           </div>
           <div class="chart-area">
-            <div class="donut-wrap"><canvas id="emi-chart" width="130" height="130"></canvas></div>
+            <div class="donut-wrap"><canvas id="emi-chart" width="130" height="130" role="img" aria-label="EMI breakdown chart"></canvas></div>
             <div class="chart-legend">
               <div class="legend-item"><span class="legend-dot" style="background:var(--green)"></span><span data-i18n="principalAmt">Principal Amount</span></div>
               <div class="legend-item"><span class="legend-dot" style="background:var(--red)"></span><span data-i18n="totalInterest">Total Interest</span></div>
@@ -2162,33 +2172,33 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== SIP CALCULATOR ===== -->
-    <div class="calc-section" id="sec-sip">
+    <div class="calc-section" id="sec-sip" role="tabpanel" aria-labelledby="tab-sip" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">📈 <span data-i18n="sipTitle">SIP Returns Calculator</span></div>
         <div class="panel-desc" data-i18n="sipDesc">Calculate your mutual fund SIP maturity amount & wealth gained</div>
       </div>
       <div class="panel-body">
         <div class="form-row">
-          <label class="form-label"><span data-i18n="sipMonthly">Monthly SIP Amount</span></label>
+          <label class="form-label" for="sip-monthly"><span data-i18n="sipMonthly">Monthly SIP Amount</span></label>
           <div class="input-wrap has-prefix">
             <span class="input-prefix">₹</span>
             <input type="number" id="sip-monthly" value="1000" min="100" oninput="syncRange('sip-monthly','sip-monthly-r');liveCalc('sip')">
           </div>
           <div class="range-wrap">
-            <input type="range" id="sip-monthly-r" min="100" max="1000000" step="100" value="1000" oninput="syncInput('sip-monthly-r','sip-monthly');liveCalc('sip')">
+            <input type="range" id="sip-monthly-r" min="100" max="1000000" step="100" value="1000" aria-label="Monthly SIP Amount slider" oninput="syncInput('sip-monthly-r','sip-monthly');liveCalc('sip')">
             <div class="range-labels"><span>₹100</span><span>₹10L</span></div>
           </div>
         </div>
         <div class="form-2col">
           <div class="form-row">
-            <label class="form-label"><span data-i18n="expReturn">Expected Return</span> <span class="form-label-hint">% p.a.</span></label>
+            <label class="form-label" for="sip-rate"><span data-i18n="expReturn">Expected Return</span> <span class="form-label-hint">% p.a.</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="sip-rate" value="12" min="1" max="30" step="0.5" oninput="liveCalc('sip')">
               <span class="input-suffix">%</span>
             </div>
           </div>
           <div class="form-row">
-            <label class="form-label"><span data-i18n="investPeriod">Investment Period</span> <span class="form-label-hint">Years</span></label>
+            <label class="form-label" for="sip-years"><span data-i18n="investPeriod">Investment Period</span> <span class="form-label-hint">Years</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="sip-years" value="5" min="1" max="40" oninput="liveCalc('sip')">
               <span class="input-suffix">Yr</span>
@@ -2196,7 +2206,7 @@ input[type=range]::-moz-range-thumb {
           </div>
         </div>
         <button class="calc-btn" onclick="calcSIP()"><span data-i18n="calcSip">Calculate Returns</span> →</button>
-        <div class="results-box" id="sip-result">
+        <div class="results-box" id="sip-result" aria-live="polite" aria-atomic="true">
           <div class="result-actions">
             <button class="action-btn" onclick="openShare('sip')">📤 Share</button>
             <button class="action-btn" onclick="downloadPDF()">📄 PDF</button>
@@ -2221,7 +2231,7 @@ input[type=range]::-moz-range-thumb {
             </div>
           </div>
           <div class="chart-area">
-            <div class="donut-wrap"><canvas id="sip-chart" width="130" height="130"></canvas></div>
+            <div class="donut-wrap"><canvas id="sip-chart" width="130" height="130" role="img" aria-label="SIP breakdown chart"></canvas></div>
             <div class="chart-legend">
               <div class="legend-item"><span class="legend-dot" style="background:var(--blue)"></span><span data-i18n="amtInvested">Amount Invested</span></div>
               <div class="legend-item"><span class="legend-dot" style="background:var(--green)"></span><span data-i18n="wealthGained">Wealth Gained</span></div>
@@ -2242,26 +2252,26 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== INCOME TAX ===== -->
-    <div class="calc-section" id="sec-tax">
+    <div class="calc-section" id="sec-tax" role="tabpanel" aria-labelledby="tab-tax" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">📋 <span data-i18n="taxTitle">Income Tax Calculator 2025–26</span></div>
         <div class="panel-desc" data-i18n="taxDesc">New vs Old Tax Regime — find which saves more</div>
       </div>
       <div class="panel-body">
         <div class="form-row">
-          <label class="form-label"><span data-i18n="annualIncome">Annual Income (CTC)</span></label>
+          <label class="form-label" for="tax-income"><span data-i18n="annualIncome">Annual Income (CTC)</span></label>
           <div class="input-wrap has-prefix">
             <span class="input-prefix">₹</span>
             <input type="number" id="tax-income" value="300000" oninput="syncRange('tax-income','tax-income-r');liveCalc('tax')">
           </div>
           <div class="range-wrap">
-            <input type="range" id="tax-income-r" min="0" max="100000000" step="10000" value="300000" oninput="syncInput('tax-income-r','tax-income');liveCalc('tax')">
+            <input type="range" id="tax-income-r" min="0" max="100000000" step="10000" value="300000" aria-label="Annual Income slider" oninput="syncInput('tax-income-r','tax-income');liveCalc('tax')">
             <div class="range-labels"><span>₹0</span><span>₹10Cr</span></div>
           </div>
         </div>
         <div class="form-2col">
           <div class="form-row">
-            <label class="form-label"><span data-i18n="ageGroup">Age Group</span></label>
+            <label class="form-label" for="tax-age"><span data-i18n="ageGroup">Age Group</span></label>
             <select id="tax-age" onchange="liveCalc('tax')">
               <option value="general">Below 60</option>
               <option value="senior">60–79 (Senior)</option>
@@ -2269,7 +2279,7 @@ input[type=range]::-moz-range-thumb {
             </select>
           </div>
           <div class="form-row">
-            <label class="form-label"><span data-i18n="sec80c">80C Investments</span></label>
+            <label class="form-label" for="tax-80c"><span data-i18n="sec80c">80C Investments</span></label>
             <div class="input-wrap has-prefix">
               <span class="input-prefix">₹</span>
               <input type="number" id="tax-80c" value="0" max="150000" oninput="liveCalc('tax')">
@@ -2277,7 +2287,7 @@ input[type=range]::-moz-range-thumb {
           </div>
         </div>
         <button class="calc-btn" onclick="calcTax()"><span data-i18n="calcTax">Compare Tax Regimes</span> →</button>
-        <div class="results-box" id="tax-result">
+        <div class="results-box" id="tax-result" aria-live="polite" aria-atomic="true">
           <div class="result-actions">
             <button class="action-btn" onclick="openShare('tax')">📤 Share</button>
             <button class="action-btn" onclick="downloadPDF()">📄 PDF</button>
@@ -2315,14 +2325,14 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== GST ===== -->
-    <div class="calc-section" id="sec-gst">
+    <div class="calc-section" id="sec-gst" role="tabpanel" aria-labelledby="tab-gst" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">🧾 <span data-i18n="gstTitle">GST Calculator</span></div>
         <div class="panel-desc" data-i18n="gstDesc">Add or Remove GST — CGST + SGST + IGST breakdown</div>
       </div>
       <div class="panel-body">
         <div class="form-row">
-          <label class="form-label"><span data-i18n="amount">Amount</span></label>
+          <label class="form-label" for="gst-amount"><span data-i18n="amount">Amount</span></label>
           <div class="input-wrap has-prefix">
             <span class="input-prefix">₹</span>
             <input type="number" id="gst-amount" value="1000" oninput="liveCalc('gst')">
@@ -2330,7 +2340,7 @@ input[type=range]::-moz-range-thumb {
         </div>
         <div class="form-2col">
           <div class="form-row">
-            <label class="form-label"><span data-i18n="gstRate">GST Rate</span></label>
+            <label class="form-label" for="gst-rate"><span data-i18n="gstRate">GST Rate</span></label>
             <select id="gst-rate" onchange="liveCalc('gst')">
               <option value="5">5%</option>
               <option value="12">12%</option>
@@ -2339,7 +2349,7 @@ input[type=range]::-moz-range-thumb {
             </select>
           </div>
           <div class="form-row">
-            <label class="form-label"><span data-i18n="txnType">Transaction Type</span></label>
+            <label class="form-label" for="gst-type"><span data-i18n="txnType">Transaction Type</span></label>
             <select id="gst-type" onchange="liveCalc('gst')">
               <option value="add">Add GST (Exclusive)</option>
               <option value="remove">Remove GST (Inclusive)</option>
@@ -2347,7 +2357,7 @@ input[type=range]::-moz-range-thumb {
           </div>
         </div>
         <button class="calc-btn" onclick="calcGST()"><span data-i18n="calcGst">Calculate GST</span> →</button>
-        <div class="results-box" id="gst-result">
+        <div class="results-box" id="gst-result" aria-live="polite" aria-atomic="true">
           <div class="result-actions">
             <button class="action-btn" onclick="openShare('gst')">📤 Share</button>
             <button class="action-btn" onclick="downloadPDF()">📄 PDF</button>
@@ -2370,33 +2380,33 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== FD CALCULATOR ===== -->
-    <div class="calc-section" id="sec-fd">
+    <div class="calc-section" id="sec-fd" role="tabpanel" aria-labelledby="tab-fd" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">🏦 <span>Fixed Deposit (FD) Calculator</span></div>
         <div class="panel-desc">Calculate FD maturity amount with compound interest</div>
       </div>
       <div class="panel-body">
         <div class="form-row">
-          <label class="form-label">Deposit Amount</label>
+          <label class="form-label" for="fd-principal">Deposit Amount</label>
           <div class="input-wrap has-prefix">
             <span class="input-prefix">₹</span>
             <input type="number" id="fd-principal" value="5000" oninput="syncRange('fd-principal','fd-principal-r');liveCalc('fd')">
           </div>
           <div class="range-wrap">
-            <input type="range" id="fd-principal-r" min="1000" max="100000000" step="1000" value="5000" oninput="syncInput('fd-principal-r','fd-principal');liveCalc('fd')">
+            <input type="range" id="fd-principal-r" min="1000" max="100000000" step="1000" value="5000" aria-label="Deposit Amount slider" oninput="syncInput('fd-principal-r','fd-principal');liveCalc('fd')">
             <div class="range-labels"><span>₹1K</span><span>₹10Cr</span></div>
           </div>
         </div>
         <div class="form-2col">
           <div class="form-row">
-            <label class="form-label">Interest Rate <span class="form-label-hint">% p.a.</span></label>
+            <label class="form-label" for="fd-rate">Interest Rate <span class="form-label-hint">% p.a.</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="fd-rate" value="7.1" min="1" max="15" step="0.1" oninput="liveCalc('fd')">
               <span class="input-suffix">%</span>
             </div>
           </div>
           <div class="form-row">
-            <label class="form-label">Tenure <span class="form-label-hint">Years</span></label>
+            <label class="form-label" for="fd-tenure">Tenure <span class="form-label-hint">Years</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="fd-tenure" value="1" min="1" max="30" oninput="liveCalc('fd')">
               <span class="input-suffix">Yr</span>
@@ -2404,7 +2414,7 @@ input[type=range]::-moz-range-thumb {
           </div>
         </div>
         <div class="form-row">
-          <label class="form-label">Compounding</label>
+          <label class="form-label" for="fd-compound">Compounding</label>
           <select id="fd-compound" onchange="liveCalc('fd')">
             <option value="4" selected>Quarterly</option>
             <option value="12">Monthly</option>
@@ -2413,7 +2423,7 @@ input[type=range]::-moz-range-thumb {
           </select>
         </div>
         <button class="calc-btn" onclick="calcFD()">Calculate FD Maturity →</button>
-        <div class="results-box" id="fd-result">
+        <div class="results-box" id="fd-result" aria-live="polite" aria-atomic="true">
           <div class="result-actions">
             <button class="action-btn" onclick="openShare('fd')">📤 Share</button>
             <button class="action-btn" onclick="downloadPDF()">📄 PDF</button>
@@ -2427,7 +2437,7 @@ input[type=range]::-moz-range-thumb {
             <div class="result-cell"><div class="cell-label">Interest Earned</div><div class="cell-value" id="fd-interest-r" style="color:var(--green);">—</div></div>
           </div>
           <div class="chart-area">
-            <div class="donut-wrap"><canvas id="fd-chart" width="130" height="130"></canvas></div>
+            <div class="donut-wrap"><canvas id="fd-chart" width="130" height="130" role="img" aria-label="FD breakdown chart"></canvas></div>
             <div class="chart-legend">
               <div class="legend-item"><span class="legend-dot" style="background:var(--blue)"></span>Deposit Amount</div>
               <div class="legend-item"><span class="legend-dot" style="background:var(--green)"></span>Interest Earned</div>
@@ -2447,33 +2457,33 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== RD CALCULATOR ===== -->
-    <div class="calc-section" id="sec-rd">
+    <div class="calc-section" id="sec-rd" role="tabpanel" aria-labelledby="tab-rd" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">💰 <span>Recurring Deposit (RD) Calculator</span></div>
         <div class="panel-desc">Calculate RD maturity with monthly deposits</div>
       </div>
       <div class="panel-body">
         <div class="form-row">
-          <label class="form-label">Monthly Deposit</label>
+          <label class="form-label" for="rd-monthly">Monthly Deposit</label>
           <div class="input-wrap has-prefix">
             <span class="input-prefix">₹</span>
             <input type="number" id="rd-monthly" value="500" oninput="syncRange('rd-monthly','rd-monthly-r');liveCalc('rd')">
           </div>
           <div class="range-wrap">
-            <input type="range" id="rd-monthly-r" min="100" max="500000" step="100" value="500" oninput="syncInput('rd-monthly-r','rd-monthly');liveCalc('rd')">
+            <input type="range" id="rd-monthly-r" min="100" max="500000" step="100" value="500" aria-label="Monthly Deposit slider" oninput="syncInput('rd-monthly-r','rd-monthly');liveCalc('rd')">
             <div class="range-labels"><span>₹100</span><span>₹5L</span></div>
           </div>
         </div>
         <div class="form-2col">
           <div class="form-row">
-            <label class="form-label">Interest Rate <span class="form-label-hint">% p.a.</span></label>
+            <label class="form-label" for="rd-rate">Interest Rate <span class="form-label-hint">% p.a.</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="rd-rate" value="7.0" min="1" max="15" step="0.1" oninput="liveCalc('rd')">
               <span class="input-suffix">%</span>
             </div>
           </div>
           <div class="form-row">
-            <label class="form-label">Tenure <span class="form-label-hint">Years</span></label>
+            <label class="form-label" for="rd-tenure">Tenure <span class="form-label-hint">Years</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="rd-tenure" value="1" min="1" max="30" oninput="liveCalc('rd')">
               <span class="input-suffix">Yr</span>
@@ -2481,7 +2491,7 @@ input[type=range]::-moz-range-thumb {
           </div>
         </div>
         <button class="calc-btn" onclick="calcRD()">Calculate RD Maturity →</button>
-        <div class="results-box" id="rd-result">
+        <div class="results-box" id="rd-result" aria-live="polite" aria-atomic="true">
           <div class="result-actions">
             <button class="action-btn" onclick="openShare('rd')">📤 Share</button>
             <button class="action-btn" onclick="downloadPDF()">📄 PDF</button>
@@ -2495,7 +2505,7 @@ input[type=range]::-moz-range-thumb {
             <div class="result-cell"><div class="cell-label">Interest Earned</div><div class="cell-value" id="rd-interest" style="color:var(--green);">—</div></div>
           </div>
           <div class="chart-area">
-            <div class="donut-wrap"><canvas id="rd-chart" width="130" height="130"></canvas></div>
+            <div class="donut-wrap"><canvas id="rd-chart" width="130" height="130" role="img" aria-label="RD breakdown chart"></canvas></div>
             <div class="chart-legend">
               <div class="legend-item"><span class="legend-dot" style="background:var(--blue)"></span>Total Deposited</div>
               <div class="legend-item"><span class="legend-dot" style="background:var(--green)"></span>Interest Earned</div>
@@ -2506,7 +2516,7 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== RETIREMENT CALCULATOR ===== -->
-    <div class="calc-section" id="sec-retire">
+    <div class="calc-section" id="sec-retire" role="tabpanel" aria-labelledby="tab-retire" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">🏖️ <span>Retirement Calculator</span></div>
         <div class="panel-desc">How much do you need to retire comfortably?</div>
@@ -2514,16 +2524,16 @@ input[type=range]::-moz-range-thumb {
       <div class="panel-body">
         <div class="form-2col">
           <div class="form-row">
-            <label class="form-label">Current Age</label>
+            <label class="form-label" for="retire-age">Current Age</label>
             <input type="number" id="retire-age" value="25" min="18" max="60" oninput="liveCalc('retire')">
           </div>
           <div class="form-row">
-            <label class="form-label">Retirement Age</label>
+            <label class="form-label" for="retire-target">Retirement Age</label>
             <input type="number" id="retire-target" value="60" min="40" max="80" oninput="liveCalc('retire')">
           </div>
         </div>
         <div class="form-row">
-          <label class="form-label">Monthly Expenses (Today)</label>
+          <label class="form-label" for="retire-expense">Monthly Expenses (Today)</label>
           <div class="input-wrap has-prefix">
             <span class="input-prefix">₹</span>
             <input type="number" id="retire-expense" value="5000" oninput="liveCalc('retire')">
@@ -2531,14 +2541,14 @@ input[type=range]::-moz-range-thumb {
         </div>
         <div class="form-2col">
           <div class="form-row">
-            <label class="form-label">Inflation Rate <span class="form-label-hint">%</span></label>
+            <label class="form-label" for="retire-inflation">Inflation Rate <span class="form-label-hint">%</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="retire-inflation" value="6" min="1" max="15" step="0.5" oninput="liveCalc('retire')">
               <span class="input-suffix">%</span>
             </div>
           </div>
           <div class="form-row">
-            <label class="form-label">Expected Returns <span class="form-label-hint">%</span></label>
+            <label class="form-label" for="retire-returns">Expected Returns <span class="form-label-hint">%</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="retire-returns" value="12" min="1" max="25" step="0.5" oninput="liveCalc('retire')">
               <span class="input-suffix">%</span>
@@ -2546,7 +2556,7 @@ input[type=range]::-moz-range-thumb {
           </div>
         </div>
         <button class="calc-btn" onclick="calcRetire()">Calculate Retirement Corpus →</button>
-        <div class="results-box" id="retire-result">
+        <div class="results-box" id="retire-result" aria-live="polite" aria-atomic="true">
           <div class="result-actions">
             <button class="action-btn" onclick="openShare('retire')">📤 Share</button>
             <button class="action-btn" onclick="downloadPDF()">📄 PDF</button>
@@ -2565,14 +2575,14 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== INFLATION CALCULATOR ===== -->
-    <div class="calc-section" id="sec-inflation">
+    <div class="calc-section" id="sec-inflation" role="tabpanel" aria-labelledby="tab-inflation" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">📊 <span>Inflation Calculator</span></div>
         <div class="panel-desc">See how inflation erodes your money's value over time</div>
       </div>
       <div class="panel-body">
         <div class="form-row">
-          <label class="form-label">Current Amount</label>
+          <label class="form-label" for="inf-amount">Current Amount</label>
           <div class="input-wrap has-prefix">
             <span class="input-prefix">₹</span>
             <input type="number" id="inf-amount" value="1000" oninput="liveCalc('inflation')">
@@ -2580,14 +2590,14 @@ input[type=range]::-moz-range-thumb {
         </div>
         <div class="form-2col">
           <div class="form-row">
-            <label class="form-label">Inflation Rate <span class="form-label-hint">%</span></label>
+            <label class="form-label" for="inf-rate">Inflation Rate <span class="form-label-hint">%</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="inf-rate" value="6" min="1" max="20" step="0.5" oninput="liveCalc('inflation')">
               <span class="input-suffix">%</span>
             </div>
           </div>
           <div class="form-row">
-            <label class="form-label">After Years</label>
+            <label class="form-label" for="inf-years">After Years</label>
             <div class="input-wrap has-suffix">
               <input type="number" id="inf-years" value="5" min="1" max="50" oninput="liveCalc('inflation')">
               <span class="input-suffix">Yr</span>
@@ -2595,7 +2605,7 @@ input[type=range]::-moz-range-thumb {
           </div>
         </div>
         <button class="calc-btn" onclick="calcInflation()">Calculate Future Value →</button>
-        <div class="results-box" id="inflation-result">
+        <div class="results-box" id="inflation-result" aria-live="polite" aria-atomic="true">
           <div class="result-actions">
             <button class="action-btn" onclick="openShare('inflation')">📤 Share</button>
           </div>
@@ -2612,21 +2622,21 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== LOAN ELIGIBILITY ===== -->
-    <div class="calc-section" id="sec-eligibility">
+    <div class="calc-section" id="sec-eligibility" role="tabpanel" aria-labelledby="tab-eligibility" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">✅ <span>Loan Eligibility Calculator</span></div>
         <div class="panel-desc">Check how much loan you can get based on your income</div>
       </div>
       <div class="panel-body">
         <div class="form-row">
-          <label class="form-label">Monthly Net Income</label>
+          <label class="form-label" for="elig-income">Monthly Net Income</label>
           <div class="input-wrap has-prefix">
             <span class="input-prefix">₹</span>
             <input type="number" id="elig-income" value="15000" oninput="liveCalc('eligibility')">
           </div>
         </div>
         <div class="form-row">
-          <label class="form-label">Existing EMIs (Monthly)</label>
+          <label class="form-label" for="elig-existing">Existing EMIs (Monthly)</label>
           <div class="input-wrap has-prefix">
             <span class="input-prefix">₹</span>
             <input type="number" id="elig-existing" value="0" oninput="liveCalc('eligibility')">
@@ -2634,14 +2644,14 @@ input[type=range]::-moz-range-thumb {
         </div>
         <div class="form-2col">
           <div class="form-row">
-            <label class="form-label">Interest Rate <span class="form-label-hint">%</span></label>
+            <label class="form-label" for="elig-rate">Interest Rate <span class="form-label-hint">%</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="elig-rate" value="8.5" min="1" max="20" step="0.1" oninput="liveCalc('eligibility')">
               <span class="input-suffix">%</span>
             </div>
           </div>
           <div class="form-row">
-            <label class="form-label">Tenure <span class="form-label-hint">Years</span></label>
+            <label class="form-label" for="elig-tenure">Tenure <span class="form-label-hint">Years</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="elig-tenure" value="5" min="1" max="30" oninput="liveCalc('eligibility')">
               <span class="input-suffix">Yr</span>
@@ -2649,7 +2659,7 @@ input[type=range]::-moz-range-thumb {
           </div>
         </div>
         <button class="calc-btn" onclick="calcEligibility()">Check Eligibility →</button>
-        <div class="results-box" id="eligibility-result">
+        <div class="results-box" id="eligibility-result" aria-live="polite" aria-atomic="true">
           <div class="result-highlight" style="background:var(--green-bg);color:var(--green);">
             <div class="result-label">Maximum Loan Eligible</div>
             <div class="result-value" id="elig-max">—</div>
@@ -2663,14 +2673,14 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== RENT VS BUY ===== -->
-    <div class="calc-section" id="sec-rentvsbuy">
+    <div class="calc-section" id="sec-rentvsbuy" role="tabpanel" aria-labelledby="tab-rentvsbuy" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">🏡 <span>Rent vs Buy Calculator</span></div>
         <div class="panel-desc">Should you rent or buy a house? Compare financially.</div>
       </div>
       <div class="panel-body">
         <div class="form-row">
-          <label class="form-label">Property Value</label>
+          <label class="form-label" for="rvb-property">Property Value</label>
           <div class="input-wrap has-prefix">
             <span class="input-prefix">₹</span>
             <input type="number" id="rvb-property" value="500000" oninput="liveCalc('rentvsbuy')">
@@ -2678,14 +2688,14 @@ input[type=range]::-moz-range-thumb {
         </div>
         <div class="form-2col">
           <div class="form-row">
-            <label class="form-label">Monthly Rent</label>
+            <label class="form-label" for="rvb-rent">Monthly Rent</label>
             <div class="input-wrap has-prefix">
               <span class="input-prefix">₹</span>
               <input type="number" id="rvb-rent" value="3000" oninput="liveCalc('rentvsbuy')">
             </div>
           </div>
           <div class="form-row">
-            <label class="form-label">Rent Increase <span class="form-label-hint">% p.a.</span></label>
+            <label class="form-label" for="rvb-rentinc">Rent Increase <span class="form-label-hint">% p.a.</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="rvb-rentinc" value="5" step="0.5" oninput="liveCalc('rentvsbuy')">
               <span class="input-suffix">%</span>
@@ -2694,14 +2704,14 @@ input[type=range]::-moz-range-thumb {
         </div>
         <div class="form-2col">
           <div class="form-row">
-            <label class="form-label">Home Loan Rate <span class="form-label-hint">%</span></label>
+            <label class="form-label" for="rvb-rate">Home Loan Rate <span class="form-label-hint">%</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="rvb-rate" value="8.5" step="0.1" oninput="liveCalc('rentvsbuy')">
               <span class="input-suffix">%</span>
             </div>
           </div>
           <div class="form-row">
-            <label class="form-label">Property Growth <span class="form-label-hint">% p.a.</span></label>
+            <label class="form-label" for="rvb-growth">Property Growth <span class="form-label-hint">% p.a.</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="rvb-growth" value="5" step="0.5" oninput="liveCalc('rentvsbuy')">
               <span class="input-suffix">%</span>
@@ -2709,14 +2719,14 @@ input[type=range]::-moz-range-thumb {
           </div>
         </div>
         <div class="form-row">
-          <label class="form-label">Time Period <span class="form-label-hint">Years</span></label>
+          <label class="form-label" for="rvb-years">Time Period <span class="form-label-hint">Years</span></label>
           <div class="input-wrap has-suffix">
             <input type="number" id="rvb-years" value="10" min="5" max="30" oninput="liveCalc('rentvsbuy')">
             <span class="input-suffix">Yr</span>
           </div>
         </div>
         <button class="calc-btn" onclick="calcRentVsBuy()">Compare Rent vs Buy →</button>
-        <div class="results-box" id="rentvsbuy-result">
+        <div class="results-box" id="rentvsbuy-result" aria-live="polite" aria-atomic="true">
           <div class="result-grid" style="grid-template-columns:1fr 1fr;">
             <div class="result-cell" style="background:var(--red-bg);text-align:center;">
               <div class="cell-label" style="color:var(--red);">Total Cost of Renting</div>
@@ -2740,28 +2750,28 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== CIBIL SCORE CHECKER ===== -->
-    <div class="calc-section" id="sec-cibil">
+    <div class="calc-section" id="sec-cibil" role="tabpanel" aria-labelledby="tab-cibil" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">🎯 CIBIL Score Checker &amp; Analyser</div>
         <div class="panel-desc">Check your credit score rating, loan eligibility &amp; get personalised improvement tips</div>
       </div>
       <div class="panel-body">
         <div class="form-row">
-          <label class="form-label">Your CIBIL Score <span class="form-label-hint">(300–900)</span></label>
+          <label class="form-label" for="cibil-score">Your CIBIL Score <span class="form-label-hint">(300–900)</span></label>
           <div class="input-wrap">
             <input type="number" id="cibil-score" value="750" min="300" max="900" oninput="syncRange('cibil-score','cibil-score-r');liveCalc('cibil')">
           </div>
           <div class="range-wrap">
-            <input type="range" id="cibil-score-r" min="300" max="900" step="1" value="750" oninput="syncInput('cibil-score-r','cibil-score');liveCalc('cibil')">
+            <input type="range" id="cibil-score-r" min="300" max="900" step="1" value="750" aria-label="CIBIL Score slider" oninput="syncInput('cibil-score-r','cibil-score');liveCalc('cibil')">
             <div class="range-labels"><span>300 (Poor)</span><span>900 (Excellent)</span></div>
           </div>
         </div>
         <button class="calc-btn" onclick="calcCibil()">Check My Score →</button>
 
-        <div class="results-box" id="cibil-result">
+        <div class="results-box" id="cibil-result" aria-live="polite" aria-atomic="true">
           <!-- Gauge Chart -->
           <div style="display:flex;flex-direction:column;align-items:center;padding:20px 16px 8px;">
-            <canvas id="cibil-gauge" width="260" height="150" style="max-width:100%;"></canvas>
+            <canvas id="cibil-gauge" width="260" height="150" style="max-width:100%;" role="img" aria-label="CIBIL score gauge chart"></canvas>
             <div id="cibil-rating-badge" style="margin-top:8px;padding:6px 20px;border-radius:20px;font-size:14px;font-weight:800;letter-spacing:0.04em;"></div>
           </div>
           <!-- Score Breakdown -->
@@ -3367,12 +3377,16 @@ function liveCalc(type) {
 // ============================
 function switchTab(name, btn) {
   document.querySelectorAll('.calc-section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tool-tab').forEach(t => {
+    t.classList.remove('active');
+    t.setAttribute('aria-selected', 'false');
+  });
   const sec = $('sec-' + name);
   if(sec) sec.classList.add('active');
   const tab = $('tab-' + name);
   if(tab) {
     tab.classList.add('active');
+    tab.setAttribute('aria-selected', 'true');
     tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
   }
   // Scroll to top of calculator
