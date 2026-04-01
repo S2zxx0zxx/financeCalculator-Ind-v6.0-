@@ -4,7 +4,7 @@
 
 const CACHE_NAME = 'fincalc-v1';
 
-// Core shell files to pre-cache on install
+// Core shell files to pre-cache on install (must all exist)
 const PRECACHE_URLS = [
   '/',
   '/index.html',
@@ -13,10 +13,25 @@ const PRECACHE_URLS = [
   '/icons/icon-512.png'
 ];
 
+// Optional assets — cached if available, skipped gracefully if missing
+const PRECACHE_OPTIONAL = [
+  '/icons/fincalc-logo-splash.png'
+];
+
 // ── Install: pre-cache core shell ──────────────────────────────────────────
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS))
+    caches.open(CACHE_NAME).then((cache) => {
+      // Required assets — install fails if any of these are missing
+      const required = cache.addAll(PRECACHE_URLS);
+      // Optional assets — best-effort, never block install
+      const optional = Promise.all(
+        PRECACHE_OPTIONAL.map((url) =>
+          cache.add(url).catch(() => { /* skip missing optional asset */ })
+        )
+      );
+      return required.then(() => optional);
+    })
   );
   self.skipWaiting();
 });
