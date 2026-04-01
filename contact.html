@@ -95,7 +95,38 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 @media(max-width:480px){
   .contact-grid{grid-template-columns:1fr;}
 }
+.form-group{margin-bottom:18px;}
+.form-group label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:var(--text2);}
+.form-group input,.form-group textarea{width:100%;padding:12px 16px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:var(--font);font-size:14.5px;transition:border 0.2s;outline:none;}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg);}
+.form-group textarea{resize:vertical;min-height:120px;}
+.submit-btn{width:100%;padding:14px 24px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;transition:background 0.2s,transform 0.1s;}
+.submit-btn:hover{background:var(--accent2);}
+.submit-btn:active{transform:scale(0.98);}
+.faq-item{margin-bottom:16px;padding:16px 20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);}
+.faq-item .faq-q{font-size:14.5px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.faq-item .faq-a{font-size:14px;color:var(--text2);line-height:1.75;}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contact FinCalc India",
+  "url": "https://satzzxzxx.me/contact.html",
+  "description": "Contact FinCalc India for questions, feature requests or bug reports. Reach Satyam Kumar via email, Twitter, Instagram, Telegram or GitHub.",
+  "inLanguage": "en-IN",
+  "author": {
+    "@type": "Person",
+    "name": "Satyam Kumar",
+    "url": "https://satzzxzxx.me"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "FinCalc India",
+    "url": "https://satzzxzxx.me"
+  }
+}
+</script>
 </head>
 <body>
 <header class="site-header">
@@ -137,8 +168,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 
   <!-- Hero -->
   <div class="page-hero">
-    <h1>Get <em>In Touch</em></h1>
-    <p class="subtitle">We'd love to hear from you</p>
+    <h1>Contact <em>Us</em> 📬</h1>
+    <p class="subtitle">Koi sawaal? Feature request? Bug mila? Batao hume!</p>
   </div>
 
   <!-- Ad slot -->
@@ -150,6 +181,20 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
   <!-- Contact Cards -->
   <div class="section">
     <h2>📱 Find Us On</h2>
+
+    <!-- Email -->
+    <div style="margin-bottom:16px;">
+      <a href="mailto:satyamkumar@satzzxzxx.me" class="contact-card" style="flex-direction:row;text-align:left;gap:16px;padding:20px 24px;background:var(--accent-bg);border-color:rgba(200,130,26,0.3);">
+        <div class="cc-icon" style="background:rgba(200,130,26,0.15);color:var(--accent);flex-shrink:0;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+        </div>
+        <div>
+          <div class="cc-platform" style="color:var(--accent);">Email</div>
+          <div class="cc-handle">satyamkumar@satzzxzxx.me</div>
+        </div>
+      </a>
+    </div>
+
     <div class="contact-grid">
 
       <a href="https://www.instagram.com/__.satzzxzxx?igsh=MWhlMXAxZ3M2dGZtMA==" target="_blank" rel="noopener noreferrer" class="contact-card ig">
@@ -206,7 +251,52 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
   <!-- Response Time -->
   <div class="section">
     <h2>⏱️ Response Time</h2>
-    <p>We typically respond within <strong>24–48 hours</strong> on all platforms. For urgent issues, Telegram is usually the fastest channel.</p>
+    <p>Hum usually <strong>24-48 hours</strong> mein reply karte hain. For urgent issues, Telegram is usually the fastest channel.</p>
+  </div>
+
+  <!-- Contact Form -->
+  <div class="section">
+    <h2>✉️ Send Us a Message</h2>
+    <div id="form-wrap">
+      <form id="contactForm" onsubmit="submitForm(event)" novalidate>
+        <div class="form-group">
+          <label for="cf-name">Your Name *</label>
+          <input type="text" id="cf-name" placeholder="e.g. Rahul Sharma" required>
+        </div>
+        <div class="form-group">
+          <label for="cf-email">Email Address *</label>
+          <input type="email" id="cf-email" placeholder="e.g. rahul@email.com" required>
+        </div>
+        <div class="form-group">
+          <label for="cf-msg">Your Message *</label>
+          <textarea id="cf-msg" placeholder="Apna sawaal ya suggestion yahan likhein..." required></textarea>
+        </div>
+        <div id="form-error" style="color:var(--red);font-size:13px;margin-bottom:12px;display:none;"></div>
+        <button type="submit" class="submit-btn">Send Message 🚀</button>
+      </form>
+    </div>
+    <div id="form-thankyou" style="display:none;">
+      <div class="success-box">
+        <strong>🎉 Message bhej diya!</strong> Thank you for reaching out. Hum jaldi reply karenge (usually 24-48 hours mein).
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="section">
+    <h2>❓ Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q">Q: Is FinCalc India free?</div>
+      <div class="faq-a">A: Haan, bilkul free hai. Koi signup nahi, koi hidden charges nahi. Hamesha free rahega.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Q: Formulas accurate hain?</div>
+      <div class="faq-a">A: Haan, RBI aur government official formulas use karte hain. Results accurate hain, lekin hamesha apne bank se verify zaroor karein.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Q: Data store hota hai?</div>
+      <div class="faq-a">A: Nahi. Sab kuch aapke browser mein hota hai. Hum koi personal data collect ya store nahi karte.</div>
+    </div>
   </div>
 
 </div>
@@ -256,6 +346,7 @@ function toggleTheme(){const t=document.documentElement.getAttribute('data-theme
 (function(){const s=localStorage.getItem('fincalc-theme');if(s==='dark'){document.documentElement.setAttribute('data-theme','dark');setTimeout(()=>{const b=document.getElementById('themeBtn');if(b)b.textContent='☀️';},0);}})();
 function setLang(l){const em=document.getElementById('btn-en'),hm=document.getElementById('btn-hi'),emm=document.getElementById('btn-en-m'),hmm=document.getElementById('btn-hi-m');if(em)em.classList.toggle('active',l==='en');if(hm)hm.classList.toggle('active',l==='hi');if(emm)emm.classList.toggle('active',l==='en');if(hmm)hmm.classList.toggle('active',l==='hi');}
 function toggleMobileMenu(){const n=document.getElementById('mobileNav'),b=document.getElementById('mobileMenuBtn');if(!n)return;const o=n.classList.toggle('open');if(b){b.textContent=o?'✕':'☰';b.setAttribute('aria-label',o?'Close menu':'Open menu');}}
+function submitForm(e){e.preventDefault();var name=document.getElementById('cf-name').value.trim(),email=document.getElementById('cf-email').value.trim(),msg=document.getElementById('cf-msg').value.trim(),errEl=document.getElementById('form-error');errEl.style.display='none';if(!name||!email||!msg){errEl.textContent='Sabhi fields required hain.';errEl.style.display='block';return;}var re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;if(!re.test(email)){errEl.textContent='Valid email address dalein.';errEl.style.display='block';return;}try{var msgs=JSON.parse(localStorage.getItem('fincalc-contact-msgs')||'[]');msgs.push({name:name,email:email,msg:msg,ts:new Date().toISOString()});localStorage.setItem('fincalc-contact-msgs',JSON.stringify(msgs));}catch(ex){}document.getElementById('form-wrap').style.display='none';document.getElementById('form-thankyou').style.display='block';}
 if(location.hostname==='satzzxzxx.me'){
   (function(w,d,s){var j=d.createElement(s);j.async=true;j.src='https://www.googletagmanager.com/gtag/js?id=G-NTKNL4QDZN';d.head.appendChild(j);})(window,document,'script');
   window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-NTKNL4QDZN');
