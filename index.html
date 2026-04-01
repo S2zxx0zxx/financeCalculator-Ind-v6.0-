@@ -1869,18 +1869,30 @@ input[type=range]::-moz-range-thumb {
   .fin-calc-card::before { display: none; }
 }
 /* ===== END TOP CALCULATORS CARD GRID ===== */
+
+/* ===== ACCESSIBILITY: SKIP LINK ===== */
+.skip-link {
+  position: absolute; top: -100%; left: 0;
+  background: var(--accent); color: #fff;
+  padding: 10px 20px; font-weight: 700; font-size: 14px;
+  z-index: 9999; border-radius: 0 0 8px 0;
+  text-decoration: none; transition: top 0.2s;
+}
+.skip-link:focus { top: 0; }
 </style>
 </head>
 <body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <!-- SHARE MODAL -->
 <div class="modal-overlay" id="shareOverlay" onclick="closeShareModal()"></div>
-<div class="modal-box" id="shareModal">
-  <button class="modal-close" onclick="closeShareModal()">✕</button>
-  <div class="modal-title">📤 Share Results</div>
+<div class="modal-box" id="shareModal" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
+  <button class="modal-close" onclick="closeShareModal()" aria-label="Close share modal">✕</button>
+  <div class="modal-title" id="shareModalTitle">📤 Share Results</div>
   <div id="sharePreview" style="background:var(--surface2);padding:12px 16px;border-radius:8px;font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6;max-height:120px;overflow:auto;"></div>
   <div class="share-btns">
     <button class="share-btn wa" onclick="shareWhatsApp()">💬 WhatsApp</button>
@@ -1910,7 +1922,7 @@ input[type=range]::-moz-range-thumb {
         <button class="tp-btn active" onclick="setLang('en')" id="btn-en">🇬🇧 <span class="tp-label">EN</span></button>
         <button class="tp-btn" onclick="setLang('hi')" id="btn-hi">🇮🇳 <span class="tp-label">हिंदी</span></button>
       </div>
-      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" id="themeBtn">🌙</button>
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode" id="themeBtn" aria-label="Toggle dark mode">🌙</button>
       <!-- Mobile hamburger button -->
       <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Open menu" title="Menu">☰</button>
     </div>
@@ -1963,19 +1975,19 @@ input[type=range]::-moz-range-thumb {
 </div>
 
 <!-- TOOL TABS -->
-<div class="tabs-container">
-  <div class="tabs-scroll">
-    <button class="tool-tab active" id="tab-emi" onclick="switchTab('emi',this)"><span class="tab-icon">🏠</span><span data-i18n="tabEmi">EMI</span><span class="tab-badge tab-badge-most-used">🔥 Most Used</span></button>
-    <button class="tool-tab" id="tab-sip" onclick="switchTab('sip',this)"><span class="tab-icon">📈</span><span data-i18n="tabSip">SIP</span><span class="tab-badge tab-badge-trending">⭐ Trending</span></button>
-    <button class="tool-tab" id="tab-tax" onclick="switchTab('tax',this)"><span class="tab-icon">📋</span><span data-i18n="tabTax">Income Tax</span><span class="tab-badge tab-badge-popular">💎 Popular</span></button>
-    <button class="tool-tab" id="tab-gst" onclick="switchTab('gst',this)"><span class="tab-icon">🧾</span><span data-i18n="tabGst">GST</span></button>
-    <button class="tool-tab" id="tab-fd" onclick="switchTab('fd',this)"><span class="tab-icon">🏦</span><span>FD</span> <span class="tab-new">New</span></button>
-    <button class="tool-tab" id="tab-rd" onclick="switchTab('rd',this)"><span class="tab-icon">💰</span><span>RD</span> <span class="tab-new">New</span></button>
-    <button class="tool-tab" id="tab-retire" onclick="switchTab('retire',this)"><span class="tab-icon">🏖️</span><span data-i18n="tabRetire">Retirement</span> <span class="tab-new">New</span></button>
-    <button class="tool-tab" id="tab-inflation" onclick="switchTab('inflation',this)"><span class="tab-icon">📊</span><span data-i18n="tabInflation">Inflation</span> <span class="tab-new">New</span></button>
-    <button class="tool-tab" id="tab-eligibility" onclick="switchTab('eligibility',this)"><span class="tab-icon">✅</span><span data-i18n="tabElig">Loan Eligibility</span> <span class="tab-new">New</span></button>
-    <button class="tool-tab" id="tab-rentvsbuy" onclick="switchTab('rentvsbuy',this)"><span class="tab-icon">🏡</span><span data-i18n="tabRvb">Rent vs Buy</span> <span class="tab-new">New</span></button>
-    <button class="tool-tab" id="tab-cibil" onclick="switchTab('cibil',this)"><span class="tab-icon">🎯</span><span>CIBIL Score</span> <span class="tab-new">New</span></button>
+<div class="tabs-container" id="main-content">
+  <div class="tabs-scroll" role="tablist" aria-label="Calculator tools">
+    <button class="tool-tab active" id="tab-emi" role="tab" aria-selected="true" aria-controls="sec-emi" onclick="switchTab('emi',this)"><span class="tab-icon" aria-hidden="true">🏠</span><span data-i18n="tabEmi">EMI</span><span class="tab-badge tab-badge-most-used" aria-hidden="true">🔥 Most Used</span></button>
+    <button class="tool-tab" id="tab-sip" role="tab" aria-selected="false" aria-controls="sec-sip" onclick="switchTab('sip',this)"><span class="tab-icon" aria-hidden="true">📈</span><span data-i18n="tabSip">SIP</span><span class="tab-badge tab-badge-trending" aria-hidden="true">⭐ Trending</span></button>
+    <button class="tool-tab" id="tab-tax" role="tab" aria-selected="false" aria-controls="sec-tax" onclick="switchTab('tax',this)"><span class="tab-icon" aria-hidden="true">📋</span><span data-i18n="tabTax">Income Tax</span><span class="tab-badge tab-badge-popular" aria-hidden="true">💎 Popular</span></button>
+    <button class="tool-tab" id="tab-gst" role="tab" aria-selected="false" aria-controls="sec-gst" onclick="switchTab('gst',this)"><span class="tab-icon" aria-hidden="true">🧾</span><span data-i18n="tabGst">GST</span></button>
+    <button class="tool-tab" id="tab-fd" role="tab" aria-selected="false" aria-controls="sec-fd" onclick="switchTab('fd',this)"><span class="tab-icon" aria-hidden="true">🏦</span><span>FD</span> <span class="tab-new" aria-label="New">New</span></button>
+    <button class="tool-tab" id="tab-rd" role="tab" aria-selected="false" aria-controls="sec-rd" onclick="switchTab('rd',this)"><span class="tab-icon" aria-hidden="true">💰</span><span>RD</span> <span class="tab-new" aria-label="New">New</span></button>
+    <button class="tool-tab" id="tab-retire" role="tab" aria-selected="false" aria-controls="sec-retire" onclick="switchTab('retire',this)"><span class="tab-icon" aria-hidden="true">🏖️</span><span data-i18n="tabRetire">Retirement</span> <span class="tab-new" aria-label="New">New</span></button>
+    <button class="tool-tab" id="tab-inflation" role="tab" aria-selected="false" aria-controls="sec-inflation" onclick="switchTab('inflation',this)"><span class="tab-icon" aria-hidden="true">📊</span><span data-i18n="tabInflation">Inflation</span> <span class="tab-new" aria-label="New">New</span></button>
+    <button class="tool-tab" id="tab-eligibility" role="tab" aria-selected="false" aria-controls="sec-eligibility" onclick="switchTab('eligibility',this)"><span class="tab-icon" aria-hidden="true">✅</span><span data-i18n="tabElig">Loan Eligibility</span> <span class="tab-new" aria-label="New">New</span></button>
+    <button class="tool-tab" id="tab-rentvsbuy" role="tab" aria-selected="false" aria-controls="sec-rentvsbuy" onclick="switchTab('rentvsbuy',this)"><span class="tab-icon" aria-hidden="true">🏡</span><span data-i18n="tabRvb">Rent vs Buy</span> <span class="tab-new" aria-label="New">New</span></button>
+    <button class="tool-tab" id="tab-cibil" role="tab" aria-selected="false" aria-controls="sec-cibil" onclick="switchTab('cibil',this)"><span class="tab-icon" aria-hidden="true">🎯</span><span>CIBIL Score</span> <span class="tab-new" aria-label="New">New</span></button>
   </div>
 </div>
 
@@ -1986,33 +1998,33 @@ input[type=range]::-moz-range-thumb {
   <div class="calc-panel">
 
     <!-- ===== EMI CALCULATOR ===== -->
-    <div class="calc-section active" id="sec-emi">
+    <div class="calc-section active" id="sec-emi" role="tabpanel" aria-labelledby="tab-emi" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">🏠 <span data-i18n="emiTitle">EMI Calculator</span></div>
         <div class="panel-desc" data-i18n="emiDesc">Home Loan, Car Loan, Personal Loan — calculate your monthly EMI instantly</div>
       </div>
       <div class="panel-body">
         <div class="form-row">
-          <label class="form-label"><span data-i18n="loanAmt">Loan Amount</span></label>
+          <label class="form-label" for="emi-principal"><span data-i18n="loanAmt">Loan Amount</span></label>
           <div class="input-wrap has-prefix">
             <span class="input-prefix">₹</span>
             <input type="number" id="emi-principal" value="50000" min="1000" max="100000000" oninput="syncRange('emi-principal','emi-principal-r');liveCalc('emi')">
           </div>
           <div class="range-wrap">
-            <input type="range" id="emi-principal-r" min="1000" max="100000000" step="1000" value="50000" oninput="syncInput('emi-principal-r','emi-principal');liveCalc('emi')">
+            <input type="range" id="emi-principal-r" min="1000" max="100000000" step="1000" value="50000" aria-label="Loan Amount slider" oninput="syncInput('emi-principal-r','emi-principal');liveCalc('emi')">
             <div class="range-labels"><span>₹1K</span><span>₹10Cr</span></div>
           </div>
         </div>
         <div class="form-2col">
           <div class="form-row">
-            <label class="form-label"><span data-i18n="intRate">Interest Rate</span> <span class="form-label-hint">% p.a.</span></label>
+            <label class="form-label" for="emi-rate"><span data-i18n="intRate">Interest Rate</span> <span class="form-label-hint">% p.a.</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="emi-rate" value="10" min="1" max="36" step="0.1" oninput="liveCalc('emi')">
               <span class="input-suffix">%</span>
             </div>
           </div>
           <div class="form-row">
-            <label class="form-label"><span data-i18n="tenure">Tenure</span> <span class="form-label-hint">Years</span></label>
+            <label class="form-label" for="emi-tenure"><span data-i18n="tenure">Tenure</span> <span class="form-label-hint">Years</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="emi-tenure" value="3" min="1" max="30" oninput="liveCalc('emi')">
               <span class="input-suffix">Yr</span>
@@ -2021,7 +2033,7 @@ input[type=range]::-moz-range-thumb {
         </div>
         <button class="calc-btn" onclick="calcEMI()"><span data-i18n="calcEmi">Calculate EMI</span> →</button>
 
-        <div class="results-box" id="emi-result">
+        <div class="results-box" id="emi-result" aria-live="polite" aria-atomic="true">
           <div class="result-actions">
             <button class="action-btn" onclick="openShare('emi')">📤 Share</button>
             <button class="action-btn" onclick="downloadPDF()">📄 PDF</button>
@@ -2046,7 +2058,7 @@ input[type=range]::-moz-range-thumb {
             </div>
           </div>
           <div class="chart-area">
-            <div class="donut-wrap"><canvas id="emi-chart" width="130" height="130"></canvas></div>
+            <div class="donut-wrap"><canvas id="emi-chart" width="130" height="130" role="img" aria-label="EMI breakdown chart"></canvas></div>
             <div class="chart-legend">
               <div class="legend-item"><span class="legend-dot" style="background:var(--green)"></span><span data-i18n="principalAmt">Principal Amount</span></div>
               <div class="legend-item"><span class="legend-dot" style="background:var(--red)"></span><span data-i18n="totalInterest">Total Interest</span></div>
@@ -2067,33 +2079,33 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== SIP CALCULATOR ===== -->
-    <div class="calc-section" id="sec-sip">
+    <div class="calc-section" id="sec-sip" role="tabpanel" aria-labelledby="tab-sip" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">📈 <span data-i18n="sipTitle">SIP Returns Calculator</span></div>
         <div class="panel-desc" data-i18n="sipDesc">Calculate your mutual fund SIP maturity amount & wealth gained</div>
       </div>
       <div class="panel-body">
         <div class="form-row">
-          <label class="form-label"><span data-i18n="sipMonthly">Monthly SIP Amount</span></label>
+          <label class="form-label" for="sip-monthly"><span data-i18n="sipMonthly">Monthly SIP Amount</span></label>
           <div class="input-wrap has-prefix">
             <span class="input-prefix">₹</span>
             <input type="number" id="sip-monthly" value="1000" min="100" oninput="syncRange('sip-monthly','sip-monthly-r');liveCalc('sip')">
           </div>
           <div class="range-wrap">
-            <input type="range" id="sip-monthly-r" min="100" max="1000000" step="100" value="1000" oninput="syncInput('sip-monthly-r','sip-monthly');liveCalc('sip')">
+            <input type="range" id="sip-monthly-r" min="100" max="1000000" step="100" value="1000" aria-label="Monthly SIP Amount slider" oninput="syncInput('sip-monthly-r','sip-monthly');liveCalc('sip')">
             <div class="range-labels"><span>₹100</span><span>₹10L</span></div>
           </div>
         </div>
         <div class="form-2col">
           <div class="form-row">
-            <label class="form-label"><span data-i18n="expReturn">Expected Return</span> <span class="form-label-hint">% p.a.</span></label>
+            <label class="form-label" for="sip-rate"><span data-i18n="expReturn">Expected Return</span> <span class="form-label-hint">% p.a.</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="sip-rate" value="12" min="1" max="30" step="0.5" oninput="liveCalc('sip')">
               <span class="input-suffix">%</span>
             </div>
           </div>
           <div class="form-row">
-            <label class="form-label"><span data-i18n="investPeriod">Investment Period</span> <span class="form-label-hint">Years</span></label>
+            <label class="form-label" for="sip-years"><span data-i18n="investPeriod">Investment Period</span> <span class="form-label-hint">Years</span></label>
             <div class="input-wrap has-suffix">
               <input type="number" id="sip-years" value="5" min="1" max="40" oninput="liveCalc('sip')">
               <span class="input-suffix">Yr</span>
@@ -2101,7 +2113,7 @@ input[type=range]::-moz-range-thumb {
           </div>
         </div>
         <button class="calc-btn" onclick="calcSIP()"><span data-i18n="calcSip">Calculate Returns</span> →</button>
-        <div class="results-box" id="sip-result">
+        <div class="results-box" id="sip-result" aria-live="polite" aria-atomic="true">
           <div class="result-actions">
             <button class="action-btn" onclick="openShare('sip')">📤 Share</button>
             <button class="action-btn" onclick="downloadPDF()">📄 PDF</button>
@@ -2126,7 +2138,7 @@ input[type=range]::-moz-range-thumb {
             </div>
           </div>
           <div class="chart-area">
-            <div class="donut-wrap"><canvas id="sip-chart" width="130" height="130"></canvas></div>
+            <div class="donut-wrap"><canvas id="sip-chart" width="130" height="130" role="img" aria-label="SIP breakdown chart"></canvas></div>
             <div class="chart-legend">
               <div class="legend-item"><span class="legend-dot" style="background:var(--blue)"></span><span data-i18n="amtInvested">Amount Invested</span></div>
               <div class="legend-item"><span class="legend-dot" style="background:var(--green)"></span><span data-i18n="wealthGained">Wealth Gained</span></div>
@@ -2147,7 +2159,7 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== INCOME TAX ===== -->
-    <div class="calc-section" id="sec-tax">
+    <div class="calc-section" id="sec-tax" role="tabpanel" aria-labelledby="tab-tax" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">📋 <span data-i18n="taxTitle">Income Tax Calculator 2025–26</span></div>
         <div class="panel-desc" data-i18n="taxDesc">New vs Old Tax Regime — find which saves more</div>
@@ -2220,7 +2232,7 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== GST ===== -->
-    <div class="calc-section" id="sec-gst">
+    <div class="calc-section" id="sec-gst" role="tabpanel" aria-labelledby="tab-gst" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">🧾 <span data-i18n="gstTitle">GST Calculator</span></div>
         <div class="panel-desc" data-i18n="gstDesc">Add or Remove GST — CGST + SGST + IGST breakdown</div>
@@ -2275,7 +2287,7 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== FD CALCULATOR ===== -->
-    <div class="calc-section" id="sec-fd">
+    <div class="calc-section" id="sec-fd" role="tabpanel" aria-labelledby="tab-fd" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">🏦 <span>Fixed Deposit (FD) Calculator</span></div>
         <div class="panel-desc">Calculate FD maturity amount with compound interest</div>
@@ -2352,7 +2364,7 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== RD CALCULATOR ===== -->
-    <div class="calc-section" id="sec-rd">
+    <div class="calc-section" id="sec-rd" role="tabpanel" aria-labelledby="tab-rd" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">💰 <span>Recurring Deposit (RD) Calculator</span></div>
         <div class="panel-desc">Calculate RD maturity with monthly deposits</div>
@@ -2411,7 +2423,7 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== RETIREMENT CALCULATOR ===== -->
-    <div class="calc-section" id="sec-retire">
+    <div class="calc-section" id="sec-retire" role="tabpanel" aria-labelledby="tab-retire" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">🏖️ <span>Retirement Calculator</span></div>
         <div class="panel-desc">How much do you need to retire comfortably?</div>
@@ -2470,7 +2482,7 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== INFLATION CALCULATOR ===== -->
-    <div class="calc-section" id="sec-inflation">
+    <div class="calc-section" id="sec-inflation" role="tabpanel" aria-labelledby="tab-inflation" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">📊 <span>Inflation Calculator</span></div>
         <div class="panel-desc">See how inflation erodes your money's value over time</div>
@@ -2517,7 +2529,7 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== LOAN ELIGIBILITY ===== -->
-    <div class="calc-section" id="sec-eligibility">
+    <div class="calc-section" id="sec-eligibility" role="tabpanel" aria-labelledby="tab-eligibility" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">✅ <span>Loan Eligibility Calculator</span></div>
         <div class="panel-desc">Check how much loan you can get based on your income</div>
@@ -2568,7 +2580,7 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== RENT VS BUY ===== -->
-    <div class="calc-section" id="sec-rentvsbuy">
+    <div class="calc-section" id="sec-rentvsbuy" role="tabpanel" aria-labelledby="tab-rentvsbuy" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">🏡 <span>Rent vs Buy Calculator</span></div>
         <div class="panel-desc">Should you rent or buy a house? Compare financially.</div>
@@ -2645,7 +2657,7 @@ input[type=range]::-moz-range-thumb {
     </div>
 
     <!-- ===== CIBIL SCORE CHECKER ===== -->
-    <div class="calc-section" id="sec-cibil">
+    <div class="calc-section" id="sec-cibil" role="tabpanel" aria-labelledby="tab-cibil" tabindex="0">
       <div class="panel-header">
         <div class="panel-title">🎯 CIBIL Score Checker &amp; Analyser</div>
         <div class="panel-desc">Check your credit score rating, loan eligibility &amp; get personalised improvement tips</div>
