@@ -524,8 +524,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 
 <script>
 window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-window.innerHeight;document.getElementById('progressBar').style.width=(window.scrollY/h)*100+'%';},{passive:true});
-function toggleTheme(){const t=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';localStorage.setItem('fc-theme',t);}
-(function(){const s=localStorage.getItem('fc-theme');if(s==='dark'){document.documentElement.setAttribute('data-theme','dark');setTimeout(()=>{const b=document.getElementById('themeBtn');if(b)b.textContent='☀️';},0);}})();
+function toggleTheme(){const t=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';localStorage.setItem('fincalc-theme',t);}
+(function(){const s=localStorage.getItem('fincalc-theme');if(s==='dark'){document.documentElement.setAttribute('data-theme','dark');setTimeout(()=>{const b=document.getElementById('themeBtn');if(b)b.textContent='☀️';},0);}})();
 const chartIO=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.querySelectorAll('.bar-fill[data-width]').forEach(bar=>{bar.style.width=bar.dataset.width;});chartIO.unobserve(entry.target);}});},{threshold:0.2});
 document.querySelectorAll('.chart-container').forEach(c=>chartIO.observe(c));
 window.adsbygoogle=window.adsbygoogle||[];
