@@ -1954,9 +1954,38 @@ input[type=range]::-moz-range-thumb {
   text-decoration: none; transition: top 0.2s;
 }
 .skip-link:focus { top: 0; }
+/* PWA Install Banner */
+#pwa-banner{display:none;position:fixed;top:0;left:0;right:0;z-index:99999;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 100%);border-bottom:2px solid #e0a030;padding:10px 16px;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 4px 20px rgba(0,0,0,0.4);animation:bannerSlide 0.4s ease;}
+#pwa-banner.show{display:flex;}
+@keyframes bannerSlide{from{transform:translateY(-100%);opacity:0;}to{transform:translateY(0);opacity:1;}}
+#pwa-banner .pwa-left{display:flex;align-items:center;gap:10px;}
+#pwa-banner .pwa-icon{width:36px;height:36px;border-radius:8px;background:#e0a030;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+#pwa-banner .pwa-text{color:#fff;}
+#pwa-banner .pwa-text strong{display:block;font-size:13px;font-weight:700;letter-spacing:0.02em;}
+#pwa-banner .pwa-text span{display:block;font-size:11px;color:rgba(255,255,255,0.55);margin-top:1px;}
+#pwa-banner .pwa-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+#pwa-btn-install{background:#e0a030;color:#000;border:none;padding:7px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:background 0.2s;}
+#pwa-btn-install:hover{background:#f0b040;}
+#pwa-btn-close{background:transparent;border:none;color:rgba(255,255,255,0.4);font-size:20px;cursor:pointer;padding:4px 6px;line-height:1;transition:color 0.2s;}
+#pwa-btn-close:hover{color:#fff;}
+@media(max-width:480px){#pwa-banner .pwa-text span{display:none;}#pwa-btn-install{padding:7px 12px;}}
 </style>
 </head>
 <body>
+<!-- PWA Install Banner -->
+<div id="pwa-banner" role="banner" aria-label="Install App">
+  <div class="pwa-left">
+    <div class="pwa-icon">📊</div>
+    <div class="pwa-text">
+      <strong>Install FinCalc India</strong>
+      <span>Add to Home Screen for instant access</span>
+    </div>
+  </div>
+  <div class="pwa-actions">
+    <button id="pwa-btn-install">Install App</button>
+    <button id="pwa-btn-close" aria-label="Dismiss">&#x2715;</button>
+  </div>
+</div>
 
 <!-- PWA SPLASH SCREEN -->
 <div id="splash-screen" role="presentation" aria-hidden="true">
@@ -5252,6 +5281,57 @@ if('IntersectionObserver' in window) {
   /* Show after 800ms */
   setTimeout(buildPopup, 800);
 }());
+// PWA Instant Install Banner
+(function(){
+  const DISMISSED_KEY='pwa-banner-dismissed-v1';
+  const banner=document.getElementById('pwa-banner');
+  const btnInstall=document.getElementById('pwa-btn-install');
+  const btnClose=document.getElementById('pwa-btn-close');
+  let deferredPrompt=null;
+
+  // If user already dismissed, never show again (30 days)
+  const dismissed=localStorage.getItem(DISMISSED_KEY);
+  if(dismissed && Date.now()-parseInt(dismissed)<30*24*60*60*1000) return;
+
+  // Don't show if already installed (standalone mode)
+  if(window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true) return;
+
+  // Capture the browser's deferred prompt immediately
+  window.addEventListener('beforeinstallprompt',function(e){
+    e.preventDefault();
+    deferredPrompt=e;
+    // Show banner instantly once event fires (usually within 1-2s on first load)
+    banner.classList.add('show');
+  });
+
+  // Fallback: show banner after 1.5s even if beforeinstallprompt hasn't fired yet
+  // (handles cases where event is delayed — banner shows, install button will wait for prompt)
+  setTimeout(function(){
+    if(!banner.classList.contains('show')){
+      banner.classList.add('show');
+    }
+  },1500);
+
+  btnInstall.addEventListener('click',function(){
+    if(deferredPrompt){
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function(r){
+        if(r.outcome==='accepted') banner.classList.remove('show');
+        deferredPrompt=null;
+      });
+    } else {
+      // Fallback for iOS / browsers without prompt support
+      alert('To install: tap the Share button → "Add to Home Screen"');
+      banner.classList.remove('show');
+      localStorage.setItem(DISMISSED_KEY,Date.now().toString());
+    }
+  });
+
+  btnClose.addEventListener('click',function(){
+    banner.classList.remove('show');
+    localStorage.setItem(DISMISSED_KEY,Date.now().toString());
+  });
+})();
 </script>
 <!-- ===== END VERSION UPDATE POPUP v2.1.1 ===== -->
 </body>
