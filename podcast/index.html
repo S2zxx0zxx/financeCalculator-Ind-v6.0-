@@ -323,6 +323,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:#1b1710;color:#fff;border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:10px 22px;font-size:13px;font-weight:600;z-index:9999;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
+/* ══ PREMIUM LOCK OVERLAY ══ */
+.episode-lock-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(10,8,5,0.82);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:10;border-radius:inherit;backdrop-filter:blur(2px);}
+.lock-icon{font-size:2.5rem;animation:lockPulse 2.5s ease-in-out infinite;filter:drop-shadow(0 0 8px rgba(200,130,26,0.8));}
+@keyframes lockPulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.15);opacity:0.7;}}
+.premium-text{color:#c8821a;font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:8px;}
+.coming-soon-text{color:rgba(255,255,255,0.6);font-size:0.65rem;margin-top:4px;letter-spacing:1px;}
+.podcast-card.locked{cursor:not-allowed;box-shadow:0 0 15px rgba(200,130,26,0.4);}
+.locked-control{pointer-events:none;}
+@keyframes bannerGlow{0%,100%{border-color:rgba(200,130,26,0.3);}50%{border-color:rgba(200,130,26,0.7);box-shadow:0 0 20px rgba(200,130,26,0.15);}}
+
 /* ══ RESPONSIVE ══ */
 @media(max-width:768px){
   .header-inner{padding:0 16px;}
@@ -409,8 +419,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 <!-- HERO -->
 <section class="podcast-hero" id="heroSection">
   <div class="hero-tag">&#x1F3A7; PODCAST</div>
-  <h1>FinCalc India<br><span class="acc">Podcast</span></h1>
+  <h1>FinCalc India<br><span class="acc">Podcast</span> <span style="display:inline-block;font-size:clamp(10px,1.5vw,14px);font-weight:800;letter-spacing:.12em;text-transform:uppercase;background:linear-gradient(135deg,#c8821a,#e8a830);color:#1b1710;padding:4px 12px;border-radius:20px;vertical-align:middle;font-family:var(--font);">PREMIUM</span></h1>
   <p class="hero-sub">Bite-sized audio guides on EMI, SIP, Tax, GST and building real wealth — for every Indian</p>
+  <p style="font-size:clamp(12px,1.8vw,14px);color:var(--accent);font-weight:700;letter-spacing:.04em;margin-bottom:8px;position:relative;">🔒 Launching Soon — Exclusive Finance Audio Content</p>
   <div class="hero-eq" id="heroEq">
     <span class="eq-bar" style="--dur:.65s;--h:26px;"></span>
     <span class="eq-bar" style="--dur:.85s;--h:18px;animation-delay:.1s"></span>
@@ -450,6 +461,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 <!-- MAIN -->
 <main class="podcast-main">
 
+  <!-- DEV BANNER -->
+  <div class="dev-banner" style="background:linear-gradient(135deg,#1b1710,#2a1f0e);border:1px solid rgba(200,130,26,0.3);border-radius:12px;padding:1rem 1.5rem;margin:0 0 2rem 0;display:flex;align-items:center;gap:0.75rem;animation:bannerGlow 3s ease-in-out infinite;">
+    <span style="font-size:1.5rem;">🚧</span>
+    <div>
+      <p style="color:#c8821a;font-weight:700;font-size:0.85rem;margin:0;">Under Development</p>
+      <p style="color:rgba(255,255,255,0.6);font-size:0.75rem;margin:0;">Premium audio content is being crafted. Subscribe to get early access.</p>
+    </div>
+    <span style="margin-left:auto;font-size:1.5rem;">🎙️</span>
+  </div>
+
   <!-- AD TOP -->
   <div class="ad-slot">
     <div class="ad-label">Advertisement</div>
@@ -467,6 +488,17 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 
   <!-- PODCAST GRID -->
   <div class="podcast-grid" id="podcastGrid"></div>
+
+  <!-- PODCAST CTA NOTIFY SECTION -->
+  <div class="podcast-cta-section" style="text-align:center;padding:2rem 1rem;margin:2rem 0;">
+    <p style="color:var(--muted);font-size:0.9rem;margin-bottom:1rem;">🎙️ Premium podcast episodes dropping soon. Be the first to know.</p>
+    <button
+      onclick="podcastNotifyMe()"
+      style="background:linear-gradient(135deg,#c8821a,#e8a830);color:#1b1710;border:none;padding:0.75rem 2rem;border-radius:50px;font-weight:700;font-size:0.9rem;cursor:pointer;letter-spacing:1px;box-shadow:0 4px 20px rgba(200,130,26,0.4);transition:all 0.3s ease;"
+      onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 30px rgba(200,130,26,0.6)'"
+      onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 20px rgba(200,130,26,0.4)'"
+    >🔔 Notify Me When Live</button>
+  </div>
 
   <!-- AD MID -->
   <div class="ad-slot">
@@ -845,7 +877,8 @@ function renderGrid(){
         +'<span class="chapter-label">'+ch.label+'</span></div>';
     }).join('');
 
-    return '<div class="podcast-card" id="card-'+ep.id+'" data-cat="'+ep.cat+'" style="animation-delay:'+(idx*0.07)+'s">'
+    return '<div class="podcast-card locked" id="card-'+ep.id+'" data-cat="'+ep.cat+'" style="animation-delay:'+(idx*0.07)+'s">'
+      +'<div class="episode-lock-overlay"><span class="lock-icon">🔒</span><div class="premium-text">Premium Content</div><div class="coming-soon-text">Coming Soon</div></div>'
       +(isLatest ? '<div class="latest-badge">🔥 Latest</div>' : '')
       +'<div class="card-top">'
         +'<div class="ep-thumb" style="background:'+ep.color+'">'+ep.emoji+'</div>'
@@ -866,12 +899,12 @@ function renderGrid(){
       +'</div>'
       +'<div class="audio-player" id="player-'+ep.id+'">'
         +'<div class="player-row1">'
-          +'<button class="skip-btn" id="back-'+ep.id+'" onclick="skipEp(\''+ep.id+'\',-10)" title="Back 10s">-10</button>'
-          +'<button class="play-btn" id="playbtn-'+ep.id+'" onclick="togglePlay(\''+ep.id+'\')" aria-label="Play episode">'
+          +'<button class="skip-btn locked-control" id="back-'+ep.id+'" onclick="skipEp(\''+ep.id+'\',-10)" title="Back 10s">-10</button>'
+          +'<button class="play-btn locked-control" id="playbtn-'+ep.id+'" onclick="togglePlay(\''+ep.id+'\')" aria-label="Play episode">'
             +'<svg class="ico-play" viewBox="0 0 16 16"><path d="M3 2.5l10 5.5-10 5.5V2.5z"/></svg>'
             +'<svg class="ico-pause" viewBox="0 0 16 16"><rect x="3" y="2" width="4" height="12" rx="1"/><rect x="9" y="2" width="4" height="12" rx="1"/></svg>'
           +'</button>'
-          +'<button class="skip-btn" id="fwd-'+ep.id+'" onclick="skipEp(\''+ep.id+'\',10)" title="Fwd 10s">+10</button>'
+          +'<button class="skip-btn locked-control" id="fwd-'+ep.id+'" onclick="skipEp(\''+ep.id+'\',10)" title="Fwd 10s">+10</button>'
           +'<div class="player-mid">'
             +'<div class="progress-wrap" id="progwrap-'+ep.id+'" onclick="seekByClick(event,\''+ep.id+'\')">'
               +'<div class="progress-fill" id="progfill-'+ep.id+'" style="width:'+pct+'%"></div>'
@@ -1420,6 +1453,28 @@ function setupObserver(){
 }
 
 /* ════════════════════════════════════════
+   PODCAST PREMIUM — NOTIFY & LOCK
+════════════════════════════════════════ */
+function podcastNotifyMe() {
+  var toast = document.createElement('div');
+  toast.innerHTML = '✅ Thanks for your interest! We\'ll announce when we launch.';
+  toast.style.cssText = 'position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#c8821a,#e8a830);color:#1b1710;padding:0.85rem 1.75rem;border-radius:50px;font-weight:700;font-size:0.85rem;z-index:9999;box-shadow:0 8px 30px rgba(200,130,26,0.5);';
+  document.body.appendChild(toast);
+  setTimeout(function(){ toast.remove(); }, 3500);
+}
+
+function showLockedToast() {
+  var existing = document.getElementById('locked-toast');
+  if (existing) return;
+  var toast = document.createElement('div');
+  toast.id = 'locked-toast';
+  toast.innerHTML = '🔒 Premium content — Launching soon!';
+  toast.style.cssText = 'position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#1b1710;color:#c8821a;border:1px solid #c8821a;padding:0.75rem 1.5rem;border-radius:50px;font-weight:600;font-size:0.85rem;z-index:9999;letter-spacing:0.5px;';
+  document.body.appendChild(toast);
+  setTimeout(function(){ toast.remove(); }, 2500);
+}
+
+/* ════════════════════════════════════════
    INIT
 ════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', function(){
@@ -1431,6 +1486,19 @@ document.addEventListener('DOMContentLoaded', function(){
   loadContinueStrip();
   injectSchemas();
   setupLiveCount();
+
+  // Lock podcast episode interactions
+  var podcastGrid = document.getElementById('podcastGrid');
+  if (podcastGrid) {
+    podcastGrid.addEventListener('click', function(e) {
+      var card = e.target.closest('.podcast-card');
+      if (card) {
+        e.preventDefault();
+        e.stopPropagation();
+        showLockedToast();
+      }
+    }, true);
+  }
 
   // Load saved volume
   try{
