@@ -222,6 +222,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 .meter-value{font-size:12px;font-weight:800;color:var(--text);width:60px;text-align:right;flex-shrink:0;}
 @media(max-width:480px){.meter-label{width:110px;font-size:11px;}.meter-value{font-size:11px;width:50px;}}
 
+/* PIE / DONUT CHARTS */
+.pie-chart-wrap{display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+.pie-chart-wrap canvas{flex-shrink:0;display:block;}
+.pie-legend{list-style:none;padding:0;margin:0;flex:1;min-width:160px;}
+.pie-legend li{font-size:12px;font-weight:600;color:var(--text2);padding:5px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+.pie-legend li:last-child{border-bottom:none;}
+.pie-legend li .pie-swatch{display:inline-block;width:12px;height:12px;border-radius:3px;flex-shrink:0;}
+.pie-legend li b{margin-left:auto;font-weight:800;color:var(--text);}
+@media(max-width:480px){.pie-chart-wrap{flex-direction:column;align-items:center;}.pie-legend{width:100%;}}
+
 /* SITE FOOTER */
 .site-footer{background:var(--header-bg);color:rgba(255,255,255,0.5);padding:40px 24px;text-align:center;font-size:12px;line-height:2;margin-top:60px;}
 .site-footer strong{color:#fff;}
@@ -447,6 +457,89 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
     <div class="bar-track"><div class="bar-fill green" data-width="30%">Domestic demand factor</div></div>
   </div>
 </div>
+
+<div class="chart-container" id="pieWrap1">
+  <div class="chart-title">🥧 Gold Price Rally — 6 Drivers Ka Weighted Impact</div>
+  <div class="chart-subtitle">Approximate contribution of each factor to India gold price increase (2025–26)</div>
+  <div class="pie-chart-wrap">
+    <canvas id="pieChart1" width="200" height="200" aria-label="Donut chart: 6 factors driving gold price rally"></canvas>
+    <ul class="pie-legend" id="pieLegend1"></ul>
+  </div>
+</div>
+<script>
+(function(){
+  var canvas=document.getElementById('pieChart1');
+  if(!canvas||!canvas.getContext)return;
+  var ctx=canvas.getContext('2d');
+  var W=canvas.width,H=canvas.height,cx=W/2,cy=H/2;
+  var r=Math.min(W,H)/2-8,ri=r*0.54;
+  var data=[
+    {label:'Iran-USA War / Geopolitical',pct:30,color:'#c0392b'},
+    {label:'US Fed Rate Cut Expectations',pct:26,color:'#c8821a'},
+    {label:'Central Bank Gold Buying',pct:22,color:'#d4a800'},
+    {label:'Rupee Weakening vs USD',pct:12,color:'#1a4a8a'},
+    {label:'Recession Fear / Dollar',pct:7,color:'#8a7f70'},
+    {label:'Retail & ETF Demand India',pct:3,color:'#1a7a3a'}
+  ];
+  var leg=document.getElementById('pieLegend1');
+  data.forEach(function(d){
+    var li=document.createElement('li');
+    li.innerHTML='<span class="pie-swatch" style="background:'+d.color+'"></span>'+d.label+'<b>'+d.pct+'%</b>';
+    leg.appendChild(li);
+  });
+  var done=false;
+  function getVar(name,fallback){
+    return (getComputedStyle(document.documentElement).getPropertyValue(name)||fallback).trim();
+  }
+  function draw(progress){
+    ctx.clearRect(0,0,W,H);
+    var start=-Math.PI/2;
+    var total=data.reduce(function(a,b){return a+b.pct;},0);
+    data.forEach(function(d){
+      var sweep=(d.pct/total)*2*Math.PI*progress;
+      ctx.beginPath();
+      ctx.moveTo(cx,cy);
+      ctx.arc(cx,cy,r,start,start+sweep);
+      ctx.closePath();
+      ctx.fillStyle=d.color;
+      ctx.fill();
+      start+=sweep;
+    });
+    ctx.beginPath();
+    ctx.arc(cx,cy,ri,0,2*Math.PI);
+    ctx.fillStyle=getVar('--surface','#ffffff');
+    ctx.fill();
+    if(progress===1){
+      ctx.fillStyle=getVar('--text','#1b1710');
+      ctx.font='bold 12px DM Sans,sans-serif';
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      ctx.fillText('6 Reasons',cx,cy-8);
+      ctx.font='10px DM Sans,sans-serif';
+      ctx.fillStyle=getVar('--muted','#8a7f70');
+      ctx.fillText('Gold Rally',cx,cy+10);
+    }
+  }
+  function animate(){
+    var t0=null,dur=1300;
+    function step(ts){
+      if(!t0)t0=ts;
+      var p=Math.min((ts-t0)/dur,1);
+      var ep=1-Math.pow(1-p,3);
+      draw(ep);
+      if(p<1)requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  draw(0);
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting&&!done){done=true;animate();io.unobserve(e.target);}
+    });
+  },{threshold:0.25});
+  io.observe(document.getElementById('pieWrap1'));
+})();
+</script>
 
 <p>Iran war ka India pe sirf gold nahi, petrol, LPG, rupee aur stock market sab pe impact hua hai. <a href="https://satzzxzxx.me/blog/iran-war-india-impact-2026.html" style="color:var(--accent);font-weight:700;">Iran War ka India pe poora financial impact padhein →</a></p>
 
@@ -754,6 +847,87 @@ Hallmarked jewellery ka proper invoice, purity certificate aur HUID number note 
 • <strong>Emergency Fund:</strong> 6 months expenses liquid mein alag rakhein<br><br>
 Akshaya Tritiya pe sirf gold mein sab kuch daalna diversification ke against hai.
 </div>
+
+<div class="chart-container" id="pieWrap2">
+  <div class="chart-title">🥧 Smart Portfolio Allocation 2026 — Recommended Mix</div>
+  <div class="chart-subtitle">Ideal asset allocation for Indian retail investor (approximate %)</div>
+  <div class="pie-chart-wrap">
+    <canvas id="pieChart2" width="200" height="200" aria-label="Donut chart: recommended portfolio allocation 2026"></canvas>
+    <ul class="pie-legend" id="pieLegend2"></ul>
+  </div>
+</div>
+<script>
+(function(){
+  var canvas=document.getElementById('pieChart2');
+  if(!canvas||!canvas.getContext)return;
+  var ctx=canvas.getContext('2d');
+  var W=canvas.width,H=canvas.height,cx=W/2,cy=H/2;
+  var r=Math.min(W,H)/2-8,ri=r*0.54;
+  var data=[
+    {label:'Equity SIP / Mutual Funds',pct:55,color:'#1a4a8a'},
+    {label:'FD / Debt Instruments',pct:22,color:'#1a7a3a'},
+    {label:'Gold / SGB',pct:13,color:'#c8821a'},
+    {label:'Emergency Fund (Liquid)',pct:10,color:'#8a7f70'}
+  ];
+  var leg=document.getElementById('pieLegend2');
+  data.forEach(function(d){
+    var li=document.createElement('li');
+    li.innerHTML='<span class="pie-swatch" style="background:'+d.color+'"></span>'+d.label+'<b>'+d.pct+'%</b>';
+    leg.appendChild(li);
+  });
+  var done=false;
+  function getVar(name,fallback){
+    return (getComputedStyle(document.documentElement).getPropertyValue(name)||fallback).trim();
+  }
+  function draw(progress){
+    ctx.clearRect(0,0,W,H);
+    var start=-Math.PI/2;
+    var total=data.reduce(function(a,b){return a+b.pct;},0);
+    data.forEach(function(d){
+      var sweep=(d.pct/total)*2*Math.PI*progress;
+      ctx.beginPath();
+      ctx.moveTo(cx,cy);
+      ctx.arc(cx,cy,r,start,start+sweep);
+      ctx.closePath();
+      ctx.fillStyle=d.color;
+      ctx.fill();
+      start+=sweep;
+    });
+    ctx.beginPath();
+    ctx.arc(cx,cy,ri,0,2*Math.PI);
+    ctx.fillStyle=getVar('--surface','#ffffff');
+    ctx.fill();
+    if(progress===1){
+      ctx.fillStyle=getVar('--text','#1b1710');
+      ctx.font='bold 12px DM Sans,sans-serif';
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      ctx.fillText('Portfolio',cx,cy-8);
+      ctx.font='10px DM Sans,sans-serif';
+      ctx.fillStyle=getVar('--muted','#8a7f70');
+      ctx.fillText('2026 Mix',cx,cy+10);
+    }
+  }
+  function animate(){
+    var t0=null,dur=1300;
+    function step(ts){
+      if(!t0)t0=ts;
+      var p=Math.min((ts-t0)/dur,1);
+      var ep=1-Math.pow(1-p,3);
+      draw(ep);
+      if(p<1)requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  draw(0);
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting&&!done){done=true;animate();io.unobserve(e.target);}
+    });
+  },{threshold:0.25});
+  io.observe(document.getElementById('pieWrap2'));
+})();
+</script>
 
 <!-- FINAL CTA -->
 <div class="cta-box">
