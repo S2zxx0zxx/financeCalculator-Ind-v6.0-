@@ -3432,6 +3432,122 @@ input[type=range]::-moz-range-thumb {
   <div class="newsletter-trust" style="color:var(--muted2);">🔒 15,000+ subscribers · No spam · Free forever</div>
 </div>
 
+<!-- ============================
+     SAFE LOCALSTORAGE WRAPPER
+     Provides safeStorage.getItem / setItem / removeItem / clear
+     Falls back to an in-memory store when localStorage is
+     unavailable (private-browsing, quota exceeded, SecurityError).
+     Does NOT modify any existing code.
+     ============================ -->
+<script>
+(function () {
+  'use strict';
+
+  // ── 1. Detect whether localStorage is actually usable (cached once) ─
+  var _lsAvailable = (function () {
+    try {
+      var testKey = '__fincalc_ls_test__';
+      localStorage.setItem(testKey, '1');
+      localStorage.removeItem(testKey);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }());
+
+  // ── 2. In-memory fallback (survives only for the current page load) ─
+  var _memStore = Object.create(null);
+
+  var _fallback = {
+    getItem: function (key) {
+      return Object.prototype.hasOwnProperty.call(_memStore, key)
+        ? _memStore[key]
+        : null;
+    },
+    setItem: function (key, value) {
+      _memStore[key] = String(value);
+    },
+    removeItem: function (key) {
+      delete _memStore[key];
+    },
+    clear: function () {
+      // Delete all own properties rather than reassigning the variable
+      // so every method that closes over _memStore sees the same object.
+      var keys = Object.keys(_memStore);
+      for (var i = 0; i < keys.length; i++) {
+        delete _memStore[keys[i]];
+      }
+    }
+  };
+
+  // ── 3. Safe wrapper – tries localStorage, falls back to _fallback ───
+  var safeStorage = {
+    /**
+     * Retrieve a value by key.
+     * Returns null if the key does not exist or on any error.
+     */
+    getItem: function (key) {
+      if (_lsAvailable) {
+        try {
+          return localStorage.getItem(key);
+        } catch (e) {
+          // fall through to memory fallback
+        }
+      }
+      return _fallback.getItem(key);
+    },
+
+    /**
+     * Store a key/value pair.
+     * Silently falls back to in-memory storage on quota or security errors.
+     */
+    setItem: function (key, value) {
+      if (_lsAvailable) {
+        try {
+          localStorage.setItem(key, value);
+          return;
+        } catch (e) {
+          // fall through to memory fallback
+        }
+      }
+      _fallback.setItem(key, value);
+    },
+
+    /**
+     * Remove a key from storage.
+     */
+    removeItem: function (key) {
+      if (_lsAvailable) {
+        try {
+          localStorage.removeItem(key);
+          return;
+        } catch (e) {
+          // fall through to memory fallback
+        }
+      }
+      _fallback.removeItem(key);
+    },
+
+    /**
+     * Clear all keys from storage.
+     */
+    clear: function () {
+      if (_lsAvailable) {
+        try {
+          localStorage.clear();
+          return;
+        } catch (e) {
+          // fall through to memory fallback
+        }
+      }
+      _fallback.clear();
+    }
+  };
+
+  // ── 4. Expose globally so any script on the page can use it ────────
+  window.safeStorage = safeStorage;
+}());
+</script>
 <script>
 // ============================
 // HELPERS
@@ -3444,6 +3560,17 @@ const fmtCr = n => {
 };
 const $ = id => document.getElementById(id);
 const val = id => parseFloat($(id)?.value) || 0;
+
+// Input validation helper
+function validateInput(id, min, max, fallback) {
+  const el = $(id);
+  if (!el) return fallback;
+  let v = parseFloat(el.value);
+  if (isNaN(v) || !isFinite(v)) { el.value = fallback; return fallback; }
+  if (v < min) { v = min; el.value = min; }
+  if (v > max) { v = max; el.value = max; }
+  return v;
+}
 
 function syncRange(inputId, rangeId) {
   const r = $(rangeId);
@@ -3698,7 +3825,7 @@ function drawGauge(canvasId, score) {
 // CIBIL SCORE CALCULATOR
 // ============================
 function calcCibil() {
-  const score = Math.round(val('cibil-score'));
+  const score = Math.round(validateInput('cibil-score', 300, 900, 750));
   if(!score || score < 300 || score > 900) return;
 
   // Rating
@@ -3751,9 +3878,11 @@ function calcCibil() {
   setTimeout(() => drawGauge('cibil-gauge', score), 50);
 }
 function calcEMI() {
-  const P = val('emi-principal');
-  const r = val('emi-rate') / 12 / 100;
-  const n = val('emi-tenure') * 12;
+  const P = validateInput('emi-principal', 10000, 500000000, 1000000);
+  const rate = validateInput('emi-rate', 0.1, 30, 8.5);
+  const tenure = validateInput('emi-tenure', 1, 40, 20);
+  const r = rate / 12 / 100;
+  const n = tenure * 12;
   if(!P || !r || !n) return;
   const emi = P * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
   const total = emi * n;
@@ -3776,9 +3905,11 @@ function calcEMI() {
 // SIP CALCULATOR
 // ============================
 function calcSIP() {
-  const P = val('sip-monthly');
-  const r = val('sip-rate') / 12 / 100;
-  const n = val('sip-years') * 12;
+  const P = validateInput('sip-monthly', 100, 10000000, 5000);
+  const rate = validateInput('sip-rate', 1, 50, 12);
+  const years = validateInput('sip-years', 1, 50, 10);
+  const r = rate / 12 / 100;
+  const n = years * 12;
   if(!P || !r || !n) return;
   const maturity = P * ((Math.pow(1+r,n)-1)/r) * (1+r);
   const invested = P * n;
@@ -3879,7 +4010,7 @@ function calcTax() {
 // GST CALCULATOR
 // ============================
 function calcGST() {
-  const amount = val('gst-amount');
+  const amount = validateInput('gst-amount', 1, 999999999999, 1000);
   const rate = val('gst-rate') / 100;
   const type = $('gst-type').value;
   let base, gstAmt, total;
@@ -3902,9 +4033,9 @@ function calcGST() {
 // FD CALCULATOR
 // ============================
 function calcFD() {
-  const P = val('fd-principal');
-  const r = val('fd-rate') / 100;
-  const t = val('fd-tenure');
+  const P = validateInput('fd-principal', 1000, 100000000, 5000);
+  const r = validateInput('fd-rate', 1, 15, 7.1) / 100;
+  const t = validateInput('fd-tenure', 1, 30, 1);
   const n = parseInt($('fd-compound').value);
   if(!P || !r || !t) return;
   const maturity = P * Math.pow(1 + r/n, n*t);
@@ -3926,9 +4057,9 @@ function calcFD() {
 // RD CALCULATOR
 // ============================
 function calcRD() {
-  const P = val('rd-monthly');
-  const r = val('rd-rate') / 100;
-  const t = val('rd-tenure');
+  const P = validateInput('rd-monthly', 100, 500000, 500);
+  const r = validateInput('rd-rate', 1, 15, 7.0) / 100;
+  const t = validateInput('rd-tenure', 1, 30, 1);
   if(!P || !r || !t) return;
   const n = 4; // quarterly compounding
   const months = t * 12;
@@ -3955,11 +4086,11 @@ function calcRD() {
 // RETIREMENT CALCULATOR
 // ============================
 function calcRetire() {
-  const currentAge = val('retire-age');
-  const retireAge = val('retire-target');
-  const monthlyExp = val('retire-expense');
-  const inflation = val('retire-inflation') / 100;
-  const returns = val('retire-returns') / 100;
+  const currentAge = validateInput('retire-age', 18, 60, 25);
+  const retireAge = validateInput('retire-target', 40, 80, 60);
+  const monthlyExp = validateInput('retire-expense', 1000, 10000000, 30000);
+  const inflation = validateInput('retire-inflation', 1, 20, 6) / 100;
+  const returns = validateInput('retire-returns', 1, 30, 12) / 100;
   if(!currentAge || !retireAge || !monthlyExp || retireAge <= currentAge) return;
 
   const yearsToRetire = retireAge - currentAge;
@@ -3994,9 +4125,9 @@ function calcRetire() {
 // INFLATION CALCULATOR
 // ============================
 function calcInflation() {
-  const amount = val('inf-amount');
-  const rate = val('inf-rate') / 100;
-  const years = val('inf-years');
+  const amount = validateInput('inf-amount', 100, 999999999, 10000);
+  const rate = validateInput('inf-rate', 1, 30, 6) / 100;
+  const years = validateInput('inf-years', 1, 50, 10);
   if(!amount || !rate || !years) return;
 
   const futureValue = amount * Math.pow(1 + rate, years);
@@ -4015,10 +4146,10 @@ function calcInflation() {
 // LOAN ELIGIBILITY
 // ============================
 function calcEligibility() {
-  const income = val('elig-income');
-  const existing = val('elig-existing');
-  const r = val('elig-rate') / 12 / 100;
-  const n = val('elig-tenure') * 12;
+  const income = validateInput('elig-income', 5000, 100000000, 50000);
+  const existing = validateInput('elig-existing', 0, 50000000, 0);
+  const r = validateInput('elig-rate', 0.1, 30, 8.5) / 12 / 100;
+  const n = validateInput('elig-tenure', 1, 40, 20) * 12;
   if(!income || !r || !n) return;
 
   const foir = 0.5; // 50% FOIR
@@ -4044,12 +4175,12 @@ function calcEligibility() {
 // RENT VS BUY
 // ============================
 function calcRentVsBuy() {
-  const propValue = val('rvb-property');
-  const monthlyRent = val('rvb-rent');
-  const rentInc = val('rvb-rentinc') / 100;
-  const loanRate = val('rvb-rate') / 12 / 100;
-  const propGrowth = val('rvb-growth') / 100;
-  const years = val('rvb-years');
+  const propValue = validateInput('rvb-property', 500000, 500000000, 5000000);
+  const monthlyRent = validateInput('rvb-rent', 1000, 5000000, 15000);
+  const rentInc = validateInput('rvb-rentinc', 0, 30, 5) / 100;
+  const loanRate = validateInput('rvb-rate', 0.1, 20, 8.5) / 12 / 100;
+  const propGrowth = validateInput('rvb-growth', 0, 30, 6) / 100;
+  const years = validateInput('rvb-years', 1, 40, 10);
   if(!propValue || !monthlyRent || !years) return;
 
   const downPayment = propValue * 0.2;
@@ -4092,7 +4223,7 @@ function toggleTheme() {
   const next = current === 'dark' ? 'light' : 'dark';
   html.setAttribute('data-theme', next);
   $('themeBtn').textContent = next === 'dark' ? '☀️' : '🌙';
-  localStorage.setItem('fincalc-theme', next);
+  safeStorage.setItem('fincalc-theme', next);
   // Re-draw any visible charts
   document.querySelectorAll('.results-box.show canvas').forEach(c => {
     const sec = c.closest('.calc-section');
@@ -4119,7 +4250,7 @@ function toggleMobileMenu() {
 
 // Load saved theme
 (function() {
-  const saved = localStorage.getItem('fincalc-theme');
+  const saved = safeStorage.getItem('fincalc-theme');
   if(saved === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');
     setTimeout(() => { if($('themeBtn')) $('themeBtn').textContent = '☀️'; }, 0);
@@ -4195,10 +4326,10 @@ function setLang(lang) {
   if(btnHi) { btnHi.classList.toggle('active', lang === 'hi'); }
   if(btnEnM) { btnEnM.classList.toggle('active', lang === 'en'); }
   if(btnHiM) { btnHiM.classList.toggle('active', lang === 'hi'); }
-  localStorage.setItem('fincalc-lang', lang);
+  safeStorage.setItem('fincalc-lang', lang);
 }
 (function() {
-  const saved = localStorage.getItem('fincalc-lang');
+  const saved = safeStorage.getItem('fincalc-lang');
   if(saved && saved !== 'en') setTimeout(() => setLang(saved), 100);
 })();
 
@@ -4219,23 +4350,23 @@ let lastCalcData = {};
 function saveHistory(type) {
   const data = lastCalcData[type];
   if(!data) return showToast('Calculate first!');
-  const history = JSON.parse(localStorage.getItem('fincalc-history') || '[]');
+  const history = JSON.parse(safeStorage.getItem('fincalc-history') || '[]');
   data.timestamp = new Date().toISOString();
   history.unshift(data);
   if(history.length > 20) history.pop();
-  localStorage.setItem('fincalc-history', JSON.stringify(history));
+  safeStorage.setItem('fincalc-history', JSON.stringify(history));
   renderHistory();
   showToast('✅ Saved to history!');
 }
 
 function clearHistory() {
-  localStorage.removeItem('fincalc-history');
+  safeStorage.removeItem('fincalc-history');
   renderHistory();
   showToast('🗑️ History cleared');
 }
 
 function renderHistory() {
-  const history = JSON.parse(localStorage.getItem('fincalc-history') || '[]');
+  const history = JSON.parse(safeStorage.getItem('fincalc-history') || '[]');
   const list = $('historyList');
   if(!history.length) {
     list.innerHTML = '<div class="history-empty">No calculations saved yet</div>';
@@ -4328,13 +4459,13 @@ handleHash();
 // COOKIE CONSENT
 // ============================
 function initCookieBanner() {
-  const consent = localStorage.getItem('fincalc-cookies');
+  const consent = safeStorage.getItem('fincalc-cookies');
   if(!consent) {
     setTimeout(() => $('cookieBanner')?.classList.add('show'), 2000);
   }
 }
 function acceptCookies() {
-  localStorage.setItem('fincalc-cookies', 'accepted');
+  safeStorage.setItem('fincalc-cookies', 'accepted');
   $('cookieBanner')?.classList.remove('show');
   // Enable full analytics
   if(typeof gtag === 'function') {
@@ -4348,7 +4479,7 @@ function acceptCookies() {
   showToast('✅ Cookies accepted');
 }
 function rejectCookies() {
-  localStorage.setItem('fincalc-cookies', 'essential');
+  safeStorage.setItem('fincalc-cookies', 'essential');
   $('cookieBanner')?.classList.remove('show');
   if(typeof gtag === 'function') {
     gtag('consent', 'update', {
@@ -4372,13 +4503,13 @@ function subscribeNewsletter() {
     return;
   }
   // Store locally + track via GA4
-  const subs = JSON.parse(localStorage.getItem('fincalc-subs') || '[]');
+  const subs = JSON.parse(safeStorage.getItem('fincalc-subs') || '[]');
   if(subs.includes(email)) {
     showToast('📧 You are already subscribed!');
     return;
   }
   subs.push(email);
-  localStorage.setItem('fincalc-subs', JSON.stringify(subs));
+  safeStorage.setItem('fincalc-subs', JSON.stringify(subs));
   if(typeof trackCalc === 'function') trackCalc('newsletter_subscribe');
   $('nl-email').value = '';
   showToast('🎉 Subscribed! Check your inbox.');
@@ -4392,10 +4523,10 @@ function subscribeExit() {
     showToast('⚠️ Please enter a valid email');
     return;
   }
-  const subs = JSON.parse(localStorage.getItem('fincalc-subs') || '[]');
+  const subs = JSON.parse(safeStorage.getItem('fincalc-subs') || '[]');
   if(!subs.includes(email)) {
     subs.push(email);
-    localStorage.setItem('fincalc-subs', JSON.stringify(subs));
+    safeStorage.setItem('fincalc-subs', JSON.stringify(subs));
   }
   if(typeof trackCalc === 'function') trackCalc('exit_subscribe');
   $('exit-email').value = '';
@@ -4409,7 +4540,7 @@ function subscribeExit() {
 let exitShown = false;
 function showExitPopup() {
   if(exitShown) return;
-  if(localStorage.getItem('fincalc-exit-dismissed')) return;
+  if(safeStorage.getItem('fincalc-exit-dismissed')) return;
   exitShown = true;
   $('exitOverlay')?.classList.add('show');
   $('exitPopup')?.classList.add('show');
@@ -4418,7 +4549,7 @@ function showExitPopup() {
 function closeExitPopup() {
   $('exitOverlay')?.classList.remove('show');
   $('exitPopup')?.classList.remove('show');
-  localStorage.setItem('fincalc-exit-dismissed', Date.now());
+  safeStorage.setItem('fincalc-exit-dismissed', Date.now());
 }
 // Desktop: mouse leave top
 document.addEventListener('mouseout', (e) => {
@@ -4446,12 +4577,12 @@ function closeStickyAd() {
   if(ad) {
     ad.style.display = 'none';
     document.body.style.paddingBottom = '0';
-    sessionStorage.setItem('fincalc-sticky-closed', '1');
+    safeStorage.setItem('fincalc-sticky-closed', '1');
   }
 }
 // Only show sticky ad after user scrolls a bit
 window.addEventListener('scroll', () => {
-  if(sessionStorage.getItem('fincalc-sticky-closed')) return;
+  if(safeStorage.getItem('fincalc-sticky-closed')) return;
   const ad = $('stickyAd');
   if(ad && window.innerWidth <= 768 && window.scrollY > 400) {
     ad.style.display = 'block';
@@ -4568,123 +4699,6 @@ if('IntersectionObserver' in window) {
   }, { rootMargin: '200px' });
   document.querySelectorAll('.adsbygoogle').forEach(ad => adObserver.observe(ad));
 }
-</script>
-
-<!-- ============================
-     SAFE LOCALSTORAGE WRAPPER
-     Provides safeStorage.getItem / setItem / removeItem / clear
-     Falls back to an in-memory store when localStorage is
-     unavailable (private-browsing, quota exceeded, SecurityError).
-     Does NOT modify any existing code.
-     ============================ -->
-<script>
-(function () {
-  'use strict';
-
-  // ── 1. Detect whether localStorage is actually usable (cached once) ─
-  var _lsAvailable = (function () {
-    try {
-      var testKey = '__fincalc_ls_test__';
-      localStorage.setItem(testKey, '1');
-      localStorage.removeItem(testKey);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }());
-
-  // ── 2. In-memory fallback (survives only for the current page load) ─
-  var _memStore = Object.create(null);
-
-  var _fallback = {
-    getItem: function (key) {
-      return Object.prototype.hasOwnProperty.call(_memStore, key)
-        ? _memStore[key]
-        : null;
-    },
-    setItem: function (key, value) {
-      _memStore[key] = String(value);
-    },
-    removeItem: function (key) {
-      delete _memStore[key];
-    },
-    clear: function () {
-      // Delete all own properties rather than reassigning the variable
-      // so every method that closes over _memStore sees the same object.
-      var keys = Object.keys(_memStore);
-      for (var i = 0; i < keys.length; i++) {
-        delete _memStore[keys[i]];
-      }
-    }
-  };
-
-  // ── 3. Safe wrapper – tries localStorage, falls back to _fallback ───
-  var safeStorage = {
-    /**
-     * Retrieve a value by key.
-     * Returns null if the key does not exist or on any error.
-     */
-    getItem: function (key) {
-      if (_lsAvailable) {
-        try {
-          return localStorage.getItem(key);
-        } catch (e) {
-          // fall through to memory fallback
-        }
-      }
-      return _fallback.getItem(key);
-    },
-
-    /**
-     * Store a key/value pair.
-     * Silently falls back to in-memory storage on quota or security errors.
-     */
-    setItem: function (key, value) {
-      if (_lsAvailable) {
-        try {
-          localStorage.setItem(key, value);
-          return;
-        } catch (e) {
-          // fall through to memory fallback
-        }
-      }
-      _fallback.setItem(key, value);
-    },
-
-    /**
-     * Remove a key from storage.
-     */
-    removeItem: function (key) {
-      if (_lsAvailable) {
-        try {
-          localStorage.removeItem(key);
-          return;
-        } catch (e) {
-          // fall through to memory fallback
-        }
-      }
-      _fallback.removeItem(key);
-    },
-
-    /**
-     * Clear all keys from storage.
-     */
-    clear: function () {
-      if (_lsAvailable) {
-        try {
-          localStorage.clear();
-          return;
-        } catch (e) {
-          // fall through to memory fallback
-        }
-      }
-      _fallback.clear();
-    }
-  };
-
-  // ── 4. Expose globally so any script on the page can use it ────────
-  window.safeStorage = safeStorage;
-}());
 </script>
 
 <!-- ── URL Parameter Parsing ─────────────────────────────────────────────
@@ -4815,12 +4829,12 @@ if('IntersectionObserver' in window) {
   var _timer = null;
 
   function markNeverShow() {
-    try { localStorage.setItem(LS_KEY, JSON.stringify({ show: false })); } catch(e) {}
+    safeStorage.setItem(LS_KEY, JSON.stringify({ show: false }));
   }
 
   // Do not show if already dismissed/installed
   function shouldShow() {
-    var v = localStorage.getItem(LS_KEY);
+    var v = safeStorage.getItem(LS_KEY);
     if (!v) return true;
     try { return JSON.parse(v).show !== false; } catch(e) { return false; }
   }
@@ -5098,7 +5112,7 @@ if('IntersectionObserver' in window) {
   var VERSION = '2.1.1';
   var LS_KEY = 'fincalc-version-seen';
 
-  if (localStorage.getItem(LS_KEY) === VERSION) return;
+  if (safeStorage.getItem(LS_KEY) === VERSION) return;
 
   var countdownTimer = null;
   var dismissed = false;
@@ -5114,7 +5128,7 @@ if('IntersectionObserver' in window) {
     backdrop.style.animation = 'versionBdOut 0.35s ease forwards';
     setTimeout(function() {
       if (backdrop && backdrop.parentNode) backdrop.parentNode.removeChild(backdrop);
-      localStorage.setItem(LS_KEY, VERSION);
+      safeStorage.setItem(LS_KEY, VERSION);
     }, 350);
   }
 
