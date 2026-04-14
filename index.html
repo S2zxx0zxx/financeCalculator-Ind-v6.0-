@@ -1954,6 +1954,10 @@ input[type=range]::-moz-range-thumb {
 }
 .skip-link:focus { top: 0; }
 </style>
+<!-- Security Headers (meta tag fallback for static hosting) -->
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 </head>
 <body>
 
@@ -4552,22 +4556,34 @@ function closeExitPopup() {
   safeStorage.setItem('fincalc-exit-dismissed', Date.now());
 }
 // Desktop: mouse leave top
+// Exit intent — only after 90 seconds on page
+var _pageLoadTime = Date.now();
 document.addEventListener('mouseout', (e) => {
-  if(e.clientY < 10 && !exitShown) showExitPopup();
+  if(e.clientY < 10 && !exitShown && (Date.now() - _pageLoadTime > 90000)) showExitPopup();
 });
 // Mobile: back button / scroll up fast
 let lastScrollY = 0;
 let scrollUpCount = 0;
 window.addEventListener('scroll', () => {
   const currentY = window.scrollY;
-  if(currentY < lastScrollY && currentY < 200) {
+
+  // Exit intent (mobile) — only after 90s on page
+  if(currentY < lastScrollY && currentY < 200 && (Date.now() - _pageLoadTime > 90000)) {
     scrollUpCount++;
-    if(scrollUpCount > 5) showExitPopup();
+    if(scrollUpCount > 8) showExitPopup(); // Increased threshold from 5 to 8
   } else {
     scrollUpCount = 0;
   }
   lastScrollY = currentY;
-});
+
+  // Sticky ad (mobile only)
+  if(!safeStorage.getItem('fincalc-sticky-closed')) {
+    var ad = $('stickyAd');
+    if(ad && window.innerWidth <= 768 && currentY > 400) {
+      ad.style.display = 'block';
+    }
+  }
+}, { passive: true });
 
 // ============================
 // STICKY FOOTER AD
@@ -4580,14 +4596,6 @@ function closeStickyAd() {
     safeStorage.setItem('fincalc-sticky-closed', '1');
   }
 }
-// Only show sticky ad after user scrolls a bit
-window.addEventListener('scroll', () => {
-  if(safeStorage.getItem('fincalc-sticky-closed')) return;
-  const ad = $('stickyAd');
-  if(ad && window.innerWidth <= 768 && window.scrollY > 400) {
-    ad.style.display = 'block';
-  }
-}, { passive: true });
 
 // ============================
 // REAL PDF GENERATION
@@ -4657,7 +4665,7 @@ function downloadPDF() {
   var splash = document.getElementById('splash-screen');
   if (!splash) return;
   // Minimum display time so the animation plays fully
-  var minDisplay = 1800; // ms
+  var minDisplay = 1000; // ms — reduced from 1.8s for faster perceived load
   var startTime = Date.now();
   function hideSplash() {
     var elapsed = Date.now() - startTime;
@@ -4919,11 +4927,22 @@ if('IntersectionObserver' in window) {
     closePopup();
   });
 
-  // Show popup after 30 seconds; clear timer on unload to avoid stale execution
+  // Show popup after 60 seconds; clear timer on unload to avoid stale execution
   _timer = setTimeout(function() {
     if (!shouldShow()) return;
+    // Don't show if version popup or exit popup is currently visible
+    var versionPopup = document.getElementById('fin-version-backdrop');
+    var exitOverlay = document.getElementById('exitOverlay');
+    if (versionPopup || (exitOverlay && exitOverlay.classList.contains('show'))) {
+      // Retry after 30s
+      _timer = setTimeout(function() {
+        if (!shouldShow()) return;
+        openPopup();
+      }, 30000);
+      return;
+    }
     openPopup();
-  }, 30000);
+  }, 60000); // Changed from 30s to 60s
   window.addEventListener('beforeunload', function() { clearTimeout(_timer); });
 }());
 </script>
@@ -5370,8 +5389,26 @@ if('IntersectionObserver' in window) {
     });
   }
 
-  /* Show after 800ms */
-  setTimeout(buildPopup, 800);
+  /* Show after cookie consent is handled (or 8s if already consented) */
+  function showVersionWhenReady() {
+    var consent = (window.safeStorage || localStorage).getItem('fincalc-cookies');
+    if (consent) {
+      // Already consented in past visit — show after 2s
+      setTimeout(buildPopup, 2000);
+    } else {
+      // Wait for cookie banner to be dismissed first, then show after 3s
+      var checkInterval = setInterval(function() {
+        var c = (window.safeStorage || localStorage).getItem('fincalc-cookies');
+        if (c) {
+          clearInterval(checkInterval);
+          setTimeout(buildPopup, 3000);
+        }
+      }, 500);
+      // Safety: don't check forever — give up after 60s
+      setTimeout(function() { clearInterval(checkInterval); }, 60000);
+    }
+  }
+  showVersionWhenReady();
 }());
 </script>
 <!-- ===== END VERSION UPDATE POPUP v2.1.1 ===== -->
