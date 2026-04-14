@@ -2284,6 +2284,13 @@ input[type=range]::-moz-range-thumb {
               <input type="number" id="tax-80c" value="0" max="150000" oninput="liveCalc('tax')">
             </div>
           </div>
+          <div class="form-row">
+            <label class="form-label" for="tax-80d">Section 80D (Health Insurance) <span class="form-label-hint">Max ₹1L</span></label>
+            <div class="input-wrap has-prefix">
+              <span class="input-prefix">₹</span>
+              <input type="number" id="tax-80d" value="0" min="0" max="100000" oninput="liveCalc('tax')">
+            </div>
+          </div>
         </div>
         <button class="calc-btn" onclick="calcTax()"><span data-i18n="calcTax">Compare Tax Regimes</span> →</button>
         <div class="results-box" id="tax-result" aria-live="polite" aria-atomic="true">
@@ -3798,6 +3805,7 @@ function calcTax() {
   let income = val('tax-income');
   const ageGroup = $('tax-age').value;
   const c80 = Math.min(val('tax-80c'), 150000);
+  const c80d = Math.min(val('tax-80d'), 100000);
 
   // NEW REGIME 2025-26
   const stdNew = 75000;
@@ -3832,7 +3840,7 @@ function calcTax() {
 
   // OLD REGIME
   const stdOld = 50000;
-  let taxableOld = Math.max(0, income - stdOld - c80);
+  let taxableOld = Math.max(0, income - stdOld - c80 - c80d);
   let exempt = ageGroup === 'super' ? 500000 : ageGroup === 'senior' ? 300000 : 250000;
   const oldSlabs = [
     {from:0,       to:exempt,   rate:0},
@@ -3863,7 +3871,7 @@ function calcTax() {
   $('tax-breakup-table').innerHTML = rows;
   $('tax-result').classList.add('show');
   $('tax-affiliate').classList.add('show');
-  lastCalcData.tax = { type:'Tax', newTax: fmtCr(totalNew), oldTax: fmtCr(totalOld), better, savings: fmtCr(savings) };
+  lastCalcData.tax = { type:'Tax', income: fmtCr(income), newTax: fmtCr(totalNew), oldTax: fmtCr(totalOld), better, savings: fmtCr(savings) };
   if(typeof trackCalc === 'function') trackCalc('Tax');
 }
 
@@ -4702,7 +4710,8 @@ if('IntersectionObserver' in window) {
     tax: {
       income:       'tax-income',
       age:          'tax-age',
-      deduction80c: 'tax-80c'
+      deduction80c: 'tax-80c',
+      deduction80d: 'tax-80d'
     },
     gst: {
       amount: 'gst-amount',
