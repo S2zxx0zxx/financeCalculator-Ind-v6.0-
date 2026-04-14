@@ -2,7 +2,7 @@
 // Provides offline support via Cache-First strategy for static assets
 // and Network-First strategy for HTML pages.
 
-const CACHE_NAME = 'fincalc-v4';
+const CACHE_NAME = 'fincalc-v5';
 
 // Core shell files to pre-cache on install (must all exist)
 const PRECACHE_URLS = [
@@ -15,7 +15,8 @@ const PRECACHE_URLS = [
 
 // Optional assets — cached if available, skipped gracefully if missing
 const PRECACHE_OPTIONAL = [
-  '/icons/fincalc-logo-splash.png'
+  '/icons/fincalc-logo-splash.png',
+  '/og-image.svg'
 ];
 
 // ── Install: pre-cache core shell ──────────────────────────────────────────
