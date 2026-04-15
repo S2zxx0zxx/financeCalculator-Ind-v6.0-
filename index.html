@@ -35,7 +35,7 @@
 <!-- Preconnect -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://pagead2.googlesyndication.com">
+<link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
 <link rel="preconnect" href="https://www.googletagmanager.com">
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&display=swap" as="style">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
@@ -52,14 +52,18 @@
   }
   // Only load GA4 on real domain
   if(location.hostname === 'satzzxzxx.me' || location.hostname === 'www.satzzxzxx.me') {
-    var gs = document.createElement('script');
-    gs.async = true;
-    gs.src = 'https://www.googletagmanager.com/gtag/js?id=G-NTKNL4QDZN';
-    document.head.appendChild(gs);
-    gs.onload = function() {
-      gtag('js', new Date());
-      gtag('config', 'G-NTKNL4QDZN', { page_title: document.title, send_page_view: true });
-    };
+    function loadGA4() {
+      var gs = document.createElement('script');
+      gs.async = true;
+      gs.src = 'https://www.googletagmanager.com/gtag/js?id=G-NTKNL4QDZN';
+      document.head.appendChild(gs);
+      gs.onload = function() {
+        gtag('js', new Date());
+        gtag('config', 'G-NTKNL4QDZN', { page_title: document.title, send_page_view: true });
+      };
+    }
+    if('requestIdleCallback' in window) { requestIdleCallback(loadGA4, {timeout:3000}); }
+    else { setTimeout(loadGA4, 2000); }
   }
 </script>
 
@@ -67,11 +71,19 @@
 <script>
   window.adsbygoogle = window.adsbygoogle || [];
   if(location.hostname === 'satzzxzxx.me' || location.hostname === 'www.satzzxzxx.me') {
-    var as = document.createElement('script');
-    as.async = true;
-    as.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2931447769544799';
-    as.crossOrigin = 'anonymous';
-    document.head.appendChild(as);
+    function loadAdsense() {
+      if(window._adsenseLoaded) return;
+      window._adsenseLoaded = true;
+      var as = document.createElement('script');
+      as.async = true;
+      as.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2931447769544799';
+      as.crossOrigin = 'anonymous';
+      document.head.appendChild(as);
+    }
+    ['scroll','click','touchstart','keydown'].forEach(function(evt) {
+      window.addEventListener(evt, loadAdsense, {once:true, passive:true});
+    });
+    setTimeout(loadAdsense, 5000);
   }
 </script>
 
@@ -574,8 +586,8 @@ input[type=range] { touch-action: pan-x; }
   grid-template-columns: 1fr 340px;
   gap: 24px;
   align-items: start;
-  /* Prevent layout shift when result card expands */
   grid-auto-rows: min-content;
+  contain: layout style;
 }
 @media(max-width:900px) {
   .main-wrap { grid-template-columns: 1fr; }
@@ -770,13 +782,16 @@ input[type=range]::-moz-range-thumb {
   margin-top: 24px; border-radius: var(--radius);
   overflow: hidden; border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
-  /* Use visibility+opacity only — no max-height, no size transition */
-  display: none;
+  visibility: hidden;
   opacity: 0;
+  height: 0;
+  overflow: hidden;
   transform: translateY(8px);
 }
 .results-box.show {
-  display: block;
+  visibility: visible;
+  height: auto;
+  overflow: visible;
   animation: resultReveal 0.35s cubic-bezier(0.4,0,0.2,1) forwards;
 }
 @keyframes resultReveal {
@@ -786,18 +801,26 @@ input[type=range]::-moz-range-thumb {
 
 /* Calculator Partner Cards */
 .partner-card {
-  display: none;
-  margin-top: 12px;
-  padding: 14px 16px;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+  margin-top: 0;
+  padding: 0;
   border-radius: var(--radius-sm);
   background: var(--accent-bg);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
+  border: none;
+  box-shadow: none;
   opacity: 0;
   transform: translateY(8px);
 }
 .partner-card.show {
-  display: block;
+  visibility: visible;
+  height: auto;
+  overflow: visible;
+  margin-top: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
   animation: resultReveal 0.35s cubic-bezier(0.4,0,0.2,1) 0.15s forwards;
 }
 .partner-card-heading {
@@ -1675,6 +1698,10 @@ input[type=range]::-moz-range-thumb {
 #splash-screen.hidden {
   opacity: 0; visibility: hidden; pointer-events: none;
 }
+/* Hide splash in browser — only show in installed PWA */
+@media not all and (display-mode: standalone) {
+  #splash-screen { display: none !important; }
+}
 .splash-logo {
   width: 140px; height: auto;
   border-radius: 28px;
@@ -2020,12 +2047,13 @@ input[type=range]::-moz-range-thumb {
 
 <!-- PWA SPLASH SCREEN -->
 <div id="splash-screen" role="presentation" aria-hidden="true">
-  <img
-    src="icons/fincalc-logo-splash.png"
-    alt="FinCalc India"
-    class="splash-logo"
-    onerror="this.style.display='none'"
-  >
+<img
+  src="icons/fincalc-logo-splash.png"
+  alt="FinCalc India"
+  class="splash-logo"
+  fetchpriority="high"
+  onerror="this.style.display='none'"
+>
   <div class="splash-brand">
     FinCalc&nbsp;<span style="color:#FF9933">I</span><span style="color:#FFFFFF">n</span><span style="color:#FFFFFF">d</span><span style="color:#138808">i</span><span style="color:#138808">a</span>
   </div>
@@ -2124,7 +2152,7 @@ input[type=range]::-moz-range-thumb {
      data-ad-slot="auto"
      data-ad-format="auto"
      data-full-width-responsive="true"></ins>
-  <script>try{(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}</script>
+  <script>try{if(window._adsenseLoaded)(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}</script>
 </div>
 
 <!-- TOOL TABS -->
@@ -2925,7 +2953,7 @@ input[type=range]::-moz-range-thumb {
          data-ad-slot="auto"
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
-      <script>try{(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}</script>
+      <script>try{if(window._adsenseLoaded)(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}</script>
     </div>
 
     <!-- HISTORY -->
@@ -2979,7 +3007,7 @@ input[type=range]::-moz-range-thumb {
          data-ad-slot="auto"
          data-ad-format="auto"
          data-full-width-responsive="true"></ins>
-      <script>try{(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}</script>
+      <script>try{if(window._adsenseLoaded)(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}</script>
     </div>
   </div>
 
@@ -2994,7 +3022,7 @@ input[type=range]::-moz-range-thumb {
      data-ad-slot="auto"
      data-ad-layout="in-article"
      data-ad-format="fluid"></ins>
-  <script>try{(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}</script>
+  <script>try{if(window._adsenseLoaded)(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}</script>
 </div>
 
 <!-- SEO CONTENT -->
@@ -3086,7 +3114,7 @@ input[type=range]::-moz-range-thumb {
      data-ad-slot="auto"
      data-ad-format="auto"
      data-full-width-responsive="true"></ins>
-  <script>try{(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}</script>
+  <script>try{if(window._adsenseLoaded)(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}</script>
 </div>
 
 <!-- ===== AFFILIATE SECTION ===== -->
@@ -3184,7 +3212,7 @@ input[type=range]::-moz-range-thumb {
      data-ad-slot="auto"
      data-ad-layout="in-article"
      data-ad-format="fluid"></ins>
-  <script>try{(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}</script>
+  <script>try{if(window._adsenseLoaded)(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}</script>
 </div>
 
 <!-- ===== BLOG SECTION ===== -->
@@ -3469,7 +3497,7 @@ input[type=range]::-moz-range-thumb {
      style="display:inline-block;width:320px;height:50px"
      data-ad-client="ca-pub-2931447769544799"
      data-ad-slot="auto"></ins>
-  <script>try{(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}</script>
+  <script>try{if(window._adsenseLoaded)(adsbygoogle = window.adsbygoogle || []).push({});}catch(e){}</script>
 </div>
 
 <!-- ===== EXIT INTENT POPUP ===== -->
@@ -4772,23 +4800,20 @@ function downloadPDF() {
 (function () {
   var splash = document.getElementById('splash-screen');
   if (!splash) return;
-  // Minimum display time so the animation plays fully
-  var minDisplay = 1000; // ms — reduced from 1.8s for faster perceived load
+  var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  if (!isStandalone) { splash.remove(); return; }
+  var minDisplay = 800;
   var startTime = Date.now();
   function hideSplash() {
     var elapsed = Date.now() - startTime;
     var delay = Math.max(0, minDisplay - elapsed);
     setTimeout(function () {
       splash.classList.add('hidden');
-      // Remove from DOM after transition to free memory
       setTimeout(function () { splash.remove(); }, 600);
     }, delay);
   }
-  if (document.readyState === 'complete') {
-    hideSplash();
-  } else {
-    window.addEventListener('load', hideSplash, { once: true });
-  }
+  if (document.readyState === 'complete') { hideSplash(); }
+  else { window.addEventListener('load', hideSplash, { once: true }); }
 }());
 
 // ============================
