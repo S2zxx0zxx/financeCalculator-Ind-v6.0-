@@ -1953,6 +1953,7 @@ input[type=range]::-moz-range-thumb {
   text-decoration: none; transition: top 0.2s;
 }
 .skip-link:focus { top: 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
 </style>
 <!-- Security Headers (meta tag fallback for static hosting) -->
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -2131,9 +2132,9 @@ input[type=range]::-moz-range-thumb {
 
         <div class="results-box" id="emi-result" aria-live="polite" aria-atomic="true">
           <div class="result-actions">
-            <button class="action-btn" onclick="openShare('emi')">📤 Share</button>
-            <button class="action-btn" onclick="downloadPDF()">📄 PDF</button>
-            <button class="action-btn" onclick="saveHistory('emi')">💾 Save</button>
+            <button class="action-btn" onclick="openShare('emi')" aria-label="Share EMI results">📤 Share</button>
+            <button class="action-btn" onclick="downloadPDF()" aria-label="Download PDF report">📄 PDF</button>
+            <button class="action-btn" onclick="saveHistory('emi')" aria-label="Save EMI calculation to history">💾 Save</button>
           </div>
           <div class="result-highlight" style="background:var(--green-bg);color:var(--green);">
             <div class="result-label" data-i18n="monthlyEmi">Monthly EMI</div>
@@ -2211,9 +2212,9 @@ input[type=range]::-moz-range-thumb {
         <button class="calc-btn" onclick="calcSIP()"><span data-i18n="calcSip">Calculate Returns</span> →</button>
         <div class="results-box" id="sip-result" aria-live="polite" aria-atomic="true">
           <div class="result-actions">
-            <button class="action-btn" onclick="openShare('sip')">📤 Share</button>
-            <button class="action-btn" onclick="downloadPDF()">📄 PDF</button>
-            <button class="action-btn" onclick="saveHistory('sip')">💾 Save</button>
+            <button class="action-btn" onclick="openShare('sip')" aria-label="Share SIP results">📤 Share</button>
+            <button class="action-btn" onclick="downloadPDF()" aria-label="Download PDF report">📄 PDF</button>
+            <button class="action-btn" onclick="saveHistory('sip')" aria-label="Save SIP calculation to history">💾 Save</button>
           </div>
           <div class="result-highlight" style="background:var(--blue-bg);color:var(--blue);">
             <div class="result-label" data-i18n="maturityVal">Maturity Value</div>
@@ -2299,9 +2300,9 @@ input[type=range]::-moz-range-thumb {
         <button class="calc-btn" onclick="calcTax()"><span data-i18n="calcTax">Compare Tax Regimes</span> →</button>
         <div class="results-box" id="tax-result" aria-live="polite" aria-atomic="true">
           <div class="result-actions">
-            <button class="action-btn" onclick="openShare('tax')">📤 Share</button>
-            <button class="action-btn" onclick="downloadPDF()">📄 PDF</button>
-            <button class="action-btn" onclick="saveHistory('tax')">💾 Save</button>
+            <button class="action-btn" onclick="openShare('tax')" aria-label="Share Tax results">📤 Share</button>
+            <button class="action-btn" onclick="downloadPDF()" aria-label="Download PDF report">📄 PDF</button>
+            <button class="action-btn" onclick="saveHistory('tax')" aria-label="Save Tax calculation to history">💾 Save</button>
           </div>
           <div class="result-grid" style="grid-template-columns:1fr 1fr;">
             <div class="result-cell" style="background:var(--green-bg);text-align:center;">
@@ -2369,8 +2370,8 @@ input[type=range]::-moz-range-thumb {
         <button class="calc-btn" onclick="calcGST()"><span data-i18n="calcGst">Calculate GST</span> →</button>
         <div class="results-box" id="gst-result" aria-live="polite" aria-atomic="true">
           <div class="result-actions">
-            <button class="action-btn" onclick="openShare('gst')">📤 Share</button>
-            <button class="action-btn" onclick="downloadPDF()">📄 PDF</button>
+            <button class="action-btn" onclick="openShare('gst')" aria-label="Share GST results">📤 Share</button>
+            <button class="action-btn" onclick="downloadPDF()" aria-label="Download PDF report">📄 PDF</button>
           </div>
           <div class="result-highlight" style="background:var(--blue-bg);color:var(--blue);">
             <div class="result-label" data-i18n="totalWithGst">Total Amount (with GST)</div>
@@ -2435,8 +2436,8 @@ input[type=range]::-moz-range-thumb {
         <button class="calc-btn" onclick="calcFD()">Calculate FD Maturity →</button>
         <div class="results-box" id="fd-result" aria-live="polite" aria-atomic="true">
           <div class="result-actions">
-            <button class="action-btn" onclick="openShare('fd')">📤 Share</button>
-            <button class="action-btn" onclick="downloadPDF()">📄 PDF</button>
+            <button class="action-btn" onclick="openShare('fd')" aria-label="Share FD results">📤 Share</button>
+            <button class="action-btn" onclick="downloadPDF()" aria-label="Download PDF report">📄 PDF</button>
           </div>
           <div class="result-highlight" style="background:var(--green-bg);color:var(--green);">
             <div class="result-label">Maturity Amount</div>
@@ -2503,8 +2504,8 @@ input[type=range]::-moz-range-thumb {
         <button class="calc-btn" onclick="calcRD()">Calculate RD Maturity →</button>
         <div class="results-box" id="rd-result" aria-live="polite" aria-atomic="true">
           <div class="result-actions">
-            <button class="action-btn" onclick="openShare('rd')">📤 Share</button>
-            <button class="action-btn" onclick="downloadPDF()">📄 PDF</button>
+            <button class="action-btn" onclick="openShare('rd')" aria-label="Share RD results">📤 Share</button>
+            <button class="action-btn" onclick="downloadPDF()" aria-label="Download PDF report">📄 PDF</button>
           </div>
           <div class="result-highlight" style="background:var(--green-bg);color:var(--green);">
             <div class="result-label">Maturity Amount</div>
@@ -2568,8 +2569,8 @@ input[type=range]::-moz-range-thumb {
         <button class="calc-btn" onclick="calcRetire()">Calculate Retirement Corpus →</button>
         <div class="results-box" id="retire-result" aria-live="polite" aria-atomic="true">
           <div class="result-actions">
-            <button class="action-btn" onclick="openShare('retire')">📤 Share</button>
-            <button class="action-btn" onclick="downloadPDF()">📄 PDF</button>
+            <button class="action-btn" onclick="openShare('retire')" aria-label="Share Retirement results">📤 Share</button>
+            <button class="action-btn" onclick="downloadPDF()" aria-label="Download PDF report">📄 PDF</button>
           </div>
           <div class="result-highlight" style="background:var(--purple-bg);color:var(--purple);">
             <div class="result-label">Corpus Needed at Retirement</div>
@@ -2617,7 +2618,7 @@ input[type=range]::-moz-range-thumb {
         <button class="calc-btn" onclick="calcInflation()">Calculate Future Value →</button>
         <div class="results-box" id="inflation-result" aria-live="polite" aria-atomic="true">
           <div class="result-actions">
-            <button class="action-btn" onclick="openShare('inflation')">📤 Share</button>
+            <button class="action-btn" onclick="openShare('inflation')" aria-label="Share Inflation results">📤 Share</button>
           </div>
           <div class="result-highlight" style="background:var(--red-bg);color:var(--red);">
             <div class="result-label">You'll Need This Much</div>
@@ -2782,6 +2783,7 @@ input[type=range]::-moz-range-thumb {
           <!-- Gauge Chart -->
           <div style="display:flex;flex-direction:column;align-items:center;padding:20px 16px 8px;">
             <canvas id="cibil-gauge" width="260" height="150" style="max-width:100%;" role="img" aria-label="CIBIL score gauge chart"></canvas>
+            <span id="cibil-sr-text" class="sr-only" aria-live="polite"></span>
             <div id="cibil-rating-badge" style="margin-top:8px;padding:6px 20px;border-radius:20px;font-size:14px;font-weight:800;letter-spacing:0.04em;"></div>
           </div>
           <!-- Score Breakdown -->
@@ -2862,7 +2864,7 @@ input[type=range]::-moz-range-thumb {
     <div class="history-panel">
       <div class="history-header">
         <h3>📜 Calculation History</h3>
-        <button class="history-clear" onclick="clearHistory()">Clear All</button>
+        <button class="history-clear" onclick="clearHistory()" aria-label="Clear calculation history">Clear All</button>
       </div>
       <div class="history-list" id="historyList">
         <div class="history-empty">No calculations saved yet</div>
@@ -2973,36 +2975,36 @@ input[type=range]::-moz-range-thumb {
 <!-- FAQ SECTION -->
 <div class="faq-section">
   <h2>❓ Frequently Asked Questions</h2>
-  <div class="faq-item" onclick="toggleFaq(this)">
-    <div class="faq-q"><span>How is EMI calculated?</span><span class="faq-arrow">▼</span></div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this.parentElement)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this.parentElement)}" aria-expanded="false"><span>How is EMI calculated?</span><span class="faq-arrow">▼</span></div>
     <div class="faq-a"><div class="faq-a-inner">EMI uses the formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1), where P = loan principal, r = monthly interest rate (annual rate ÷ 12 ÷ 100), n = total months. For example, a ₹25 lakh home loan at 8.5% for 20 years has an EMI of approximately ₹21,700. The higher your tenure, the lower the EMI but more total interest paid.</div></div>
   </div>
-  <div class="faq-item" onclick="toggleFaq(this)">
-    <div class="faq-q"><span>Which is better — New or Old Tax Regime?</span><span class="faq-arrow">▼</span></div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this.parentElement)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this.parentElement)}" aria-expanded="false"><span>Which is better — New or Old Tax Regime?</span><span class="faq-arrow">▼</span></div>
     <div class="faq-a"><div class="faq-a-inner">If your total deductions (80C, 80D, HRA, home loan interest) exceed approximately ₹3.75 lakh, Old Regime is usually better. For salaried individuals with limited investments, New Regime with its lower slab rates and ₹75,000 standard deduction is more beneficial. Our calculator compares both side by side to help you decide.</div></div>
   </div>
-  <div class="faq-item" onclick="toggleFaq(this)">
-    <div class="faq-q"><span>How much should I invest in SIP for ₹1 Crore?</span><span class="faq-arrow">▼</span></div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this.parentElement)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this.parentElement)}" aria-expanded="false"><span>How much should I invest in SIP for ₹1 Crore?</span><span class="faq-arrow">▼</span></div>
     <div class="faq-a"><div class="faq-a-inner">At 12% expected returns: ₹5,000/month for 25 years = ~₹95 Lakhs, ₹10,000/month for 20 years = ~₹99 Lakhs, ₹15,000/month for 17 years = ~₹1.03 Crore. The key is starting early to leverage the power of compounding. Even small amounts grow significantly over long periods.</div></div>
   </div>
-  <div class="faq-item" onclick="toggleFaq(this)">
-    <div class="faq-q"><span>Is FD interest taxable in India?</span><span class="faq-arrow">▼</span></div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this.parentElement)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this.parentElement)}" aria-expanded="false"><span>Is FD interest taxable in India?</span><span class="faq-arrow">▼</span></div>
     <div class="faq-a"><div class="faq-a-inner">Yes, FD interest is fully taxable and added to your income. Banks deduct TDS at 10% if annual interest exceeds ₹40,000 (₹50,000 for senior citizens). If your total income is below the taxable limit, you can submit Form 15G/15H to avoid TDS deduction.</div></div>
   </div>
-  <div class="faq-item" onclick="toggleFaq(this)">
-    <div class="faq-q"><span>How is loan eligibility determined?</span><span class="faq-arrow">▼</span></div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this.parentElement)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this.parentElement)}" aria-expanded="false"><span>How is loan eligibility determined?</span><span class="faq-arrow">▼</span></div>
     <div class="faq-a"><div class="faq-a-inner">Banks use FOIR (Fixed Obligation to Income Ratio) — typically 50-60% of net monthly income. After deducting existing EMIs, the remaining amount determines your maximum new EMI. From that, the maximum loan is reverse-calculated using the EMI formula. A higher income, lower existing obligations, and longer tenure increase eligibility.</div></div>
   </div>
-  <div class="faq-item" onclick="toggleFaq(this)">
-    <div class="faq-q"><span>Should I rent or buy a house?</span><span class="faq-arrow">▼</span></div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this.parentElement)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this.parentElement)}" aria-expanded="false"><span>Should I rent or buy a house?</span><span class="faq-arrow">▼</span></div>
     <div class="faq-a"><div class="faq-a-inner">The decision depends on factors like: property appreciation rate in your area, home loan interest rate, your rent amount vs. EMI, how long you plan to stay, and opportunity cost of the down payment. Our calculator compares the total cost of renting (with annual increases) vs. buying (EMI + opportunity cost) over your chosen time period.</div></div>
   </div>
-  <div class="faq-item" onclick="toggleFaq(this)">
-    <div class="faq-q"><span>What is a good CIBIL score for a home loan?</span><span class="faq-arrow">▼</span></div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this.parentElement)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this.parentElement)}" aria-expanded="false"><span>What is a good CIBIL score for a home loan?</span><span class="faq-arrow">▼</span></div>
     <div class="faq-a"><div class="faq-a-inner">A CIBIL score of 750 or above is considered excellent and gets you the best home loan rates (around 8.25%–8.50%). Most banks approve home loans at 700+, though rates are slightly higher. Below 650, getting a home loan becomes difficult and expensive. Our CIBIL Score Checker shows your exact rating, interest rate impact, and personalised tips to improve.</div></div>
   </div>
-  <div class="faq-item" onclick="toggleFaq(this)">
-    <div class="faq-q"><span>How long does it take to improve CIBIL score?</span><span class="faq-arrow">▼</span></div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this.parentElement)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFaq(this.parentElement)}" aria-expanded="false"><span>How long does it take to improve CIBIL score?</span><span class="faq-arrow">▼</span></div>
     <div class="faq-a"><div class="faq-a-inner">With consistent positive actions (timely payments every month, reducing credit card utilisation to under 30%, no new loan applications), you can see improvement in 3–6 months. Moving from 650 to 750 typically takes 12–18 months of disciplined credit behaviour. The most impactful actions: never miss an EMI, keep credit card balances low, and don't close old accounts.</div></div>
   </div>
 </div>
@@ -3867,6 +3869,8 @@ function calcCibil() {
   }
 
   $('cibil-score-display').textContent = score;
+  var srEl = $('cibil-sr-text');
+  if(srEl) srEl.textContent = 'Your CIBIL score is ' + score + '. Rating: ' + rating.replace(/[^\w\s-]/g, '').trim().split(/\s+/)[0] + '. Loan approval chance: ' + approval.replace(/[🟢🟡🟠❌]/g, '').trim() + '.';
   $('cibil-score-display').style.color = ratingColor;
   $('cibil-rating-text').textContent = rating.split(' ')[0] + ' ' + rating.split(' ')[1];
   $('cibil-rating-text').style.color = ratingColor;
@@ -4331,6 +4335,7 @@ function setLang(lang) {
   if(btnEnM) { btnEnM.classList.toggle('active', lang === 'en'); }
   if(btnHiM) { btnHiM.classList.toggle('active', lang === 'hi'); }
   safeStorage.setItem('fincalc-lang', lang);
+  document.documentElement.setAttribute('lang', lang === 'hi' ? 'hi' : 'en');
 }
 (function() {
   const saved = safeStorage.getItem('fincalc-lang');
@@ -4342,8 +4347,16 @@ function setLang(lang) {
 // ============================
 function toggleFaq(item) {
   const wasOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('open'));
-  if(!wasOpen) item.classList.add('open');
+  document.querySelectorAll('.faq-item').forEach(f => {
+    f.classList.remove('open');
+    var faqQuestion = f.querySelector('.faq-q');
+    if(faqQuestion) faqQuestion.setAttribute('aria-expanded', 'false');
+  });
+  if(!wasOpen) {
+    item.classList.add('open');
+    var faqQuestion = item.querySelector('.faq-q');
+    if(faqQuestion) faqQuestion.setAttribute('aria-expanded', 'true');
+  }
 }
 
 // ============================
@@ -4396,10 +4409,37 @@ function openShare(type) {
   $('sharePreview').textContent = preview;
   $('shareOverlay').classList.add('show');
   $('shareModal').classList.add('show');
+  // Focus the first button in the modal
+  setTimeout(function() {
+    var firstBtn = $('shareModal').querySelector('button, .share-btn');
+    if(firstBtn) firstBtn.focus();
+  }, 100);
+  // Trap focus inside modal
+  document.addEventListener('keydown', shareModalKeyHandler);
+}
+
+function shareModalKeyHandler(e) {
+  if(e.key === 'Escape') {
+    closeShareModal();
+    return;
+  }
+  if(e.key !== 'Tab') return;
+  var modal = $('shareModal');
+  if(!modal) return;
+  var focusable = modal.querySelectorAll('button, .share-btn, [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])');
+  if(focusable.length === 0) return;
+  var first = focusable[0];
+  var last = focusable[focusable.length - 1];
+  if(e.shiftKey) {
+    if(document.activeElement === first) { e.preventDefault(); last.focus(); }
+  } else {
+    if(document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
 }
 function closeShareModal() {
   $('shareOverlay').classList.remove('show');
   $('shareModal').classList.remove('show');
+  document.removeEventListener('keydown', shareModalKeyHandler);
 }
 
 function getShareText() {
