@@ -4349,13 +4349,13 @@ function toggleFaq(item) {
   const wasOpen = item.classList.contains('open');
   document.querySelectorAll('.faq-item').forEach(f => {
     f.classList.remove('open');
-    var q = f.querySelector('.faq-q');
-    if(q) q.setAttribute('aria-expanded', 'false');
+    var faqQuestion = f.querySelector('.faq-q');
+    if(faqQuestion) faqQuestion.setAttribute('aria-expanded', 'false');
   });
   if(!wasOpen) {
     item.classList.add('open');
-    var q = item.querySelector('.faq-q');
-    if(q) q.setAttribute('aria-expanded', 'true');
+    var faqQuestion = item.querySelector('.faq-q');
+    if(faqQuestion) faqQuestion.setAttribute('aria-expanded', 'true');
   }
 }
 
@@ -4426,7 +4426,7 @@ function shareModalKeyHandler(e) {
   if(e.key !== 'Tab') return;
   var modal = $('shareModal');
   if(!modal) return;
-  var focusable = modal.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])');
+  var focusable = modal.querySelectorAll('button, [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])');
   if(focusable.length === 0) return;
   var first = focusable[0];
   var last = focusable[focusable.length - 1];
