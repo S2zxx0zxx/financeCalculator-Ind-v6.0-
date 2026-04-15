@@ -2134,7 +2134,7 @@ input[type=range]::-moz-range-thumb {
           <div class="result-actions">
             <button class="action-btn" onclick="openShare('emi')" aria-label="Share EMI results">📤 Share</button>
             <button class="action-btn" onclick="downloadPDF()" aria-label="Download PDF report">📄 PDF</button>
-            <button class="action-btn" onclick="saveHistory('emi')">💾 Save</button>
+            <button class="action-btn" onclick="saveHistory('emi')" aria-label="Save EMI calculation to history">💾 Save</button>
           </div>
           <div class="result-highlight" style="background:var(--green-bg);color:var(--green);">
             <div class="result-label" data-i18n="monthlyEmi">Monthly EMI</div>
@@ -2214,7 +2214,7 @@ input[type=range]::-moz-range-thumb {
           <div class="result-actions">
             <button class="action-btn" onclick="openShare('sip')" aria-label="Share SIP results">📤 Share</button>
             <button class="action-btn" onclick="downloadPDF()" aria-label="Download PDF report">📄 PDF</button>
-            <button class="action-btn" onclick="saveHistory('sip')">💾 Save</button>
+            <button class="action-btn" onclick="saveHistory('sip')" aria-label="Save SIP calculation to history">💾 Save</button>
           </div>
           <div class="result-highlight" style="background:var(--blue-bg);color:var(--blue);">
             <div class="result-label" data-i18n="maturityVal">Maturity Value</div>
@@ -2302,7 +2302,7 @@ input[type=range]::-moz-range-thumb {
           <div class="result-actions">
             <button class="action-btn" onclick="openShare('tax')" aria-label="Share Tax results">📤 Share</button>
             <button class="action-btn" onclick="downloadPDF()" aria-label="Download PDF report">📄 PDF</button>
-            <button class="action-btn" onclick="saveHistory('tax')">💾 Save</button>
+            <button class="action-btn" onclick="saveHistory('tax')" aria-label="Save Tax calculation to history">💾 Save</button>
           </div>
           <div class="result-grid" style="grid-template-columns:1fr 1fr;">
             <div class="result-cell" style="background:var(--green-bg);text-align:center;">
@@ -3870,7 +3870,7 @@ function calcCibil() {
 
   $('cibil-score-display').textContent = score;
   var srEl = $('cibil-sr-text');
-  if(srEl) srEl.textContent = 'Your CIBIL score is ' + score + '. Rating: ' + rating.split(' ')[0] + '. Loan approval chance: ' + approval.replace(/[🟢🟡🟠❌]/g, '').trim() + '.';
+  if(srEl) srEl.textContent = 'Your CIBIL score is ' + score + '. Rating: ' + rating.replace(/[^\w\s-]/g, '').trim().split(/\s+/)[0] + '. Loan approval chance: ' + approval.replace(/[🟢🟡🟠❌]/g, '').trim() + '.';
   $('cibil-score-display').style.color = ratingColor;
   $('cibil-rating-text').textContent = rating.split(' ')[0] + ' ' + rating.split(' ')[1];
   $('cibil-rating-text').style.color = ratingColor;
@@ -4426,7 +4426,7 @@ function shareModalKeyHandler(e) {
   if(e.key !== 'Tab') return;
   var modal = $('shareModal');
   if(!modal) return;
-  var focusable = modal.querySelectorAll('button, [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])');
+  var focusable = modal.querySelectorAll('button, .share-btn, [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])');
   if(focusable.length === 0) return;
   var first = focusable[0];
   var last = focusable[focusable.length - 1];
