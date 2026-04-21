@@ -1,3 +1,8 @@
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=86400
+  X-Robots-Tag: all
+
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
