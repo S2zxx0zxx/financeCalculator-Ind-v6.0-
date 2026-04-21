@@ -1,16 +1,23 @@
+# robots.txt for FinCalc India
+
 User-agent: *
 Allow: /
-Sitemap: https://satzzxzxx.me/sitemap.xml
-
-# AI/LLM discovery
-Llms: https://satzzxzxx.me/llms.txt
+Disallow: /private/
+Disallow: /*.json
+Disallow: /sw.js
 
 User-agent: Googlebot
 Allow: /
+Disallow: /private/
 
 User-agent: Bingbot
 Allow: /
 
-# AI/LLM discovery
+User-agent: Mediapartners-Google
+Allow: /
+
+Sitemap: https://satzzxzxx.me/sitemap.xml
 Llms: https://satzzxzxx.me/llms.txt
 Llms-full: https://satzzxzxx.me/llms-full.txt
+
+Host: https://satzzxzxx.me
