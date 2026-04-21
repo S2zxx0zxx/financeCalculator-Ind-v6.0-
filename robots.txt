@@ -2,6 +2,9 @@ User-agent: *
 Allow: /
 Sitemap: https://satzzxzxx.me/sitemap.xml
 
+# AI/LLM discovery
+Llms: https://satzzxzxx.me/llms.txt
+
 User-agent: Googlebot
 Allow: /
 

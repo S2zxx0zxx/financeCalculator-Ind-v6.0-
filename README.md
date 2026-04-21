@@ -920,6 +920,7 @@ Email capture on blog index, main page, podcast page. Mailchimp integration plan
 | Internal Linking | All 29 blogs cross-linked to calculators + related blogs |
 | **🆕 Generative Engine Optimization (GEO)** | Content optimized for ChatGPT/Perplexity/Claude answer citations |
 | **🆕 AI Agent Schema** | Structured data for agent-driven finance queries |
+| **🆕 llms.txt** | Discoverable at /llms.txt — AI/LLM crawler citation standard for ChatGPT, Claude, Perplexity, Gemini |
 
 ---
 
