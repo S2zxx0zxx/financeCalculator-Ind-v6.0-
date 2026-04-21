@@ -3,7 +3,7 @@
 User-agent: *
 Allow: /
 Disallow: /private/
-Disallow: /*.json$
+Disallow: /*.json
 Disallow: /sw.js
 
 User-agent: Googlebot
