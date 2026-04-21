@@ -7,3 +7,7 @@ Allow: /
 
 User-agent: Bingbot
 Allow: /
+
+# AI/LLM discovery
+Llms: https://satzzxzxx.me/llms.txt
+Llms-full: https://satzzxzxx.me/llms-full.txt
