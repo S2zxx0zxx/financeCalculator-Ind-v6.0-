@@ -1,0 +1,15 @@
+{
+  "name": "fincalc-v7",
+  "private": true,
+  "version": "7.0.0-alpha.0",
+  "packageManager": "npm@11",
+  "engines": { "node": ">=22.12.0" },
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev": "npm run dev -w @fincalc/web",
+    "build": "npm run build -ws --if-present",
+    "typecheck": "npm run typecheck -ws --if-present",
+    "test": "npm run test -ws --if-present",
+    "test:run": "npm run test:run -ws --if-present"
+  }
+}
