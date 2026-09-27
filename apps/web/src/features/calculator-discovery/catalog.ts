@@ -18,7 +18,7 @@ export const calculatorCatalog: CalculatorDescriptor[] = [
   { id: "gst", title: "GST Calculator", description: "Add or remove GST and split CGST/SGST.", category: "Tax", status: "migrated", href: "/calculators/gst" },
   { id: "fd", title: "FD Calculator", description: "Compound fixed-deposit maturity.", category: "Deposits", status: "migrated", href: "/calculators/fd" },
   { id: "rd", title: "RD Calculator", description: "Recurring-deposit maturity projection.", category: "Deposits", status: "migrated", href: "/calculators/rd" },
-  { id: "retire", title: "Retirement Calculator", description: "Estimate corpus and required SIP using the preserved legacy assumptions.", category: "Planning", status: "migrated", href: "/calculators/retirement" },
+  { id: "retirement", title: "Retirement Calculator", description: "Estimate corpus and required SIP using the preserved legacy assumptions.", category: "Planning", status: "migrated", href: "/calculators/retirement" },
   { id: "inflation", title: "Inflation Calculator", description: "See future cost and purchasing-power impact.", category: "Planning", status: "migrated", href: "/calculators/inflation" },
   { id: "cibil", title: "CIBIL Guide", description: "Understand a 300–900 CIBIL score without stale lender-rate promises.", category: "Credit", status: "migrated", href: "/calculators/cibil" }
 ];
