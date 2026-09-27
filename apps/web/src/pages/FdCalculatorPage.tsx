@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { calculateFd } from "@fincalc/finance-core";
 import { AccessibleRatioChart } from "../shared/charts/AccessibleRatioChart";
+import { CalculatorActions } from "../features/export-share/CalculatorActions";
 
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 
@@ -57,6 +58,12 @@ export function FdCalculatorPage() {
               { label: "Principal", value: result.values.principal, formatted: money.format(result.values.principal) },
               { label: "Interest", value: result.values.interest, formatted: money.format(result.values.interest) }
             ]}
+          />
+          <CalculatorActions
+            calculatorId="fd"
+            calculatorTitle="FD Calculator"
+            inputs={{ principal, annualRate, years, compoundsPerYear }}
+            summary={{ maturity: money.format(result.values.maturity), principal: money.format(result.values.principal), interest: money.format(result.values.interest) }}
           />
           <div className="assumption-note">Actual bank maturity can differ because deposit conventions, compounding dates, TDS and premature-withdrawal rules vary.</div>
         </div>
