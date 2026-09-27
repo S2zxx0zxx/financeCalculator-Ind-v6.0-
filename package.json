@@ -3,13 +3,18 @@
   "private": true,
   "version": "7.0.0-alpha.0",
   "packageManager": "npm@11",
-  "engines": { "node": ">=22.22.0" },
-  "workspaces": ["apps/*", "packages/*"],
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "npm run dev -w @fincalc/web",
-    "build": "npm run build -ws --if-present",
-    "typecheck": "npm run typecheck -ws --if-present",
-    "test": "npm run test -ws --if-present",
-    "test:run": "npm run test:run -ws --if-present"
+    "dev": "npm run dev --workspace @fincalc/web",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test:run": "npm run test:run --workspaces --if-present"
   }
 }
