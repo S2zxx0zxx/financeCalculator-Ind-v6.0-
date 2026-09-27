@@ -11,7 +11,7 @@
     "test:run": "vitest run"
   },
   "dependencies": {
-    "@fincalc/finance-core": "workspace:*",
+    "@fincalc/finance-core": "file:../../packages/finance-core",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-router": "8.4.0"
