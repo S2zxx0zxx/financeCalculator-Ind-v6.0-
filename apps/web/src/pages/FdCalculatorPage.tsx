@@ -1,15 +1,24 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { calculateFd } from "@fincalc/finance-core";
 import { AccessibleRatioChart } from "../shared/charts/AccessibleRatioChart";
 import { CalculatorActions } from "../features/export-share/CalculatorActions";
+import { savedNumber, useSavedScenario } from "../features/history/useSavedScenario";
 
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 
 export function FdCalculatorPage() {
-  const [principal, setPrincipal] = useState(100000);
-  const [annualRate, setAnnualRate] = useState(7.1);
-  const [years, setYears] = useState(3);
-  const [compoundsPerYear, setCompoundsPerYear] = useState(4);
+  const savedScenario = useSavedScenario();
+  const [principal, setPrincipal] = useState(() => savedNumber(savedScenario?.inputs, "principal", 100000));
+  const [annualRate, setAnnualRate] = useState(() => savedNumber(savedScenario?.inputs, "annualRate", 7.1));
+  const [years, setYears] = useState(() => savedNumber(savedScenario?.inputs, "years", 3));
+  const [compoundsPerYear, setCompoundsPerYear] = useState(() => savedNumber(savedScenario?.inputs, "compoundsPerYear", 4));
+  useEffect(() => {
+    if (!savedScenario) return;
+    setPrincipal(savedNumber(savedScenario.inputs, "principal", 100000));
+    setAnnualRate(savedNumber(savedScenario.inputs, "annualRate", 7.1));
+    setYears(savedNumber(savedScenario.inputs, "years", 3));
+    setCompoundsPerYear(savedNumber(savedScenario.inputs, "compoundsPerYear", 4));
+  }, [savedScenario?.recordId]);
   const result = useMemo(
     () => calculateFd({ principal, annualRate, years, compoundsPerYear }),
     [principal, annualRate, years, compoundsPerYear]
