@@ -1,6 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { classifyLegacyCibil } from "@fincalc/finance-core";
 import { CalculatorActions } from "../features/export-share/CalculatorActions";
+import { savedNumber, useSavedScenario } from "../features/history/useSavedScenario";
 
 function context(score: number) {
   if (score > 700) return "Official CIBIL guidance says a score above 700 is generally considered good. Higher scores can improve the chances of an application being reviewed favorably.";
@@ -8,7 +9,12 @@ function context(score: number) {
 }
 
 export function CibilPage() {
-  const [score, setScore] = useState(750);
+  const savedScenario = useSavedScenario();
+  const [score, setScore] = useState(() => savedNumber(savedScenario?.inputs, "score", 750));
+  useEffect(() => {
+    if (!savedScenario) return;
+    setScore(Math.min(900, Math.max(300, savedNumber(savedScenario.inputs, "score", 750))));
+  }, [savedScenario?.recordId]);
   const legacy = useMemo(() => classifyLegacyCibil(score).values, [score]);
   const position = ((legacy.score - 300) / 600) * 100;
 
