@@ -122,3 +122,54 @@ a { color: inherit; }
 .ratio-chart-table th, .ratio-chart-table td { padding: 7px 0; border-bottom: 1px solid color-mix(in srgb, var(--fc-text-inverse) 12%, transparent); text-align: left; }
 .ratio-chart-table td:nth-child(n+2), .ratio-chart-table th:nth-child(n+2) { text-align: right; }
 .ratio-chart-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+
+.input-stack select {
+  min-height: 46px;
+  width: 100%;
+  padding: 0 12px;
+  border: 1px solid var(--fc-border);
+  border-radius: 10px;
+  background: var(--fc-surface-soft);
+  color: var(--fc-text);
+}
+.segmented-field {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.segmented-field legend {
+  grid-column: 1 / -1;
+  margin-bottom: 4px;
+  color: var(--fc-text-soft);
+  font-size: 12px;
+  font-weight: 700;
+}
+.segmented-field button {
+  min-height: 44px;
+  border: 1px solid var(--fc-border);
+  border-radius: 10px;
+  background: var(--fc-surface-soft);
+  color: var(--fc-text-soft);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+}
+.segmented-field button[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--fc-accent) 55%, var(--fc-border));
+  background: color-mix(in srgb, var(--fc-accent) 13%, var(--fc-surface));
+  color: var(--fc-text);
+}
+.assumption-note {
+  margin-top: 18px;
+  padding: 13px 14px;
+  border: 1px solid color-mix(in srgb, var(--fc-accent) 28%, var(--fc-border));
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--fc-accent) 7%, transparent);
+  color: color-mix(in srgb, var(--fc-text-inverse) 75%, transparent);
+  font-size: 11px;
+  line-height: 1.6;
+}
