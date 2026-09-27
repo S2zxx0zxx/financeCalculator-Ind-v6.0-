@@ -3,7 +3,7 @@
   "private": true,
   "version": "7.0.0-alpha.0",
   "packageManager": "npm@11",
-  "engines": { "node": ">=22.12.0" },
+  "engines": { "node": ">=22.22.0" },
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "dev": "npm run dev -w @fincalc/web",
