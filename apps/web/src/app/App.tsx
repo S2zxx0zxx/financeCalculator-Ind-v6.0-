@@ -1,0 +1,47 @@
+import { NavLink, Route, Routes } from "react-router";
+import { DashboardPage } from "../pages/DashboardPage";
+import { EmiCalculatorPage } from "../pages/EmiCalculatorPage";
+import { LegacyBridgePage } from "../pages/LegacyBridgePage";
+
+const nav = [
+  { to: "/", label: "Overview" },
+  { to: "/calculators/emi", label: "Calculators" },
+  { to: "/learn", label: "Learn" }
+];
+
+export function App() {
+  return (
+    <div className="app-shell">
+      <aside className="sidebar" aria-label="Primary">
+        <a className="brand" href="/" aria-label="FinCalc home">
+          <span className="brand-mark">₹</span>
+          <span><strong>FinCalc</strong><small>Financial workspace</small></span>
+        </a>
+        <nav className="side-nav">
+          {nav.map(item => <NavLink key={item.to} to={item.to} end={item.to === "/"}>{item.label}</NavLink>)}
+        </nav>
+        <div className="sidebar-foot">V7 preview · legacy-safe migration</div>
+      </aside>
+      <div className="app-main">
+        <header className="topbar">
+          <div>
+            <span className="eyebrow">FINCALC INDIA</span>
+            <strong>Calculate. Understand. Decide.</strong>
+          </div>
+          <a className="legacy-link" href="/index.html">Current FinCalc ↗</a>
+        </header>
+        <main className="content">
+          <Routes>
+            <Route path="/" element={<DashboardPage />} />
+            <Route path="/calculators/emi" element={<EmiCalculatorPage />} />
+            <Route path="/learn" element={<LegacyBridgePage kind="blog" />} />
+            <Route path="*" element={<DashboardPage />} />
+          </Routes>
+        </main>
+        <nav className="bottom-nav" aria-label="Mobile primary">
+          {nav.map(item => <NavLink key={item.to} to={item.to} end={item.to === "/"}>{item.label}</NavLink>)}
+        </nav>
+      </div>
+    </div>
+  );
+}
