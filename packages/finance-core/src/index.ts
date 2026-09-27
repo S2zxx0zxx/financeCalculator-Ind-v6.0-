@@ -5,3 +5,8 @@ export * from "./calculators/gst";
 export * from "./calculators/fd";
 export * from "./calculators/rd";
 export * from "./calculators/inflation";
+export * from "./calculators/retirement";
+export * from "./calculators/eligibility";
+export * from "./calculators/rent-vs-buy";
+export * from "./calculators/tax-legacy";
+export * from "./calculators/cibil-legacy";
