@@ -12,7 +12,7 @@ The root is a genuine homepage. /app/ lists eleven topics by five categories. /c
 - Tool registry: assets/js/app/registry.mjs. One category, fields, labels, source, and restrictions per tool. Credit health is educational; it does not fabricate a bureau score.
 - Presentation: assets/js/app/app.mjs, assets/css/app.css and static HTML route shells. Data values render through text or escaped markup. All tool pages use the same UI.
 - Local data: assets/js/app/storage.mjs. Versioned IndexedDB store, deliberate export/import and deletion. No silent import of old localStorage contact/newsletter keys.
-- Content: four formula guides mirror the deterministic calculator math; 29 historical URLs remain as noindex review notices with unverified bodies withheld from public delivery. See ARTICLE_REVIEW_LEDGER.md.
+- Content: four formula guides mirror deterministic calculator math; 29 historical article URLs retain their original layouts and content behind a source-review warning and noindex status. See ARTICLE_REVIEW_LEDGER.md.
 - PWA: sw.js precaches the shell and tools. Articles need a network connection and are not cached as current. An offline fallback explains the limit.
 
 ## Rule boundaries and reviewed scope

@@ -1,8 +1,8 @@
 # FinCalc article verification ledger
 
-Snapshot: 27 September 2026. The original 29 URLs are preserved as noindex archive notices; their old article bodies and unsupported metadata were removed from public delivery. Link count below is a mechanical tally from the withdrawn versions and **is not a correctness rating**. The historical claims have not been independently verified. Four new formula explainers were written from the calculator's deterministic formulas and are listed in the sitemap and RSS.
+Snapshot: 28 September 2026. The original 29 URLs and article bodies are preserved, visibly marked as historical and pending review, and noindex. Link count below is a mechanical tally from selected official domains and **is not a correctness rating**. Four new formula explainers use the calculator's deterministic formulas and are listed in the sitemap and RSS.
 
-| Withdrawn URL filename | Review class | Possible primary-domain links in withdrawn copy | Status |
+| Original URL filename | Review class | Possible primary-domain links | Status |
 | --- | --- | ---: | --- |
 | 12-lakh-tax-free-income-2026-complete-guide.html | Tax/rules | 0 | Pending line-by-line review; noindex |
 | akshaya-tritiya-2026-gold-price-guide.html | Rates/markets | 0 | Pending line-by-line review; noindex |
@@ -42,8 +42,8 @@ Snapshot: 27 September 2026. The original 29 URLs are preserved as noindex archi
 4. Have a second reviewer sign the finance and editorial changes. Record reviewer/date/source in git and this ledger.
 5. Only then remove noindex, repopulate the sitemap and RSS item for that article. Confirm the old URL remains stable.
 
-The blog index remains public with four formula guides and an archive section. The 29 old URLs preserve their routes but display a short review notice rather than their unverified claims. New original articles must pass this gate before publishing.
+The blog index remains public with four formula guides and a clearly separated archive section. The 29 old URLs preserve both route and article content with a prominent warning; they remain noindex and outside the sitemap/RSS until reviewed. New original articles must pass this gate before publishing.
 
 ## Public archive presentation
 
-All 29 index cards display an archive/source-review badge and neutral excerpt. Historical headlines remain on the index as clearly labeled archived titles; the old article bodies are withheld until verified. Four live guides cover EMI, monthly-savings arithmetic, GST amount splitting and compound interest using the same formulas as the calculators. They state example assumptions and limits and make no live-rate claims.
+All 29 index cards display an archive/source-review badge and neutral excerpt. Historical headlines are clearly labeled on the index. Original article layouts and content are retained behind their review banners and noindex status. Four new guides cover EMI, monthly-savings arithmetic, GST amount splitting and compound interest using the same formulas as the calculators. They state example assumptions and limits and make no live-rate claims.

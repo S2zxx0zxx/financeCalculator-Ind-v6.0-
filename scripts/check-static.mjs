@@ -11,8 +11,8 @@ assert.equal(archived.length,29);
 assert.equal(guides.filter(name=>articleNames.includes(name)).length,4);
 for(const name of archived){
   assert.match(read('blog/'+name),/<meta name="robots" content="noindex,follow">/);
-  assert.match(read('blog/'+name),/This article is being reviewed/);
-  assert.doesNotMatch(read('blog/'+name),/<script|application\/ld\+json|30% Tax|₹93\.94|Updated with latest/);
+  assert.match(read('blog/'+name),/Article freshness/);
+  assert.match(read('blog/'+name),/has not yet passed the new FinCalc editorial review/);
   assert.ok(!read('sitemap.xml').includes('/blog/'+name),'Pending-review articles must not appear in the indexable sitemap');
 }
 for(const name of guides){
@@ -20,8 +20,12 @@ for(const name of guides){
   assert.match(read('sitemap.xml'),new RegExp('/blog/'+name));
   assert.match(read('blog/feed.xml'),new RegExp('/blog/'+name));
 }
+assert.ok(read('blog/index.html').includes('assets/css/blog-guides.css'));
+assert.ok(read('index.html').includes('/app/?category=loans'));
+assert.ok(read('assets/js/app/app.mjs').includes('requestedCategory'));
 assert.equal((read('blog/feed.xml').match(/<item>/g)||[]).length,guides.length);
 assert.equal((read('blog/index.html').match(/Archive · Source review pending/g)||[]).length,29,'Every archived article preview must show its review status');
+assert.match(read('blog/index.html'),/Understand the numbers/);
 assert.doesNotMatch(read('blog/index.html'),/Updated Weekly|Most Read|29 Expert Guides|<span class="special-badge featured">NEW<\/span>/,'Unverified promotional claims on blog index');
 for(const path of ['index.html','blog/index.html','contact.html','privacy-policy.html'])assert.doesNotMatch(read(path),/15,000\+ subscribers|You are already subscribed!|Message bhej diya!/);
 assert.equal(existsSync(new URL('../podcast/',import.meta.url)),false,'Podcast route must be absent');

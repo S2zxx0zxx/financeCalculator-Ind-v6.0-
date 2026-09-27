@@ -21,7 +21,7 @@ The repository's protected GitHub Actions check runs these tests on pull request
 - /app/ — category directory and search for eleven topics.
 - /calculators/{slug}/ — EMI, SIP, income-tax, GST, FD, RD, retirement, inflation, loan-eligibility, rent-vs-buy and credit-health.
 - /saved/ and /compare/ — private browser storage and compatible scenario comparison.
-- /blog/ — four current formula guides for EMI, monthly savings, GST arithmetic and FD compounding, plus 29 preserved historical URLs shown as noindex review notices. Only the four guides are in the sitemap and RSS.
+- /blog/ — four current formula guides for EMI, monthly savings, GST arithmetic and FD compounding, plus 29 historical articles retained with a source-review warning. Historical articles are noindex and excluded from sitemap/RSS pending review.
 
 ## Product boundaries
 

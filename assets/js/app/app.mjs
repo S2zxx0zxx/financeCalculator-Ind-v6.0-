@@ -24,7 +24,8 @@ function chrome(){
 }
 function directory(){
   $('app-main').innerHTML='<section class="hero"><span class="eyebrow">Decision tools · India</span><h1>Make the numbers easier to understand.</h1><p class="lead">Pick a question, change the assumptions, and see what the estimate includes. No sign-up. No invented live rates.</p><div class="action-row"><a class="button secondary" href="/saved/">Saved calculations</a><a class="button secondary" href="/compare/">Compare calculations</a></div></section><div class="workspace"><aside class="rail"><h2>Categories</h2><div class="category-list" id="categories"></div></aside><div><label for="search"><strong>Find a tool</strong></label><input class="search" id="search" type="search" placeholder="Try home loan, tax, savings…" autocomplete="off"><p class="small muted" id="count" role="status"></p><div class="tools-grid" id="tools-grid"></div><p id="empty" class="notice" hidden>No matching tools. Try a category or a shorter search.</p><section class="section-title card"><h2>Where numbers come from</h2><p>Each tool lists the inputs and assumptions used. Income tax has a strictly limited verified case; credit health never pretends to know your bureau score. Financial rules and real offers can change.</p></section></div></div>';
-  let filter='all';
+  const requestedCategory=new URLSearchParams(location.search).get('category');
+  let filter=categories.some(c=>c.id===requestedCategory)?requestedCategory:'all';
   const buttons=[{id:'all',name:'All tools'},...categories].map(cat=>'<button type="button" data-category="'+cat.id+'">'+cat.name+'</button>').join('');
   $('categories').innerHTML=buttons;
   function update(){

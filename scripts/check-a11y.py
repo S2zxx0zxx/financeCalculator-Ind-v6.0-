@@ -9,9 +9,9 @@ class Scan(HTMLParser):
         if tag=='html':self.html_lang=bool(a.get('lang'))
         if tag=='h1':self.h1+=1
         if tag=='main':self.main_ids.append(a.get('id'))
-        if tag=='a' and 'skip' in a.get('class','').split():self.skip.append(a.get('href'))
+        if tag=='a' and set(a.get('class','').split()) & {'skip','skip-link'}:self.skip.append(a.get('href'))
         if tag=='meta' and a.get('name')=='viewport':self.viewport=True
-paths=[ROOT/'index.html',*ROOT.glob('app/index.html'),*ROOT.glob('calculators/*/index.html'),ROOT/'compare/index.html',ROOT/'saved/index.html']
+paths=[ROOT/'index.html',*ROOT.glob('app/index.html'),*ROOT.glob('calculators/*/index.html'),ROOT/'compare/index.html',ROOT/'saved/index.html',*[ROOT/'blog'/p for p in ('emi-payment-formula.html','sip-growth-illustration.html','gst-amount-math.html','fd-compounding-math.html')]]
 for path in paths:
     page=Scan();page.feed(path.read_text())
     assert page.html_lang and page.viewport and page.h1==1 and len(page.main_ids)==1,path
