@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router";
 import { App } from "./app/App";
+import { PreferencesProvider } from "./app/providers/PreferencesProvider";
 import "./styles/tokens.css";
 import "./styles/global.css";
 
@@ -10,8 +11,10 @@ if (!root) throw new Error("FinCalc root element is missing");
 
 createRoot(root).render(
   <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <PreferencesProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </PreferencesProvider>
   </StrictMode>
 );
