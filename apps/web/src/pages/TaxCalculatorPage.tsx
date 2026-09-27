@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { calculateSalaryTax2026, type AgeGroup } from "@fincalc/finance-core";
+import { CalculatorActions } from "../features/export-share/CalculatorActions";
 
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 
@@ -66,6 +67,12 @@ export function TaxCalculatorPage() {
             <div><span>New-regime cess</span><strong>{money.format(newRegime.cess)}</strong></div>
             <div><span>Old-regime cess</span><strong>{money.format(oldRegime.cess)}</strong></div>
           </div>
+          <CalculatorActions
+            calculatorId="tax"
+            calculatorTitle="Income Tax Calculator — Tax Year 2026–27"
+            inputs={{ grossSalary, ageGroup, resident: true, section80C, section80D }}
+            summary={{ newRegimeTax: money.format(newRegime.totalTax), oldRegimeTax: money.format(oldRegime.totalTax), lowerInModel: better, difference: money.format(savings) }}
+          />
           {needsAdvanced ? <div className="warning-note">Income above ₹50 lakh can involve surcharge and marginal-surcharge relief. This simplified estimator intentionally does not pretend to compute those advanced cases yet.</div> : null}
           <div className="assumption-note">Special-rate income such as certain capital gains or lottery income is outside this salary-focused estimate. Tax Year 2026–27 uses the Income-tax Act, 2025.</div>
         </div>
