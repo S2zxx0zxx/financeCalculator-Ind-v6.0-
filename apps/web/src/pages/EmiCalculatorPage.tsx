@@ -1,14 +1,22 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { calculateEmi } from "@fincalc/finance-core";
 import { AccessibleRatioChart } from "../shared/charts/AccessibleRatioChart";
 import { CalculatorActions } from "../features/export-share/CalculatorActions";
+import { savedNumber, useSavedScenario } from "../features/history/useSavedScenario";
 
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 
 export function EmiCalculatorPage() {
-  const [principal, setPrincipal] = useState(1_000_000);
-  const [rate, setRate] = useState(8.5);
-  const [years, setYears] = useState(20);
+  const savedScenario = useSavedScenario();
+  const [principal, setPrincipal] = useState(() => savedNumber(savedScenario?.inputs, "principal", 1_000_000));
+  const [rate, setRate] = useState(() => savedNumber(savedScenario?.inputs, "annualRate", 8.5));
+  const [years, setYears] = useState(() => savedNumber(savedScenario?.inputs, "tenureYears", 20));
+  useEffect(() => {
+    if (!savedScenario) return;
+    setPrincipal(savedNumber(savedScenario.inputs, "principal", 1_000_000));
+    setRate(savedNumber(savedScenario.inputs, "annualRate", 8.5));
+    setYears(savedNumber(savedScenario.inputs, "tenureYears", 20));
+  }, [savedScenario?.recordId]);
   const result = useMemo(() => calculateEmi({ principal, annualRate: rate, tenureYears: years }), [principal, rate, years]);
 
   return (
