@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { calculateGst, type GstMode } from "@fincalc/finance-core";
 import { AccessibleRatioChart } from "../shared/charts/AccessibleRatioChart";
+import { CalculatorActions } from "../features/export-share/CalculatorActions";
 
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 2 });
 
@@ -48,6 +49,12 @@ export function GstCalculatorPage() {
               { label: "Base", value: result.values.base, formatted: money.format(result.values.base) },
               { label: "GST", value: result.values.gst, formatted: money.format(result.values.gst) }
             ]}
+          />
+          <CalculatorActions
+            calculatorId="gst"
+            calculatorTitle="GST Calculator"
+            inputs={{ amount, ratePercent, mode }}
+            summary={{ total: money.format(result.values.total), base: money.format(result.values.base), gst: money.format(result.values.gst), cgst: money.format(result.values.cgst), sgst: money.format(result.values.sgst) }}
           />
           <div className="assumption-note">CGST/SGST is shown as an equal split, matching the existing FinCalc behavior. Interstate IGST cases need separate treatment.</div>
         </div>
