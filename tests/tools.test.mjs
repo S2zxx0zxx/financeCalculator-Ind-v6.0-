@@ -28,6 +28,10 @@ test('independent arithmetic anchors for monthly savings, deposits, inflation an
   assert.equal(calculators.gst({amount:118,rate:18,mode:'inclusive'}).rows[1].value,18);
   assert.equal(calculators.gst({amount:100,rate:18,mode:'exclusive'}).headline,118);
 });
+test('FD accepts the compounding value emitted by its HTML select',()=>{
+  assert.ok(Math.abs(calculators.fd({...cases.fd,frequency:'4'}).headline-1103.812890625)<0.001);
+  assert.throws(()=>calculators.fd({...cases.fd,frequency:'3'}),RangeError);
+});
 test('tax rules explicitly stop unsupported cases',()=>{
   assert.throws(()=>calculators['income-tax']({...cases['income-tax'],salary:1275001}),/above/);
   assert.throws(()=>calculators['income-tax']({...cases['income-tax'],resident:'no'}),/Only resident/);
@@ -42,8 +46,12 @@ test('numbers and meaningful impossible cases reject without a plausible looking
   assert.throws(()=>calculators.emi({...cases.emi,principal:NaN}),RangeError);
 });
 test('backup rejects unrelated schema and fake tool data',()=>{
-  const scenario={id:'a1234567-89ab-4cde-8abc-0123456789ab',name:'Test',toolId:'emi',createdAt:'2026-09-27T00:00:00.000Z',inputs:{principal:100},result:{toolId:'emi',headline:10,headlineLabel:'EMI'}};
-  assert.equal(validateImport({schemaVersion:1,scenarios:[scenario]},tools.map(t=>t.id)).length,1);
+  const scenario={id:'a1234567-89ab-4cde-8abc-0123456789ab',name:'Test',toolId:'emi',createdAt:'2026-09-27T00:00:00.000Z',inputs:cases.emi,result:{toolId:'emi',headline:10,headlineLabel:'EMI'}};
+  const imported=validateImport({schemaVersion:1,scenarios:[scenario]},tools.map(t=>t.id));
+  assert.equal(imported.length,1);
+  assert.equal(imported[0].result.headline,calculators.emi(cases.emi).headline);
   assert.throws(()=>validateImport({schemaVersion:9,scenarios:[scenario]},tools.map(t=>t.id)));
   assert.throws(()=>validateImport({schemaVersion:1,scenarios:[{...scenario,toolId:'other'}]},tools.map(t=>t.id)));
+  assert.throws(()=>validateImport({schemaVersion:1,scenarios:[{...scenario,inputs:{principal:100}}]},tools.map(t=>t.id)));
+  assert.throws(()=>validateImport({schemaVersion:1,scenarios:[scenario,scenario]},tools.map(t=>t.id)));
 });

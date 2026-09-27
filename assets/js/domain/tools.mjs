@@ -57,7 +57,7 @@ export const calculators = {
     const principal = money(i.principal, 'Deposit', 1);
     const rate = pct(i.rate, 'Annual rate', 30) / 100;
     const term = years(i.years, 'Deposit term', 80);
-    const frequency = integer(i.frequency, 'Compounding frequency', 1, 12);
+    const frequency = integer(typeof i.frequency === 'string' && /^(1|2|4|12)$/.test(i.frequency) ? Number(i.frequency) : i.frequency, 'Compounding frequency', 1, 12);
     if (![1,2,4,12].includes(frequency)) throw new RangeError('Choose annual, half-yearly, quarterly or monthly compounding.');
     const maturity = principal * Math.pow(1 + rate / frequency, frequency * term);
     return result('fd', maturity, 'Illustrative maturity', [row('Deposit', principal), row('Interest before tax', maturity - principal)],

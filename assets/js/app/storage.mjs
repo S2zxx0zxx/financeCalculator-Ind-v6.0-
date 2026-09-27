@@ -1,3 +1,5 @@
+import { calculators } from '../domain/tools.mjs';
+
 const DB = 'fincalc-scenarios-v1';
 const STORE = 'scenarios';
 const open = () => new Promise((resolve,reject)=>{
@@ -30,5 +32,16 @@ export function validateScenario(s){
 }
 export function validateImport(payload, ids){
   if(!payload || payload.schemaVersion!==1 || !Array.isArray(payload.scenarios) || payload.scenarios.length>200) throw new Error('Unsupported file version or too many scenarios.');
-  return payload.scenarios.map(s=>{validateScenario(s);if(!ids.includes(s.toolId) || s.result.toolId!==s.toolId) throw new Error('Unknown tool in backup.');return s;});
+  const seen=new Set();
+  return payload.scenarios.map(s=>{
+    validateScenario(s);
+    if(!ids.includes(s.toolId) || !calculators[s.toolId] || s.result.toolId!==s.toolId || seen.has(s.id)) throw new Error('Unknown or duplicate scenario in backup.');
+    seen.add(s.id);
+    // Backup results are untrusted snapshots. Recalculate from validated inputs
+    // so imported estimates always carry the current formula and disclosures.
+    let result;
+    try { result=calculators[s.toolId](s.inputs); }
+    catch { throw new Error('A backup scenario has invalid or unsupported inputs.'); }
+    return {id:s.id,name:s.name,toolId:s.toolId,createdAt:s.createdAt,inputs:s.inputs,result};
+  });
 }
