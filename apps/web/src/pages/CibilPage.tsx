@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { classifyLegacyCibil } from "@fincalc/finance-core";
+import { CalculatorActions } from "../features/export-share/CalculatorActions";
 
 function context(score: number) {
   if (score > 700) return "Official CIBIL guidance says a score above 700 is generally considered good. Higher scores can improve the chances of an application being reviewed favorably.";
@@ -42,6 +43,12 @@ export function CibilPage() {
             <div><span>FinCalc legacy band</span><strong>{legacy.band.replace("-", " ")}</strong></div>
             <div><span>Legacy approval label</span><strong>{legacy.approvalLabel}</strong></div>
           </div>
+          <CalculatorActions
+            calculatorId="cibil"
+            calculatorTitle="CIBIL Score Guide"
+            inputs={{ score: legacy.score }}
+            summary={{ score: String(legacy.score), fincalcLegacyBand: legacy.band.replace("-", " "), context: context(legacy.score) }}
+          />
           <p className="credit-context">{context(legacy.score)}</p>
           <div className="assumption-note">CIBIL does not approve or reject loans. Lenders make the final decision using their own credit policy and other application details.</div>
         </div>
