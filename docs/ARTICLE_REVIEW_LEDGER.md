@@ -25,7 +25,7 @@ Snapshot: 27 September 2026. All 29 original article URLs remain readable, but t
 | nri-india-investment-guide-2026-nre-fd-sgb-sip.html | Rates/markets | 0 | Pending line-by-line review; noindex |
 | ppf-epf-nps-comparison-2026-tax-saving-guide.html | Tax/rules | 0 | Pending line-by-line review; noindex |
 | rbi-repo-rate-5-25-emi-impact-2026.html | Rates/markets | 0 | Pending line-by-line review; noindex |
-| rbi-upi-10000-delay-rule-2026-guide.html | Rates/markets | 0 | Pending line-by-line review; noindex |
+| rbi-upi-10000-delay-rule-2026-guide.html | Regulatory claim | 0 | High priority: headline implies an enacted RBI rule; locate the RBI circular and effective date before any republication. Pending line-by-line review; noindex |
 | real-estate-india-2026-buy-rent-tier2-guide.html | Evergreen with dated facts | 0 | Pending line-by-line review; noindex |
 | rupee-93-dollar-impact-india-2026-guide.html | Rates/markets | 0 | Pending line-by-line review; noindex |
 | sgb-302-return-redeem-ya-hold-2026.html | Rates/markets | 0 | Pending line-by-line review; noindex |
@@ -43,3 +43,7 @@ Snapshot: 27 September 2026. All 29 original article URLs remain readable, but t
 5. Only then remove noindex, repopulate the sitemap and RSS item for that article. Confirm the old URL remains stable.
 
 The blog index itself remains public and explains that the archive is under review. New original articles must pass this gate before publishing.
+
+## Public archive presentation
+
+All 29 index cards now display an archive/source-review badge and neutral excerpt. Historical headlines are retained solely as titles of preserved URLs; the index no longer presents "new", "most read", "updated weekly" or live financial teaser numbers without evidence. Embedded repeated base64 logo data was replaced with a shared icon asset on affected pages. These safeguards do not verify the article bodies.

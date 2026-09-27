@@ -12,6 +12,8 @@ for(const name of articleNames){
   assert.ok(!read('sitemap.xml').includes('/blog/'+name),'Pending-review articles must not appear in the indexable sitemap');
 }
 assert.doesNotMatch(read('blog/feed.xml'),/<item>/,'Unreviewed articles must not enter RSS');
+assert.equal((read('blog/index.html').match(/Archive · Source review pending/g)||[]).length,29,'Every article preview must show its review status');
+assert.doesNotMatch(read('blog/index.html'),/Updated Weekly|Most Read|29 Expert Guides|<span class="special-badge featured">NEW<\/span>/,'Unverified promotional claims on blog index');
 for(const path of ['index.html','blog/index.html','contact.html','privacy-policy.html'])assert.doesNotMatch(read(path),/15,000\+ subscribers|You are already subscribed!|Message bhej diya!/);
 assert.equal(existsSync(new URL('../podcast/',import.meta.url)),false,'Podcast route must be absent');
 for(const path of ['index.html','blog/index.html','about.html','contact.html','disclaimer.html','privacy-policy.html',...articleNames.map(name=>'blog/'+name)]){

@@ -21,7 +21,7 @@ test('PWA install caches only the current calculator shell and all tool routes',
 });
 test('activation evicts old service-worker cache',async()=>{
   const env=setup();let promise;env.handlers.activate({waitUntil:p=>promise=p});await promise;
-  assert.deepEqual(env.removed,['fincalc-v6','fincalc-web-v2']);
+  assert.deepEqual(env.removed,['fincalc-v6','fincalc-web-v2','fincalc-web-v3']);
 });
 test('offline navigation shows honest fallback instead of unrelated homepage',async()=>{
   const env=setup(async()=>{throw Error('offline')});let response;
