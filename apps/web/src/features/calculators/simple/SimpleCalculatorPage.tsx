@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { AccessibleRatioChart } from "../../../shared/charts/AccessibleRatioChart";
+import { CalculatorActions } from "../../export-share/CalculatorActions";
 import type { SimpleCalculatorDefinition, SimpleField } from "./types";
 
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
@@ -16,6 +17,10 @@ export function SimpleCalculatorPage({ definition }: { definition: SimpleCalcula
     Object.fromEntries(definition.fields.map(field => [field.key, field.defaultValue]))
   );
   const view = useMemo(() => definition.calculate(values), [definition, values]);
+  const summary = useMemo(
+    () => Object.fromEntries([[view.primaryLabel, view.primaryValue], ...view.metrics.map(metric => [metric.label, metric.value])]),
+    [view]
+  );
 
   return (
     <div className="calculator-layout">
@@ -60,6 +65,7 @@ export function SimpleCalculatorPage({ definition }: { definition: SimpleCalcula
           </div>
           {view.ratio ? <AccessibleRatioChart title={view.ratio.title} segments={[view.ratio.first, view.ratio.second]} /> : null}
           {view.note ? <div className="assumption-note">{view.note}</div> : null}
+          <CalculatorActions calculatorId={definition.id} calculatorTitle={definition.title} inputs={values} summary={summary} />
         </div>
       </section>
     </div>
