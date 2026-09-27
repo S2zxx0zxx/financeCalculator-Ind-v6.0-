@@ -126,3 +126,37 @@ describe("legacy parity fixtures", () => {
     expect(classifyLegacyCibil(549).values.band).toBe("poor");
   });
 });
+
+
+describe("Tax Year 2026-27 verified salary estimator", () => {
+  it("gives nil new-regime tax through ₹12.75 lakh gross salary after standard deduction", async () => {
+    const { calculateSalaryTax2026 } = await import("./index");
+    const { values } = calculateSalaryTax2026({
+      grossSalary: 1_275_000,
+      ageGroup: "general",
+      resident: true,
+      section80C: 0,
+      section80D: 0
+    });
+    expect(values.newRegime.taxableIncome).toBe(1_200_000);
+    expect(values.newRegime.slabTax).toBe(60_000);
+    expect(values.newRegime.rebate).toBe(60_000);
+    expect(values.newRegime.totalTax).toBe(0);
+  });
+
+  it("applies marginal relief immediately above ₹12 lakh taxable income", async () => {
+    const { calculateSalaryTax2026 } = await import("./index");
+    const { values } = calculateSalaryTax2026({
+      grossSalary: 1_285_000,
+      ageGroup: "general",
+      resident: true,
+      section80C: 0,
+      section80D: 0
+    });
+    expect(values.newRegime.taxableIncome).toBe(1_210_000);
+    expect(values.newRegime.slabTax).toBe(61_500);
+    expect(values.newRegime.marginalRelief).toBe(51_500);
+    expect(values.newRegime.taxAfterRelief).toBe(10_000);
+    expect(values.newRegime.totalTax).toBe(10_400);
+  });
+});
