@@ -2,13 +2,15 @@
 // Provides offline support via Cache-First strategy for static assets
 // and Network-First strategy for HTML pages.
 
-const CACHE_NAME = 'fincalc-v6';
+const CACHE_NAME = 'fincalc-revival-foundation-v1';
 
 // Core shell files to pre-cache on install (must all exist)
 const PRECACHE_URLS = [
   '/',
   '/index.html',
   '/manifest.json',
+  '/calculators/emi/',
+  '/assets/js/domain/emi.mjs',
   '/icons/icon-192.png',
   '/icons/icon-512.png'
 ];

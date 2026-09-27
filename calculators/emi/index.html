@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Estimate monthly loan EMI, total interest and total paid with clear fixed-rate assumptions. No account needed.">
+  <link rel="canonical" href="https://satzzxzxx.me/calculators/emi/">
+  <title>EMI calculator | FinCalc India</title>
+  <style>
+    :root{font:16px/1.55 system-ui,sans-serif;color:#1b1710;background:#f8f9fb;color-scheme:light dark}
+    *{box-sizing:border-box}body{margin:0}header,main,footer{max-width:1050px;margin:auto;padding:24px}header{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+    a{color:#854300;text-underline-offset:4px}a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #e67512;outline-offset:3px}
+    .brand{font-size:1.2rem;font-weight:750}h1{font-size:clamp(2rem,5vw,3.25rem);line-height:1.13;margin:12px 0}h2{margin-top:0}p{max-width:70ch;color:#534f48}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:28px 0}.card{background:#fff;border:1px solid #dedbd4;border-radius:20px;padding:clamp(20px,4vw,32px);box-shadow:0 10px 30px #1b171009}
+    label{display:block;font-weight:700;margin:18px 0 6px}input{width:100%;font:inherit;border:1px solid #8f8a80;border-radius:10px;padding:12px 14px;background:#fff;color:#1b1710}small{display:block;color:#625d56}button{font:inherit;border:0;border-radius:10px;background:#b54c0a;color:#fff;font-weight:700;padding:13px 20px;cursor:pointer;margin-top:24px}button:hover{background:#873a09}
+    output{display:block;font-size:clamp(2rem,5vw,3.2rem);font-weight:780;line-height:1.15}dl{display:grid;grid-template-columns:1fr auto;gap:12px}dt,dd{border-bottom:1px solid #e0ddd5;padding-bottom:10px;margin:0}dd{text-align:right;font-weight:700}.error{color:#ad1024;font-weight:700;min-height:1.6em}.help{border-left:4px solid #ea7b23;padding-left:16px}
+    @media(max-width:720px){.grid{grid-template-columns:1fr}header,main,footer{padding:18px}}
+    @media(prefers-color-scheme:dark){:root{background:#0c0d12;color:#f5f2ed}.card{background:#18191e;border-color:#34343c}input{background:#22232a;color:#f5f2ed;border-color:#a4a0a0}p,small{color:#c6c3bd}a{color:#ffb573}dt,dd{border-color:#45434a}}
+  </style>
+</head>
+<body>
+  <header><a class="brand" href="/">FinCalc <span aria-label="by FinCo-Pilot">· by FinCo-Pilot</span></a><nav aria-label="Primary"><a href="/#emi">All calculators</a> · <a href="/blog/">Learn</a></nav></header>
+  <main>
+    <nav aria-label="Breadcrumb"><a href="/">Home</a> / EMI calculator</nav>
+    <h1>How much will my monthly EMI be?</h1>
+    <p>Explore a fixed-rate loan estimate in seconds. Enter your own rate: this page does not fetch a bank offer or decide loan eligibility.</p>
+    <div class="grid">
+      <section class="card" aria-labelledby="inputs-title"><h2 id="inputs-title">Loan details</h2>
+        <form id="emi-form" novalidate>
+          <label for="principal">Loan amount (₹)</label><input id="principal" name="principal" type="number" min="1" step="0.01" inputmode="decimal" value="1000000" required><small>Starting example: ₹10,00,000</small>
+          <label for="rate">Annual interest rate (%)</label><input id="rate" name="rate" type="number" min="0" max="100" step="0.01" inputmode="decimal" value="8.5" required><small>Illustrative input, not a live lender rate.</small>
+          <label for="years">Loan term (years)</label><input id="years" name="years" type="number" min="1" max="100" step="1" inputmode="numeric" value="20" required>
+          <p id="error" class="error" role="alert"></p><button type="submit">Calculate EMI</button>
+        </form>
+      </section>
+      <section class="card" aria-labelledby="result-title"><h2 id="result-title">Your estimate</h2><p>Monthly payment</p><output id="payment" for="principal rate years" aria-live="polite">—</output>
+        <dl><dt>Principal</dt><dd id="principal-result">—</dd><dt>Total interest</dt><dd id="interest-result">—</dd><dt>Total paid</dt><dd id="total-result">—</dd></dl>
+        <p id="summary" aria-live="polite">Enter valid details and calculate.</p>
+      </section>
+    </div>
+    <section class="card"><h2>How this estimate works</h2><p>EMI = principal × monthly rate ÷ (1 − (1 + monthly rate)<sup>−number of months</sup>). At 0% interest, the principal is divided equally by the number of months. The result assumes a fixed nominal annual rate divided by 12, equal payments at the end of each month, and no changes to the rate or term.</p>
+      <p class="help">Estimate only. Processing fees, insurance, taxes, prepayments, variable rates and lender rounding are excluded. Confirm terms and the repayment schedule with your lender before committing.</p><p>Calculation rules: emi-fixed-monthly-v1. Inputs remain in your browser; this page does not create an account or upload your loan amount.</p>
+    </section>
+  </main><footer><a href="/contact.html">Report an issue</a> · <a href="/disclaimer.html">Disclaimer</a></footer>
+  <script type="module">
+    import { calculateEmi } from '/assets/js/domain/emi.mjs';
+    const $ = id => document.getElementById(id);
+    const currency = new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:2});
+    $('emi-form').addEventListener('submit', event => {
+      event.preventDefault(); $('error').textContent = '';
+      const fields = [$('principal'),$('rate'),$('years')];
+      const invalid = fields.find(field => !field.value.trim() || !field.checkValidity());
+      if (invalid) { $('error').textContent = 'Enter valid loan amount, rate and whole years.'; invalid.focus(); return; }
+      try {
+        const principal = Number($('principal').value), annualRatePercent = Number($('rate').value), years = Number($('years').value);
+        const result = calculateEmi({principal,annualRatePercent,tenureMonths:years*12});
+        $('payment').textContent = currency.format(result.monthlyPayment);
+        $('principal-result').textContent = currency.format(result.principal);
+        $('interest-result').textContent = currency.format(result.totalInterest);
+        $('total-result').textContent = currency.format(result.totalPaid);
+        $('summary').textContent = 'Based on '+years+' years at '+annualRatePercent+'% annual interest, fixed for the whole term.';
+      } catch (error) { $('error').textContent = error.message; }
+    });
+  </script>
+</body>
+</html>

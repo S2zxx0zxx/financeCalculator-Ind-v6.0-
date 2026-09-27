@@ -749,19 +749,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
     <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2931447769544799" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
   </div>
 
-  <div class="newsletter-section">
-    <h2>Get Finance Tips in Your Inbox &#x1F4EC;</h2>
-    <p>Weekly SIP, tax &amp; loan updates. No spam.</p>
-    <div id="newsletterForm">
-      <form class="newsletter-form" id="nlForm" novalidate>
-        <input class="newsletter-input" type="email" id="nlEmail" placeholder="Enter your email address" required aria-label="Email address">
-        <button class="newsletter-btn" type="submit">Subscribe</button>
-      </form>
-    </div>
-    <div id="newsletterThanks" style="display:none;padding:16px;color:var(--accent);font-weight:700;font-size:15px;">&#x2714; You're subscribed! Great financial tips coming your way.</div>
-    <p class="newsletter-note">No spam. Unsubscribe anytime.</p>
-  </div>
-
+  <!-- Newsletter enrollment paused until verified email delivery is available. -->
   <div class="cta-box">
     <h2>Try Our Free Calculators</h2>
     <p>EMI Calculator, SIP Calculator, Income Tax Calculator, GST Calculator &amp; more &mdash; all free, no signup.</p>
@@ -771,7 +759,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 </main>
 
 <footer class="site-footer">
-  <div><strong>FinCalc India</strong> &mdash; India's #1 Free Financial Calculator Suite</div>
+  <div><strong>FinCalc India</strong> &mdash; Free Financial Calculators for India</div>
   <div class="footer-links">
     <a href="https://satzzxzxx.me/">Calculator</a>
     <a href="https://satzzxzxx.me/blog/">Blog</a>
@@ -828,28 +816,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 /* --- THEME TOGGLE --- */
 function toggleTheme(){var h=document.documentElement,t=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'\u2600\uFE0F':'\uD83C\uDF19';try{localStorage.setItem('fc-theme',t);}catch(e){}}
 (function(){try{var t=localStorage.getItem('fc-theme');if(t){document.documentElement.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'\u2600\uFE0F':'\uD83C\uDF19';}}catch(e){}})();
-
-/* --- NEWSLETTER (localStorage, no backend) --- */
-(function(){
-  try{
-    if(localStorage.getItem('fincalc-nl-subscribed')){
-      document.getElementById('newsletterForm').style.display='none';
-      document.getElementById('newsletterThanks').style.display='block';
-    }
-  }catch(e){}
-  var form=document.getElementById('nlForm');
-  if(form){
-    form.addEventListener('submit',function(e){
-      e.preventDefault();
-      var email=document.getElementById('nlEmail').value.trim();
-      var emailInput=document.getElementById('nlEmail');
-      if(!email||!emailInput.checkValidity())return;
-      try{localStorage.setItem('fincalc-nl-subscribed','1');}catch(ex){}
-      document.getElementById('newsletterForm').style.display='none';
-      document.getElementById('newsletterThanks').style.display='block';
-    });
-  }
-})();
 
 /* --- SEARCH + CATEGORY FILTER (integrated) --- */
 (function(){

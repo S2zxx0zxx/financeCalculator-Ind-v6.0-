@@ -254,13 +254,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
   <!-- Response Time -->
   <div class="section">
     <h2>⏱️ Response Time</h2>
-    <p>Hum usually <strong>24-48 hours</strong> mein reply karte hain. For urgent issues, Telegram is usually the fastest channel.</p>
+    <p>Response time can vary. Please use the email link below and keep a copy in your sent mail.</p>
   </div>
 
   <!-- Contact Form -->
   <div class="section">
     <h2>✉️ Send Us a Message</h2>
     <div id="form-wrap">
+      <p>Fill this in to draft an email in your mail app. You must press Send there; this website cannot confirm delivery.</p>
       <form id="contactForm" onsubmit="submitForm(event)" novalidate>
         <div class="form-group">
           <label for="cf-name">Your Name *</label>
@@ -275,13 +276,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
           <textarea id="cf-msg" placeholder="Apna sawaal ya suggestion yahan likhein..." required></textarea>
         </div>
         <div id="form-error" style="color:var(--red);font-size:13px;margin-bottom:12px;display:none;"></div>
-        <button type="submit" class="submit-btn">Send Message 🚀</button>
+        <button type="submit" class="submit-btn">Open Email Draft →</button>
       </form>
-    </div>
-    <div id="form-thankyou" style="display:none;">
-      <div class="success-box">
-        <strong>🎉 Message bhej diya!</strong> Thank you for reaching out. Hum jaldi reply karenge (usually 24-48 hours mein).
-      </div>
     </div>
   </div>
 
@@ -306,7 +302,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 </main>
 
 <footer class="site-footer">
-  <div><strong>FinCalc India</strong> — India's #1 Free Financial Calculator Suite</div>
+  <div><strong>FinCalc India</strong> — Free Financial Calculators for India</div>
   <div class="footer-links">
     <a href="https://satzzxzxx.me/">Calculator</a>
     <a href="https://satzzxzxx.me/blog/">Blog</a>
@@ -349,7 +345,21 @@ function toggleTheme(){const t=document.documentElement.getAttribute('data-theme
 (function(){const s=localStorage.getItem('fincalc-theme');if(s==='dark'){document.documentElement.setAttribute('data-theme','dark');setTimeout(()=>{const b=document.getElementById('themeBtn');if(b)b.textContent='☀️';},0);}})();
 function setLang(l){const em=document.getElementById('btn-en'),hm=document.getElementById('btn-hi'),emm=document.getElementById('btn-en-m'),hmm=document.getElementById('btn-hi-m');if(em)em.classList.toggle('active',l==='en');if(hm)hm.classList.toggle('active',l==='hi');if(emm)emm.classList.toggle('active',l==='en');if(hmm)hmm.classList.toggle('active',l==='hi');}
 function toggleMobileMenu(){const n=document.getElementById('mobileNav'),b=document.getElementById('mobileMenuBtn');if(!n)return;const o=n.classList.toggle('open');if(b){b.textContent=o?'✕':'☰';b.setAttribute('aria-label',o?'Close menu':'Open menu');}}
-function submitForm(e){e.preventDefault();var name=document.getElementById('cf-name').value.trim(),email=document.getElementById('cf-email').value.trim(),msg=document.getElementById('cf-msg').value.trim(),errEl=document.getElementById('form-error');errEl.style.display='none';if(!name||!email||!msg){errEl.textContent='Sabhi fields required hain.';errEl.style.display='block';return;}var re=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;if(!re.test(email)){errEl.textContent='Valid email address dalein.';errEl.style.display='block';return;}try{var msgs=JSON.parse(localStorage.getItem('fincalc-contact-msgs')||'[]');msgs.push({name:name,email:email,msg:msg,ts:new Date().toISOString()});localStorage.setItem('fincalc-contact-msgs',JSON.stringify(msgs));}catch(ex){}document.getElementById('form-wrap').style.display='none';document.getElementById('form-thankyou').style.display='block';}
+function submitForm(e){
+  e.preventDefault();
+  var name=document.getElementById('cf-name').value.trim();
+  var email=document.getElementById('cf-email').value.trim();
+  var msg=document.getElementById('cf-msg').value.trim();
+  var errEl=document.getElementById('form-error');
+  errEl.style.display='none';
+  if(!name||!email||!msg){errEl.textContent='Sabhi fields required hain.';errEl.style.display='block';return;}
+  if(!document.getElementById('cf-email').checkValidity()){errEl.textContent='Valid email address dalein.';errEl.style.display='block';return;}
+  var subject=encodeURIComponent('FinCalc contact from '+name);
+  var body=encodeURIComponent('Name: '+name+'\nReply to: '+email+'\n\n'+msg);
+  window.location.href='mailto:satyamkumar@satzzxzxx.me?subject='+subject+'&body='+body;
+  errEl.textContent='Email draft khulega. Mail app mein Send dabayein; delivery yahan confirm nahi hoti.';
+  errEl.style.display='block';
+}
 if(location.hostname==='satzzxzxx.me'){
   (function(w,d,s){var j=d.createElement(s);j.async=true;j.src='https://www.googletagmanager.com/gtag/js?id=G-NTKNL4QDZN';d.head.appendChild(j);})(window,document,'script');
   window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-NTKNL4QDZN');
