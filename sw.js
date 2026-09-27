@@ -1,101 +1,27 @@
-// FinCalc India — Service Worker
-// Provides offline support via Cache-First strategy for static assets
-// and Network-First strategy for HTML pages.
-
-const CACHE_NAME = 'fincalc-v6';
-
-// Core shell files to pre-cache on install (must all exist)
-const PRECACHE_URLS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png'
-];
-
-// Optional assets — cached if available, skipped gracefully if missing
-const PRECACHE_OPTIONAL = [
-  '/icons/fincalc-logo-splash.png',
-  '/og-image.svg'
-];
-
-// ── Install: pre-cache core shell ──────────────────────────────────────────
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      // Required assets — install fails if any of these are missing
-      const required = cache.addAll(PRECACHE_URLS);
-      // Optional assets — best-effort, never block install
-      const optional = Promise.all(
-        PRECACHE_OPTIONAL.map((url) =>
-          cache.add(url).catch(() => { /* skip missing optional asset */ })
-        )
-      );
-      return required.then(() => optional);
-    })
-  );
-  self.skipWaiting();
-});
-
-// ── Activate: remove old caches ────────────────────────────────────────────
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(
-        keys
-          .filter((key) => key !== CACHE_NAME)
-          .map((key) => caches.delete(key))
-      )
-    )
-  );
-  self.clients.claim();
-});
-
-// Helper: write a response clone into the cache, ignoring write failures.
-function cacheResponse(request, response) {
-  caches.open(CACHE_NAME)
-    .then((cache) => cache.put(request, response))
-    .catch(() => { /* cache write failure is non-fatal */ });
-}
-
-// ── Fetch: serve from cache, fall back to network ──────────────────────────
-self.addEventListener('fetch', (event) => {
-  const { request } = event;
-  const url = new URL(request.url);
-
-  // Only handle same-origin requests
-  if (url.origin !== location.origin) return;
-
-  // Navigation requests (HTML pages): Network-First
-  if (request.mode === 'navigate') {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          // Cache the fresh response for offline use
-          cacheResponse(request, response.clone());
-          return response;
-        })
-        .catch(() =>
-          caches.match(request)
-            .then((cached) => cached || caches.match('/index.html'))
-            .catch(() => caches.match('/index.html'))
-        )
-    );
+// FinCalc offline shell. No live finance rules or article pages are presented as current offline.
+const CACHE_NAME='fincalc-web-v4';
+const TOOL_SLUGS=['emi','sip','income-tax','gst','fd','rd','retirement','inflation','loan-eligibility','rent-vs-buy','credit-health'];
+const CORE=['/','/app/','/compare/','/saved/','/offline.html','/manifest.json','/icons/icon-192.png','/icons/icon-512.png','/assets/css/app.css','/assets/js/app/app.mjs','/assets/js/app/registry.mjs','/assets/js/app/storage.mjs','/assets/js/domain/tools.mjs','/assets/js/domain/emi.mjs',...TOOL_SLUGS.map(x=>'/calculators/'+x+'/')];
+self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(CORE)));});
+self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))));});
+self.addEventListener('fetch',event=>{
+  const request=event.request;
+  if(request.method!=='GET')return;
+  const url=new URL(request.url);
+  if(url.origin!==self.location.origin)return;
+  if(request.mode==='navigate'){
+    event.respondWith(fetch(request).then(response=>{
+      if(response.ok && response.type==='basic' && !url.pathname.startsWith('/blog/')){
+        const clone=response.clone();event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.put(request,clone)));
+      }
+      return response;
+    }).catch(async()=>await caches.match(request)||await caches.match('/offline.html')));
     return;
   }
-
-  // Static assets: Cache-First
-  event.respondWith(
-    caches.match(request).then((cached) => {
-      if (cached) return cached;
-      return fetch(request).then((response) => {
-        // Only cache successful same-origin responses
-        if (!response || response.status !== 200 || response.type !== 'basic') {
-          return response;
-        }
-        cacheResponse(request, response.clone());
-        return response;
-      });
-    })
-  );
+  event.respondWith(caches.match(request).then(cached=>cached||fetch(request).then(response=>{
+    if(response.ok && response.type==='basic' && /\.(css|mjs|png|svg)$/.test(url.pathname)){
+      const clone=response.clone();event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.put(request,clone)));
+    }
+    return response;
+  })));
 });
