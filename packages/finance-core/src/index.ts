@@ -10,3 +10,4 @@ export * from "./calculators/eligibility";
 export * from "./calculators/rent-vs-buy";
 export * from "./calculators/tax-legacy";
 export * from "./calculators/cibil-legacy";
+export * from "./calculators/tax-2026";
