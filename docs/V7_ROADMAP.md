@@ -34,3 +34,56 @@ Unit/formula tests, component tests, E2E, accessibility, responsive QA, security
 
 ## Definition of done
 No legacy capability lost; formula parity proven; key URLs preserved; mobile/desktop polished; offline path works; strict type/lint/tests pass; production build passes; main is merged only after review.
+
+
+## Product experience expansion — calculators + blog + visualization
+This is a hard requirement, not optional polish.
+
+### Universal discoverability
+- Every existing feature and category must remain easy to see, understand and reach.
+- Navigation is task-oriented: dashboard, calculator categories, universal search/command, recent, favorites, blog/content and utilities.
+- Desktop, tablet and mobile receive purpose-built navigation patterns rather than a squeezed desktop layout.
+- Important tools should be reachable with minimal interaction; secondary tools remain discoverable without visual clutter.
+
+### Calculator redesign standard
+- Redesign every existing calculator, not only the homepage.
+- Standard flow: clear purpose -> ergonomic inputs -> immediate validated result -> visual breakdown -> scenario/compare -> explanation -> save/share/export -> related tools.
+- Currency/percentage/date/tenure controls use consistent components and Indian formatting.
+- Advanced options are progressively disclosed so first-time users are not overwhelmed.
+- All legacy formula behavior is regression-tested before replacement.
+
+### Charts and financial visualization
+- Inventory every existing chart and visualization.
+- Upgrade responsive layout, labels, legends, tooltips, number formatting, accessibility and mobile interaction.
+- Chart data comes from the same tested domain result as textual totals so numbers cannot drift.
+- Handle zero/negative/extreme values, long labels, resize, dark/light themes and reduced motion.
+- Prefer the clearest chart for the financial question; decoration must never obscure data.
+
+### Blog redesign standard
+- Redesign blog home, category/discovery, article cards, article reading experience and related-content journeys.
+- Preserve every existing article and its public SEO value.
+- Add consistent reading width, typography hierarchy, table/figure styles, TOC where useful, reading progress, share actions, related calculators and related articles.
+- Calculator-to-blog and blog-to-calculator navigation should make the two parts feel like one product.
+
+### 2026-27 visual quality bar
+- Premium finance-product aesthetic: calm, information-dense where useful, spacious where comprehension matters.
+- Strong hierarchy, polished typography, consistent iconography, restrained motion, intentional surfaces and meaningful visual states.
+- Dark and light modes are designed independently, not mechanically inverted.
+- No template-like glassmorphism, excessive gradients, random decoration or visual effects that reduce trust/readability.
+- Micro-interactions communicate state and affordance; they are not ornamental noise.
+
+### UX audit gates
+For every existing feature/category/page ask:
+1. Can a new user discover it?
+2. Is its purpose obvious before clicking?
+3. Is it usable one-handed on mobile?
+4. Are primary actions visually dominant?
+5. Are results/data understandable without financial expertise?
+6. Are error, loading, empty, offline and edge states designed?
+7. Does it meet accessibility and keyboard requirements?
+8. Does it preserve or improve current functionality?
+9. Does it share the same FinCalc design language?
+10. Is there a clear next useful action?
+
+### Accuracy rule
+“Realtime” UI never means invented live financial data. Deterministic calculators update instantly from user inputs. Any future live rates, tax rules, market data or external facts must come from an explicit authoritative data source with timestamp/freshness and fallback behavior.
