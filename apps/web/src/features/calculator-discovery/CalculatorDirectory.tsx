@@ -1,9 +1,16 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
+import { isFavorite, toggleFavorite } from "../preferences/tool-preferences";
 import { calculatorCatalog } from "./catalog";
 
 export function CalculatorDirectory() {
   const [query, setQuery] = useState("");
+  const [, forceFavorites] = useState(0);
+  useEffect(() => {
+    const refresh = () => forceFavorites(value => value + 1);
+    window.addEventListener("fincalc:favorites-changed", refresh);
+    return () => window.removeEventListener("fincalc:favorites-changed", refresh);
+  }, []);
   const filtered = useMemo(() => {
     const needle = query.trim().toLowerCase();
     if (!needle) return calculatorCatalog;
@@ -31,9 +38,25 @@ export function CalculatorDirectory() {
           <h3>{category}</h3>
           <div className="tool-grid">
             {filtered.filter(x => x.category === category).map(tool => (
-              tool.status === "migrated"
-                ? <Link className="tool-card" key={tool.id} to={tool.href}><strong>{tool.title}</strong><span>{tool.description}</span><em>V7 migrated</em></Link>
-                : <a className="tool-card" key={tool.id} href={tool.href}><strong>{tool.title}</strong><span>{tool.description}</span><em>Legacy preserved</em></a>
+              <article className="tool-card" key={tool.id}>
+                <div className="tool-card-head">
+                  <strong>{tool.title}</strong>
+                  <button
+                    type="button"
+                    className="favorite-button"
+                    aria-label={isFavorite(tool.id) ? `Remove ${tool.title} from favorites` : `Add ${tool.title} to favorites`}
+                    aria-pressed={isFavorite(tool.id)}
+                    onClick={() => toggleFavorite(tool.id)}
+                  >★</button>
+                </div>
+                <span>{tool.description}</span>
+                <div className="tool-card-foot">
+                  <em>{tool.status === "migrated" ? "V7 migrated" : "Legacy preserved"}</em>
+                  {tool.status === "migrated"
+                    ? <Link to={tool.href}>Open →</Link>
+                    : <a href={tool.href}>Open legacy →</a>}
+                </div>
+              </article>
             ))}
           </div>
         </div>
