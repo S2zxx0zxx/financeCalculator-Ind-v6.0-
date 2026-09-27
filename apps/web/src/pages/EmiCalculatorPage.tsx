@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { calculateEmi } from "@fincalc/finance-core";
 import { AccessibleRatioChart } from "../shared/charts/AccessibleRatioChart";
+import { CalculatorActions } from "../features/export-share/CalculatorActions";
 
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 
@@ -46,6 +47,12 @@ export function EmiCalculatorPage() {
               { label: "Principal", value: result.values.principal, formatted: money.format(result.values.principal) },
               { label: "Interest", value: result.values.totalInterest, formatted: money.format(result.values.totalInterest) }
             ]}
+          />
+          <CalculatorActions
+            calculatorId="emi"
+            calculatorTitle="EMI Calculator"
+            inputs={{ principal, annualRate: rate, tenureYears: years }}
+            summary={{ monthlyEmi: money.format(result.values.monthlyEmi), principal: money.format(result.values.principal), totalInterest: money.format(result.values.totalInterest), totalPayment: money.format(result.values.totalPayment) }}
           />
           <details>
             <summary>Formula & assumptions</summary>
