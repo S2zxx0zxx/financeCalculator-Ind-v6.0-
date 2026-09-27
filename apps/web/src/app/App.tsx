@@ -5,11 +5,13 @@ import { LegacyBridgePage } from "../pages/LegacyBridgePage";
 import { ThemeControl } from "../shared/ui/ThemeControl";
 import { LanguageControl } from "../shared/ui/LanguageControl";
 import { ActivityPage } from "../pages/ActivityPage";
+import { ComparePage } from "../pages/ComparePage";
 
 const nav = [
   { to: "/", label: "Overview" },
   { to: "/calculators/emi", label: "Calculators" },
   { to: "/activity", label: "Activity" },
+  { to: "/compare", label: "Compare" },
   { to: "/learn", label: "Learn" }
 ];
 
@@ -39,6 +41,7 @@ export function App() {
             <Route path="/" element={<DashboardPage />} />
             <Route path="/calculators/:calculatorId" element={<CalculatorRoutePage />} />
             <Route path="/activity" element={<ActivityPage />} />
+            <Route path="/compare" element={<ComparePage />} />
             <Route path="/learn" element={<LegacyBridgePage kind="blog" />} />
             <Route path="*" element={<DashboardPage />} />
           </Routes>
