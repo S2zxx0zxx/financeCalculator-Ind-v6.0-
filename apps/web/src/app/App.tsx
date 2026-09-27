@@ -2,6 +2,8 @@ import { NavLink, Route, Routes } from "react-router";
 import { DashboardPage } from "../pages/DashboardPage";
 import { EmiCalculatorPage } from "../pages/EmiCalculatorPage";
 import { LegacyBridgePage } from "../pages/LegacyBridgePage";
+import { ThemeControl } from "../shared/ui/ThemeControl";
+import { LanguageControl } from "../shared/ui/LanguageControl";
 
 const nav = [
   { to: "/", label: "Overview" },
@@ -28,7 +30,7 @@ export function App() {
             <span className="eyebrow">FINCALC INDIA</span>
             <strong>Calculate. Understand. Decide.</strong>
           </div>
-          <a className="legacy-link" href="/index.html">Current FinCalc ↗</a>
+          <div className="topbar-actions"><LanguageControl /><ThemeControl /><a className="legacy-link" href="/index.html">Current FinCalc ↗</a></div>
         </header>
         <main className="content">
           <Routes>
