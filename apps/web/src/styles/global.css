@@ -103,3 +103,22 @@ a { color: inherit; }
 .language-control { display: flex; padding: 3px; border: 1px solid var(--fc-border); border-radius: 9px; background: var(--fc-surface); }
 .language-control button { width: 34px; min-height: 28px; border: 0; border-radius: 6px; background: transparent; color: var(--fc-text-soft); cursor: pointer; font-size: 10px; font-weight: 850; }
 .language-control button[aria-pressed="true"] { background: var(--fc-surface-soft); color: var(--fc-text); }
+
+
+.tool-search { position: relative; display: flex; align-items: center; margin: 0 0 22px; }
+.tool-search input { width: 100%; min-height: 50px; padding: 0 48px 0 16px; border: 1px solid var(--fc-border); border-radius: 13px; background: var(--fc-surface); color: var(--fc-text); box-shadow: var(--fc-shadow-sm); }
+.tool-search input::placeholder { color: var(--fc-text-soft); }
+.tool-search kbd { position: absolute; right: 12px; min-width: 25px; height: 25px; display: grid; place-items: center; border: 1px solid var(--fc-border); border-radius: 6px; color: var(--fc-text-soft); background: var(--fc-surface-soft); font: 700 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.empty-state { padding: 28px; border: 1px dashed var(--fc-border-strong); border-radius: var(--fc-radius-md); display: grid; gap: 5px; color: var(--fc-text-soft); }
+.empty-state strong { color: var(--fc-text); }
+
+.ratio-chart { margin: 24px 0 4px; }
+.ratio-chart figcaption { display: flex; justify-content: space-between; gap: 18px; margin-bottom: 10px; font-size: 11px; }
+.ratio-chart figcaption span { opacity: .64; text-align: right; }
+.ratio-chart-track { display: flex; width: 100%; height: 10px; overflow: hidden; border-radius: 999px; background: color-mix(in srgb, var(--fc-text-inverse) 15%, transparent); }
+.ratio-chart-first { height: 100%; background: var(--fc-accent); }
+.ratio-chart-second { flex: 1; background: color-mix(in srgb, var(--fc-info) 72%, var(--fc-text-inverse)); }
+.ratio-chart-table { width: 100%; margin-top: 12px; border-collapse: collapse; font-size: 11px; }
+.ratio-chart-table th, .ratio-chart-table td { padding: 7px 0; border-bottom: 1px solid color-mix(in srgb, var(--fc-text-inverse) 12%, transparent); text-align: left; }
+.ratio-chart-table td:nth-child(n+2), .ratio-chart-table th:nth-child(n+2) { text-align: right; }
+.ratio-chart-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
