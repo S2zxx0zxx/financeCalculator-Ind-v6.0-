@@ -1,14 +1,22 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { calculateGst, type GstMode } from "@fincalc/finance-core";
 import { AccessibleRatioChart } from "../shared/charts/AccessibleRatioChart";
 import { CalculatorActions } from "../features/export-share/CalculatorActions";
+import { savedNumber, savedString, useSavedScenario } from "../features/history/useSavedScenario";
 
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 2 });
 
 export function GstCalculatorPage() {
-  const [amount, setAmount] = useState(1000);
-  const [ratePercent, setRatePercent] = useState(18);
-  const [mode, setMode] = useState<GstMode>("add");
+  const savedScenario = useSavedScenario();
+  const [amount, setAmount] = useState(() => savedNumber(savedScenario?.inputs, "amount", 1000));
+  const [ratePercent, setRatePercent] = useState(() => savedNumber(savedScenario?.inputs, "ratePercent", 18));
+  const [mode, setMode] = useState<GstMode>(() => savedString(savedScenario?.inputs, "mode", "add") === "remove" ? "remove" : "add");
+  useEffect(() => {
+    if (!savedScenario) return;
+    setAmount(savedNumber(savedScenario.inputs, "amount", 1000));
+    setRatePercent(savedNumber(savedScenario.inputs, "ratePercent", 18));
+    setMode(savedString(savedScenario.inputs, "mode", "add") === "remove" ? "remove" : "add");
+  }, [savedScenario?.recordId]);
   const result = useMemo(() => calculateGst({ amount, ratePercent, mode }), [amount, ratePercent, mode]);
 
   return (
