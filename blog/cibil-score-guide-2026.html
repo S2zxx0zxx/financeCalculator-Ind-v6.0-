@@ -247,6 +247,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 <nav class="breadcrumb" aria-label="Breadcrumb"><a href="https://satzzxzxx.me/">Home</a> → <a href="https://satzzxzxx.me/blog/">Blog</a> → CIBIL Score Guide 2026</nav>
 
 <main role="main"><article class="article-wrap" itemscope itemtype="https://schema.org/Article">
+<aside role="note" aria-label="Article freshness" style="max-width:980px;margin:22px auto;padding:14px 18px;background:#fff2e5;color:#45290d;border-left:4px solid #b54c0a;border-radius:10px;font:14px/1.55 system-ui,sans-serif"><strong>Archive notice:</strong> This article was published earlier and has not yet passed the new FinCalc editorial review. Tax rules, rates and market facts can change. Check current official sources before acting. <a href="/app/" style="color:#733800;font-weight:700">Explore calculators with visible assumptions →</a></aside>
 <div class="article-header">
   <span class="article-category">💳 Credit Score</span>
   <h1 class="article-title">CIBIL Score Guide 2026 — <em>What It Is, How to Check &amp; Improve Fast</em></h1>
@@ -853,7 +854,7 @@ window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHei
 function toggleTheme(){const t=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';localStorage.setItem('fincalc-theme',t);}
 (function(){const s=localStorage.getItem('fincalc-theme');if(s==='dark'){document.documentElement.setAttribute('data-theme','dark');setTimeout(()=>{const b=document.getElementById('themeBtn');if(b)b.textContent='☀️';},0);}})();
 function toggleFaq(el){const item=el.parentElement;item.classList.toggle('open');}
-const observer=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.querySelectorAll('.bar-fill[data-width]').forEach(bar=>{bar.style.width=bar.dataset.width;});observer.unobserve(entry.target);});}},{threshold:0.2});
+const observer=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.querySelectorAll('.bar-fill[data-width]').forEach(bar=>{bar.style.width=bar.dataset.width;});observer.unobserve(entry.target);}});},{threshold:0.2});
 document.querySelectorAll('.chart-container').forEach(c=>observer.observe(c));
 (function(){
   var headings=document.querySelectorAll('.article-body h2');

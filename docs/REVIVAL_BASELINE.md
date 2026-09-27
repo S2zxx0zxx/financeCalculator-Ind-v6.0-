@@ -17,3 +17,7 @@ This branch is the first vertical slice, not the completion of the full PRD/TRD.
 3. Move article content and calculator UI incrementally into static, schema-checked modules; evaluate Astro only after a production route proof.
 4. Replace unverified promotional statements, tax freshness and credit-score claims with sourced, dated descriptions.
 5. Add local-first compare and saved scenarios only after rule and storage contracts are reviewed.
+
+## Foundation to unified web app
+
+The root has subsequently been replaced with a focused page, while its original hash tool links now route to new calculator pages. Eleven topic routes, local scenario storage and comparison use shared static web modules. The earlier homepage implementation remains in git history, not as a second public source of conflicting calculations. The blog article URLs are preserved, with a pending-review banner; finance claims within those articles still need individual editorial verification. See ARCHITECTURE.md for the current code map and release gates.

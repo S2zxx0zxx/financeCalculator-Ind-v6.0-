@@ -243,12 +243,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16
 function toggleTheme(){const t=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';localStorage.setItem('fincalc-theme',t);}
 (function(){const s=localStorage.getItem('fincalc-theme');if(s==='dark'){document.documentElement.setAttribute('data-theme','dark');setTimeout(()=>{const b=document.getElementById('themeBtn');if(b)b.textContent='☀️';},0);}})();
 function setLang(l){document.getElementById('btn-en').classList.toggle('active',l==='en');document.getElementById('btn-hi').classList.toggle('active',l==='hi');}
-if(location.hostname==='satzzxzxx.me'){
-  (function(w,d,s){var j=d.createElement(s);j.async=true;j.src='https://www.googletagmanager.com/gtag/js?id=G-NTKNL4QDZN';d.head.appendChild(j);})(window,document,'script');
-  window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-NTKNL4QDZN');
-  var s=document.createElement('script');s.async=true;s.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2931447769544799';s.crossOrigin='anonymous';document.head.appendChild(s);
-  window.adsbygoogle=window.adsbygoogle||[];
-}
 </script>
 </body>
 </html>

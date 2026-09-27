@@ -1,0 +1,28 @@
+name: Check web app
+on:
+  pull_request:
+  push:
+    branches: [main, feat/web-revival-foundation]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Calculator and backup tests
+        run: node --test tests/*.test.mjs
+      - name: Static routes and public trust checks
+        run: node scripts/check-static.mjs
+      - name: Archived inline scripts
+        run: python scripts/check-inline.py
+      - name: JavaScript syntax
+        run: |
+          node --check assets/js/app/app.mjs
+          node --check assets/js/app/registry.mjs
+          node --check assets/js/app/storage.mjs
+          node --check assets/js/domain/tools.mjs
+          node --check sw.js
