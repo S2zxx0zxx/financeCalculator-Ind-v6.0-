@@ -1,14 +1,27 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { calculateSalaryTax2026, type AgeGroup } from "@fincalc/finance-core";
 import { CalculatorActions } from "../features/export-share/CalculatorActions";
+import { savedNumber, savedString, useSavedScenario } from "../features/history/useSavedScenario";
 
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 
 export function TaxCalculatorPage() {
-  const [grossSalary, setGrossSalary] = useState(1_275_000);
-  const [ageGroup, setAgeGroup] = useState<AgeGroup>("general");
-  const [section80C, setSection80C] = useState(150_000);
-  const [section80D, setSection80D] = useState(25_000);
+  const savedScenario = useSavedScenario();
+  const [grossSalary, setGrossSalary] = useState(() => savedNumber(savedScenario?.inputs, "grossSalary", 1_275_000));
+  const [ageGroup, setAgeGroup] = useState<AgeGroup>(() => {
+    const value = savedString(savedScenario?.inputs, "ageGroup", "general");
+    return value === "senior" || value === "super" ? value : "general";
+  });
+  const [section80C, setSection80C] = useState(() => savedNumber(savedScenario?.inputs, "section80C", 150_000));
+  const [section80D, setSection80D] = useState(() => savedNumber(savedScenario?.inputs, "section80D", 25_000));
+  useEffect(() => {
+    if (!savedScenario) return;
+    setGrossSalary(savedNumber(savedScenario.inputs, "grossSalary", 1_275_000));
+    const age = savedString(savedScenario.inputs, "ageGroup", "general");
+    setAgeGroup(age === "senior" || age === "super" ? age : "general");
+    setSection80C(savedNumber(savedScenario.inputs, "section80C", 150_000));
+    setSection80D(savedNumber(savedScenario.inputs, "section80D", 25_000));
+  }, [savedScenario?.recordId]);
   const result = useMemo(() => calculateSalaryTax2026({
     grossSalary,
     ageGroup,
