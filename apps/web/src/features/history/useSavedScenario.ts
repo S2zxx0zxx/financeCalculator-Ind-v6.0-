@@ -22,3 +22,21 @@ export function savedNumber(
   const value = typeof raw === "number" ? raw : Number(raw);
   return Number.isFinite(value) ? value : fallback;
 }
+
+export function savedString(
+  inputs: Record<string, number | string | boolean> | undefined,
+  key: string,
+  fallback: string
+): string {
+  const raw = inputs?.[key];
+  return typeof raw === "string" ? raw : fallback;
+}
+
+export function savedBoolean(
+  inputs: Record<string, number | string | boolean> | undefined,
+  key: string,
+  fallback: boolean
+): boolean {
+  const raw = inputs?.[key];
+  return typeof raw === "boolean" ? raw : fallback;
+}
