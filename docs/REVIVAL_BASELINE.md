@@ -3,7 +3,7 @@
 Source: main at 3c5cccb0413e5e2d1a454d72c436127a48ed46f8 (2026-09-27 inspection).
 This branch is the first vertical slice, not the completion of the full PRD/TRD.
 
-- Preserve the original hash calculator links, 29 blog article URLs, CNAME and static hosting. Historical articles are temporarily noindex and their RSS items are paused until each claim is reverified.
+- Preserve the original hash calculator links, 29 historical blog URLs, CNAME and static hosting. Historical article bodies are temporarily replaced by noindex review notices; four formula explainers are current and included in RSS/sitemap.
 - Homepage implements eleven calculator topics in inline JavaScript. EMI lives in calcEMI in index.html; the new standalone EMI route is the first extracted pure domain example. It does not replace the legacy route yet, because parity and edge-case review are pending.
 - Historical contact messages may exist only in a visitor's localStorage key fincalc-contact-msgs. Do not upload or delete that history without explicit user action. Contact now opens a mail draft and does not assert delivery.
 - Historical fake newsletter state may exist in fincalc-subs and fincalc-nl-subscribed; neither proves subscription. Public enrollment surfaces are paused until a verified delivery system exists.
