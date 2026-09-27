@@ -1,6 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AccessibleRatioChart } from "../../../shared/charts/AccessibleRatioChart";
 import { CalculatorActions } from "../../export-share/CalculatorActions";
+import { savedNumber, useSavedScenario } from "../../history/useSavedScenario";
 import type { SimpleCalculatorDefinition, SimpleField } from "./types";
 
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
@@ -13,9 +14,13 @@ function displayField(field: SimpleField, value: number) {
 }
 
 export function SimpleCalculatorPage({ definition }: { definition: SimpleCalculatorDefinition }) {
-  const [values, setValues] = useState<Record<string, number>>(
-    Object.fromEntries(definition.fields.map(field => [field.key, field.defaultValue]))
-  );
+  const savedScenario = useSavedScenario();
+  const defaults = useMemo(() => Object.fromEntries(definition.fields.map(field => [field.key, field.defaultValue])), [definition]);
+  const [values, setValues] = useState<Record<string, number>>(() => Object.fromEntries(definition.fields.map(field => [field.key, savedNumber(savedScenario?.inputs, field.key, field.defaultValue)])));
+  useEffect(() => {
+    if (!savedScenario) return;
+    setValues(Object.fromEntries(definition.fields.map(field => [field.key, savedNumber(savedScenario.inputs, field.key, field.defaultValue)])));
+  }, [definition, defaults, savedScenario?.recordId]);
   const view = useMemo(() => definition.calculate(values), [definition, values]);
   const summary = useMemo(
     () => Object.fromEntries([[view.primaryLabel, view.primaryValue], ...view.metrics.map(metric => [metric.label, metric.value])]),
