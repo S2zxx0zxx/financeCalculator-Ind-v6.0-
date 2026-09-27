@@ -63,7 +63,7 @@ export function ActivityPage() {
               <div><span className="eyebrow">{new Date(record.createdAt).toLocaleString("en-IN")}</span><h3>{record.calculatorTitle}</h3></div>
               <dl>{Object.entries(record.summary).slice(0,4).map(([key,value]) => <div key={key}><dt>{key}</dt><dd>{value}</dd></div>)}</dl>
               <div className="history-actions">
-                <Link to={`/calculators/${record.calculatorId}`}>Open calculator</Link>
+                <Link to={`/calculators/${record.calculatorId}`} state={{ savedScenario: { recordId: record.id, inputs: record.inputs } }}>Load scenario</Link>
                 <button type="button" onClick={() => deleteCalculation(record.id)}>Delete</button>
               </div>
             </article>
