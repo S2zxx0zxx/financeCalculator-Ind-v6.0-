@@ -1,6 +1,6 @@
 import { NavLink, Route, Routes } from "react-router";
 import { DashboardPage } from "../pages/DashboardPage";
-import { EmiCalculatorPage } from "../pages/EmiCalculatorPage";
+import { CalculatorRoutePage } from "../pages/CalculatorRoutePage";
 import { LegacyBridgePage } from "../pages/LegacyBridgePage";
 import { ThemeControl } from "../shared/ui/ThemeControl";
 import { LanguageControl } from "../shared/ui/LanguageControl";
@@ -35,7 +35,7 @@ export function App() {
         <main className="content">
           <Routes>
             <Route path="/" element={<DashboardPage />} />
-            <Route path="/calculators/emi" element={<EmiCalculatorPage />} />
+            <Route path="/calculators/:calculatorId" element={<CalculatorRoutePage />} />
             <Route path="/learn" element={<LegacyBridgePage kind="blog" />} />
             <Route path="*" element={<DashboardPage />} />
           </Routes>
