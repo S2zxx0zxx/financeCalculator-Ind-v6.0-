@@ -12,7 +12,7 @@ The root is a genuine homepage. /app/ lists eleven topics by five categories. /c
 - Tool registry: assets/js/app/registry.mjs. One category, fields, labels, source, and restrictions per tool. Credit health is educational; it does not fabricate a bureau score.
 - Presentation: assets/js/app/app.mjs, assets/css/app.css and static HTML route shells. Data values render through text or escaped markup. All tool pages use the same UI.
 - Local data: assets/js/app/storage.mjs. Versioned IndexedDB store, deliberate export/import and deletion. No silent import of old localStorage contact/newsletter keys.
-- Content: old articles are labeled as an unreviewed archive; complete article-level source review and schema migration remain open work.
+- Content: old articles retain their URLs but are labeled pending review, noindex and excluded from sitemap/RSS items until verified. See ARTICLE_REVIEW_LEDGER.md.
 - PWA: sw.js precaches the shell and tools. Articles need a network connection and are not cached as current. An offline fallback explains the limit.
 
 ## Rule boundaries and reviewed scope
@@ -23,14 +23,14 @@ GST accepts a rate selected by the user: verify product/service classification a
 
 ## Trust and commercial status
 
-Original fake podcast timer is replaced with an honest unavailable page; newsletter CTAs are paused; contact opens an email draft and never confirms delivery. Third-party analytics/ad loaders are paused throughout public pages until consent/disclosure can be reviewed. This affects existing monetization and measurement; product owner must decide whether and how to restore them with verified behavior. No FinCo-Pilot API or account integration is assumed or included.
+The former podcast feature and route are removed; newsletter CTAs are paused; contact opens an email draft and never confirms delivery. Third-party analytics/ad loaders are paused throughout public pages until consent/disclosure can be reviewed. This affects existing monetization and measurement; product owner must decide whether and how to restore them with verified behavior. No FinCo-Pilot API or account integration is assumed or included.
 
 ## Open production gates
 
 1. Manual browser and assistive-technology QA on actual Android Chrome, iOS Safari and desktop browsers. The local environment lacks a Playwright browser binary, so automated browser E2E has not run here.
 2. Independent finance/domain review of all formulas, especially tax, housing and retirement assumptions; revision after review.
 3. Article-by-article editorial research; remove any historical statement that cannot be substantiated. A banner alone does not verify the article.
-4. Privacy/marketing review before restoring analytics, ads, newsletter or audio; working provider and consent contracts needed.
+4. Privacy/marketing review before restoring analytics, ads or newsletter; working provider and consent contracts needed. Audio is permanently outside product scope.
 5. Device performance measurements, PWA upgrade flow, accessibility checks, content localization and production staging review. Avoid presenting these as completed.
 
 See REVIVAL_BASELINE.md for source facts and the masterplan for full delivery gates.

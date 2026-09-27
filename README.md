@@ -21,14 +21,13 @@ The repository's protected GitHub Actions check runs these tests on pull request
 - /app/ — category directory and search for eleven topics.
 - /calculators/{slug}/ — EMI, SIP, income-tax, GST, FD, RD, retirement, inflation, loan-eligibility, rent-vs-buy and credit-health.
 - /saved/ and /compare/ — private browser storage and compatible scenario comparison.
-- /blog/ and /blog/*.html — existing index and 29 preserved article paths, with an unreviewed-archive banner on articles.
-- /podcast/ — an honest unavailable-audio notice until genuine recordings exist.
+- /blog/ and /blog/*.html — existing index and 29 preserved article paths, with an unreviewed-archive banner on articles. Articles remain readable but are temporarily noindex and absent from sitemap and RSS items pending source review.
 
 ## Product boundaries
 
 Calculator rates are entered by the visitor; no bank offer, live market rate, loan approval or actual CIBIL score is fetched. Income tax is deliberately restricted to a resident salaried AY 2026–27 new-regime case at or below ₹12 lakh taxable income. For complex cases the page links to the official checker and does not present a fabricated answer. Credit health links directly to the bureau.
 
-Contact composes an email draft in the visitor's mail app; the visitor has to send it. Newsletter registration and podcast playback are paused pending working services. Legacy external ad and analytics loaders are paused pending consent review. Scenarios are held in IndexedDB on that browser only, with voluntary export/import. Browser storage can be cleared.
+Contact composes an email draft in the visitor's mail app; the visitor has to send it. Newsletter registration is paused pending a working service. Audio and podcast features are not part of FinCalc. Legacy external ad and analytics loaders are paused pending consent review. Scenarios are held in IndexedDB on that browser only, with voluntary export/import. Browser storage can be cleared.
 
 ## Layout
 
