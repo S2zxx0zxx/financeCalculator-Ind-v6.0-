@@ -1,10 +1,10 @@
-import { LegacyBridgePage } from "../pages/LegacyBridgePage";
+import { LearnPage } from "../pages/LearnPage";
 
 export const meta = () => [
-  { title: "Learn — FinCalc India" },
-  { name: "description", content: "Explore FinCalc's finance guides while the content system is migrated without breaking existing article URLs." }
+  { title: "Learn Personal Finance — FinCalc India" },
+  { name: "description", content: "Browse FinCalc's 29 preserved finance guides by topic without breaking existing indexed article URLs." }
 ];
 
 export default function LearnRoute() {
-  return <LegacyBridgePage kind="blog" />;
+  return <LearnPage />;
 }

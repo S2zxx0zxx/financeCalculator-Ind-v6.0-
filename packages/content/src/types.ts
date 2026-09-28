@@ -1,8 +1,10 @@
 export interface LegacyArticleRoute {
   slug: string;
+  title: string;
+  category: string;
   legacyPath: `/blog/${string}.html`;
   migrationStatus: "preserved";
-  factVerification: "pending";
+  factVerification: "pending" | "verified";
 }
 
 export interface ContentSourceMeta {

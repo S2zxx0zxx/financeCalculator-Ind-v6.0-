@@ -232,3 +232,22 @@ a { color: inherit; }
 .comparison-card dd { margin:0; font-size:11px; font-weight:800; text-align:right; overflow-wrap:anywhere; }
 @media(max-width:980px){ .bottom-nav{grid-template-columns:repeat(5,1fr);} }
 @media(max-width:720px){ .compare-controls,.comparison-grid{grid-template-columns:1fr;} .bottom-nav a{font-size:9px;} }
+
+
+/* Learn / content discovery */
+.learn-page { display:grid; gap:30px; }
+.learn-toolbar { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px; align-items:center; }
+.learn-search { min-height:50px; padding:0 15px; border:1px solid var(--fc-border); border-radius:13px; background:var(--fc-surface); color:var(--fc-text); box-shadow:var(--fc-shadow-sm); }
+.category-chips { display:flex; flex-wrap:wrap; gap:7px; }
+.category-chips button { min-height:36px; padding:0 11px; border:1px solid var(--fc-border); border-radius:999px; background:var(--fc-surface); color:var(--fc-text-soft); cursor:pointer; font-size:10px; font-weight:800; }
+.category-chips button[aria-pressed="true"] { border-color:var(--fc-border-strong); background:var(--fc-surface-strong); color:var(--fc-text-inverse); }
+.article-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+.article-card { min-height:210px; padding:20px; border:1px solid var(--fc-border); border-radius:var(--fc-radius-md); background:var(--fc-surface); box-shadow:var(--fc-shadow-sm); display:flex; flex-direction:column; text-decoration:none; transition:transform .18s ease,border-color .18s ease; }
+.article-card:hover { transform:translateY(-2px); border-color:var(--fc-border-strong); }
+.article-card .article-category { color:var(--fc-accent); font-size:9px; font-weight:850; letter-spacing:.08em; text-transform:uppercase; }
+.article-card h2 { margin:10px 0 12px; font-size:18px; line-height:1.28; letter-spacing:-.025em; }
+.article-card p { margin:0; color:var(--fc-text-soft); font-size:12px; line-height:1.55; }
+.article-card footer { margin-top:auto; padding-top:18px; display:flex; justify-content:space-between; gap:10px; color:var(--fc-text-soft); font-size:9px; font-weight:750; }
+.content-trust-note { padding:14px 16px; border:1px solid var(--fc-border); border-radius:12px; background:var(--fc-surface-soft); color:var(--fc-text-soft); font-size:11px; line-height:1.6; }
+@media(max-width:980px){ .article-grid{grid-template-columns:repeat(2,minmax(0,1fr));} .learn-toolbar{grid-template-columns:1fr;} }
+@media(max-width:620px){ .article-grid{grid-template-columns:1fr;} }
