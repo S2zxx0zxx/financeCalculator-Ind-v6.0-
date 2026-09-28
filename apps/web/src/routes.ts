@@ -15,5 +15,6 @@ export default [
   route("calculators/cibil", "./routes/calculators/cibil.tsx"),
   route("activity", "./routes/activity.tsx"),
   route("compare", "./routes/compare.tsx"),
-  route("learn", "./routes/learn.tsx")
+  route("learn", "./routes/learn.tsx"),
+  route("contact", "./routes/contact.tsx")
 ] satisfies RouteConfig;

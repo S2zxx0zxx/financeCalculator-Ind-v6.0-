@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { legacyArticles } from "@fincalc/content";
+import { NewsletterForm } from "../features/newsletter/NewsletterForm";
 import { track } from "../shared/analytics/analytics";
 import { useI18n } from "../shared/i18n/useI18n";
 
@@ -43,12 +44,7 @@ export function LearnPage() {
       {filtered.length ? (
         <div className="article-grid">
           {filtered.map(article => (
-            <a
-              className="article-card"
-              key={article.slug}
-              href={article.legacyPath}
-              onClick={() => track({ name: "article_opened", articleSlug: article.slug })}
-            >
+            <a className="article-card" key={article.slug} href={article.legacyPath} onClick={() => track({ name: "article_opened", articleSlug: article.slug })}>
               <span className="article-category">{article.category}</span>
               <h2>{article.title}</h2>
               <p>{t("learn.openPreserved")}</p>
@@ -57,6 +53,8 @@ export function LearnPage() {
           ))}
         </div>
       ) : <div className="empty-state"><strong>{t("learn.noMatch")}</strong><span>{t("learn.tryBroader")}</span></div>}
+
+      <NewsletterForm />
     </div>
   );
 }

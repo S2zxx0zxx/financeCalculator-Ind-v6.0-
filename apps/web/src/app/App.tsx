@@ -25,15 +25,13 @@ export function AppShell({ children }: { children: ReactNode }) {
         <nav className="side-nav">
           {nav.map(item => <NavLink key={item.to} to={item.to} end={item.to === "/"}>{t(item.labelKey)}</NavLink>)}
         </nav>
-        <div className="sidebar-foot">{t("app.previewNote")}</div>
+        <div className="sidebar-foot"><NavLink className="support-link" to="/contact">{t("nav.contact")}</NavLink><span>{t("app.previewNote")}</span></div>
       </aside>
       <div className="app-main">
         <header className="topbar">
-          <div>
-            <span className="eyebrow">FINCALC INDIA</span>
-            <strong>{t("app.tagline")}</strong>
-          </div>
+          <div><span className="eyebrow">FINCALC INDIA</span><strong>{t("app.tagline")}</strong></div>
           <div className="topbar-actions">
+            <NavLink className="support-link top-support" to="/contact">{t("nav.contact")}</NavLink>
             <LanguageControl />
             <ThemeControl />
             <a className="legacy-link" href="/index.html">{t("app.currentFinCalc")} ↗</a>
