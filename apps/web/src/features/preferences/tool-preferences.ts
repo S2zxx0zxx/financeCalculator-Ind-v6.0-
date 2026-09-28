@@ -1,9 +1,13 @@
 import { readJson, STORAGE_KEYS, writeJson } from "../../shared/storage/storage";
+import { addRecent, normalizeIds, toggleId } from "./model";
 
-const MAX_RECENT = 8;
+function notify(name: "favorites" | "recent") {
+  if (typeof window !== "undefined") window.dispatchEvent(new CustomEvent(`fincalc:${name}-changed`));
+}
 
 export function readFavorites(): string[] {
-  return readJson<string[]>(STORAGE_KEYS.favorites, []);
+  const raw = readJson<unknown>(STORAGE_KEYS.favorites, []);
+  return normalizeIds(Array.isArray(raw) ? raw : []);
 }
 
 export function isFavorite(calculatorId: string): boolean {
@@ -11,21 +15,18 @@ export function isFavorite(calculatorId: string): boolean {
 }
 
 export function toggleFavorite(calculatorId: string): boolean {
-  const current = readFavorites();
-  const next = current.includes(calculatorId)
-    ? current.filter(id => id !== calculatorId)
-    : [calculatorId, ...current];
-  writeJson(STORAGE_KEYS.favorites, next);
-  window.dispatchEvent(new CustomEvent("fincalc:favorites-changed"));
-  return next.includes(calculatorId);
+  const next = toggleId(readFavorites(), calculatorId);
+  writeJson(STORAGE_KEYS.favorites, next.values);
+  notify("favorites");
+  return next.active;
 }
 
 export function readRecent(): string[] {
-  return readJson<string[]>(STORAGE_KEYS.recent, []);
+  const raw = readJson<unknown>(STORAGE_KEYS.recent, []);
+  return normalizeIds(Array.isArray(raw) ? raw : []);
 }
 
 export function markRecent(calculatorId: string): void {
-  const next = [calculatorId, ...readRecent().filter(id => id !== calculatorId)].slice(0, MAX_RECENT);
-  writeJson(STORAGE_KEYS.recent, next);
-  window.dispatchEvent(new CustomEvent("fincalc:recent-changed"));
+  writeJson(STORAGE_KEYS.recent, addRecent(readRecent(), calculatorId));
+  notify("recent");
 }

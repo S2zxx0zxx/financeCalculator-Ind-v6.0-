@@ -1,14 +1,12 @@
 import { browserStorage, readJson, STORAGE_KEYS, writeJson } from "../../shared/storage/storage";
+import {
+  normalizeHistory,
+  removeHistoryRecord,
+  upsertHistory,
+  type CalculationRecord
+} from "./model";
 
-export interface CalculationRecord {
-  schemaVersion: 1;
-  id: string;
-  calculatorId: string;
-  calculatorTitle: string;
-  createdAt: string;
-  inputs: Record<string, number | string | boolean>;
-  summary: Record<string, string>;
-}
+export type { CalculationRecord } from "./model";
 
 export interface LegacyHistoryRecord {
   type?: string;
@@ -17,11 +15,14 @@ export interface LegacyHistoryRecord {
 }
 
 const V7_HISTORY_KEY = "fincalc-v7-history";
-const MAX_HISTORY = 20;
 
 function id() {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) return crypto.randomUUID();
   return `fincalc-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+}
+
+function notifyHistoryChanged() {
+  if (typeof window !== "undefined") window.dispatchEvent(new CustomEvent("fincalc:history-changed"));
 }
 
 export function createCalculationRecord(
@@ -36,34 +37,35 @@ export function createCalculationRecord(
     calculatorId,
     calculatorTitle,
     createdAt: new Date().toISOString(),
-    inputs,
-    summary
+    inputs: { ...inputs },
+    summary: { ...summary }
   };
 }
 
 export function readCalculationHistory(): CalculationRecord[] {
-  return readJson<CalculationRecord[]>(V7_HISTORY_KEY, [])
-    .filter(item => item?.schemaVersion === 1 && typeof item.id === "string")
-    .slice(0, MAX_HISTORY);
+  return normalizeHistory(readJson<unknown[]>(V7_HISTORY_KEY, []));
 }
 
 export function saveCalculation(record: CalculationRecord): CalculationRecord[] {
-  const history = [record, ...readCalculationHistory().filter(item => item.id !== record.id)].slice(0, MAX_HISTORY);
+  const history = upsertHistory(readCalculationHistory(), record);
   writeJson(V7_HISTORY_KEY, history);
-  window.dispatchEvent(new CustomEvent("fincalc:history-changed"));
+  notifyHistoryChanged();
   return history;
 }
 
 export function deleteCalculation(id: string): void {
-  writeJson(V7_HISTORY_KEY, readCalculationHistory().filter(item => item.id !== id));
-  window.dispatchEvent(new CustomEvent("fincalc:history-changed"));
+  writeJson(V7_HISTORY_KEY, removeHistoryRecord(readCalculationHistory(), id));
+  notifyHistoryChanged();
 }
 
 export function clearV7History(): void {
   browserStorage.remove(V7_HISTORY_KEY);
-  window.dispatchEvent(new CustomEvent("fincalc:history-changed"));
+  notifyHistoryChanged();
 }
 
 export function readLegacyHistory(): LegacyHistoryRecord[] {
-  return readJson<LegacyHistoryRecord[]>(STORAGE_KEYS.history, []);
+  const value = readJson<unknown>(STORAGE_KEYS.history, []);
+  return Array.isArray(value)
+    ? value.filter(item => Boolean(item) && typeof item === "object") as LegacyHistoryRecord[]
+    : [];
 }
