@@ -6,7 +6,7 @@ import { GstCalculatorPage } from "./GstCalculatorPage";
 import { TaxCalculatorPage } from "./TaxCalculatorPage";
 import { CibilPage } from "./CibilPage";
 import { SimpleCalculatorPage } from "../features/calculators/simple/SimpleCalculatorPage";
-import { simpleDefinitions } from "../features/calculators/simple/definitions";
+import { getSimpleDefinition } from "../features/calculators/simple/definitions";
 import { markRecent } from "../features/preferences/tool-preferences";
 
 export function CalculatorRoutePage() {
@@ -17,7 +17,7 @@ export function CalculatorRoutePage() {
   if (calculatorId === "fd") return <FdCalculatorPage />;
   if (calculatorId === "tax") return <TaxCalculatorPage />;
   if (calculatorId === "cibil") return <CibilPage />;
-  const definition = calculatorId ? simpleDefinitions[calculatorId] : undefined;
+  const definition = calculatorId ? getSimpleDefinition(calculatorId) : undefined;
   if (!definition) return <Navigate to="/" replace />;
   return <SimpleCalculatorPage definition={definition} />;
 }
