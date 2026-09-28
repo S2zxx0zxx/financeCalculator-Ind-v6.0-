@@ -251,3 +251,13 @@ a { color: inherit; }
 .content-trust-note { padding:14px 16px; border:1px solid var(--fc-border); border-radius:12px; background:var(--fc-surface-soft); color:var(--fc-text-soft); font-size:11px; line-height:1.6; }
 @media(max-width:980px){ .article-grid{grid-template-columns:repeat(2,minmax(0,1fr));} .learn-toolbar{grid-template-columns:1fr;} }
 @media(max-width:620px){ .article-grid{grid-template-columns:1fr;} }
+
+
+/* PWA / connectivity */
+.pwa-status-stack { position:fixed; z-index:40; right:16px; bottom:82px; display:grid; gap:8px; width:min(360px,calc(100vw - 32px)); pointer-events:none; }
+.pwa-notice { pointer-events:auto; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 14px; border:1px solid var(--fc-border); border-radius:13px; background:color-mix(in srgb,var(--fc-surface) 95%,transparent); box-shadow:var(--fc-shadow-lg); backdrop-filter:blur(18px); font-size:11px; }
+.pwa-notice strong,.pwa-notice span { display:block; }
+.pwa-notice span { margin-top:2px; color:var(--fc-text-soft); line-height:1.4; }
+.pwa-notice button { min-height:34px; flex:0 0 auto; padding:0 10px; border:1px solid var(--fc-border-strong); border-radius:8px; background:var(--fc-surface-strong); color:var(--fc-text-inverse); cursor:pointer; font-size:10px; font-weight:850; }
+.pwa-notice.offline { border-color:color-mix(in srgb,var(--fc-danger) 30%,var(--fc-border)); }
+@media(max-width:980px){ .pwa-status-stack{bottom:86px;} }
