@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { createServer } from "node:http";
 import type { IncomingHttpHeaders } from "node:http";
 import { handleApiRequest } from "./app";
@@ -9,13 +10,16 @@ const allowedOrigins = (process.env.FINCALC_ALLOWED_ORIGINS ?? "https://satzzxzx
   .split(",").map(value => value.trim()).filter(Boolean);
 
 const bearerToken = process.env.FINCALC_DELIVERY_BEARER_TOKEN;
+const contactEndpoint = process.env.FINCALC_CONTACT_DELIVERY_URL;
+const newsletterEndpoint = process.env.FINCALC_NEWSLETTER_DELIVERY_URL;
+
 const deps = {
   contactDelivery: new HttpDeliveryPort({
-    endpoint: process.env.FINCALC_CONTACT_DELIVERY_URL,
+    ...(contactEndpoint ? { endpoint: contactEndpoint } : {}),
     ...(bearerToken ? { bearerToken } : {})
   }),
   newsletterDelivery: new HttpDeliveryPort({
-    endpoint: process.env.FINCALC_NEWSLETTER_DELIVERY_URL,
+    ...(newsletterEndpoint ? { endpoint: newsletterEndpoint } : {}),
     ...(bearerToken ? { bearerToken } : {})
   }),
   rateLimiter: new InMemoryFixedWindowRateLimiter(8, 60_000),
@@ -32,7 +36,7 @@ function headersFromNode(headers: IncomingHttpHeaders): Headers {
 }
 
 const server = createServer(async (req, res) => {
-  const requestId = crypto.randomUUID();
+  const requestId = randomUUID();
   try {
     const chunks: Buffer[] = [];
     for await (const chunk of req) chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
@@ -41,10 +45,12 @@ const server = createServer(async (req, res) => {
     if (!headers.has("x-forwarded-for") && req.socket.remoteAddress) headers.set("x-client-ip", req.socket.remoteAddress);
 
     const host = headers.get("host") || `localhost:${port}`;
+    const method = req.method || "GET";
+    const requestBody = chunks.length && !["GET","HEAD"].includes(method) ? Buffer.concat(chunks) : undefined;
     const request = new Request(`http://${host}${req.url || "/"}`, {
-      method: req.method || "GET",
+      method,
       headers,
-      body: chunks.length && !["GET","HEAD"].includes(req.method || "GET") ? Buffer.concat(chunks) : undefined
+      ...(requestBody ? { body: requestBody } : {})
     });
 
     const response = await handleApiRequest(request, deps);
