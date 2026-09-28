@@ -11,7 +11,7 @@ import type { SimpleCalculatorDefinition } from "./types";
 const money = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
 const percent = (value: number) => `${value.toFixed(1)}%`;
 
-export const simpleDefinitions: Record<string, SimpleCalculatorDefinition> = {
+export const simpleDefinitions = {
   sip: {
     id: "sip",
     category: "Investing",
@@ -204,4 +204,11 @@ export const simpleDefinitions: Record<string, SimpleCalculatorDefinition> = {
       };
     }
   }
-};
+} satisfies Record<string, SimpleCalculatorDefinition>;
+
+export type SimpleCalculatorId = keyof typeof simpleDefinitions;
+
+export function getSimpleDefinition(id: string): SimpleCalculatorDefinition | undefined {
+  if (id in simpleDefinitions) return simpleDefinitions[id as SimpleCalculatorId];
+  return undefined;
+}
