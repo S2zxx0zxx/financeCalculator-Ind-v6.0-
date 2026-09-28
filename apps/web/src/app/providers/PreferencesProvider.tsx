@@ -45,6 +45,10 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     document.documentElement.style.colorScheme = resolvedTheme;
   }, [resolvedTheme]);
 
+  useEffect(() => {
+    document.documentElement.lang = language === "hi" ? "hi-IN" : "en-IN";
+  }, [language]);
+
   const value = useMemo<PreferencesContextValue>(() => ({
     theme,
     resolvedTheme,
@@ -56,7 +60,6 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
     setLanguage(next) {
       setLanguageState(next);
       browserStorage.set(STORAGE_KEYS.language, next);
-      document.documentElement.lang = next === "hi" ? "hi-IN" : "en-IN";
     }
   }), [theme, resolvedTheme, language]);
 

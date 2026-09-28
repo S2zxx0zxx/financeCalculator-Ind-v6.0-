@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
+import { useI18n } from "../../shared/i18n/useI18n";
 import { isFavorite, toggleFavorite } from "../preferences/tool-preferences";
 import { calculatorCatalog } from "./catalog";
 
 export function CalculatorDirectory() {
+  const { t } = useI18n();
   const [query, setQuery] = useState("");
   const [, forceFavorites] = useState(0);
   useEffect(() => {
@@ -23,41 +25,44 @@ export function CalculatorDirectory() {
   return (
     <section className="section-block" aria-labelledby="calculator-directory-title">
       <div className="section-heading">
-        <div><span className="eyebrow">DISCOVER</span><h2 id="calculator-directory-title">Calculators by intent</h2></div>
-        <span className="quiet">{filtered.length} of {calculatorCatalog.length} confirmed tools</span>
+        <div><span className="eyebrow">{t("directory.eyebrow")}</span><h2 id="calculator-directory-title">{t("directory.title")}</h2></div>
+        <span className="quiet">{filtered.length} / {calculatorCatalog.length} {t("directory.confirmedTools")}</span>
       </div>
       <label className="tool-search">
-        <span className="sr-only">Search calculators</span>
-        <input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Search EMI, tax, retirement, GST…" />
+        <span className="sr-only">{t("directory.searchLabel")}</span>
+        <input type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder={t("directory.search")} />
         <kbd>/</kbd>
       </label>
       {filtered.length === 0 ? (
-        <div className="empty-state"><strong>No matching calculator</strong><span>Try a goal like loan, tax, savings or retirement.</span></div>
+        <div className="empty-state"><strong>{t("directory.noMatch")}</strong><span>{t("directory.tryGoal")}</span></div>
       ) : categories.map(category => (
         <div className="category-group" key={category}>
           <h3>{category}</h3>
           <div className="tool-grid">
-            {filtered.filter(x => x.category === category).map(tool => (
-              <article className="tool-card" key={tool.id}>
-                <div className="tool-card-head">
-                  <strong>{tool.title}</strong>
-                  <button
-                    type="button"
-                    className="favorite-button"
-                    aria-label={isFavorite(tool.id) ? `Remove ${tool.title} from favorites` : `Add ${tool.title} to favorites`}
-                    aria-pressed={isFavorite(tool.id)}
-                    onClick={() => toggleFavorite(tool.id)}
-                  >★</button>
-                </div>
-                <span>{tool.description}</span>
-                <div className="tool-card-foot">
-                  <em>{tool.status === "migrated" ? "V7 migrated" : "Legacy preserved"}</em>
-                  {tool.status === "migrated"
-                    ? <Link to={tool.href}>Open →</Link>
-                    : <a href={tool.href}>Open legacy →</a>}
-                </div>
-              </article>
-            ))}
+            {filtered.filter(x => x.category === category).map(tool => {
+              const favorite = isFavorite(tool.id);
+              return (
+                <article className="tool-card" key={tool.id}>
+                  <div className="tool-card-head">
+                    <strong>{tool.title}</strong>
+                    <button
+                      type="button"
+                      className="favorite-button"
+                      aria-label={`${favorite ? t("directory.removeFavorite") : t("directory.addFavorite")} ${tool.title}`}
+                      aria-pressed={favorite}
+                      onClick={() => toggleFavorite(tool.id)}
+                    >★</button>
+                  </div>
+                  <span>{tool.description}</span>
+                  <div className="tool-card-foot">
+                    <em>{tool.status === "migrated" ? t("directory.migrated") : t("directory.legacy")}</em>
+                    {tool.status === "migrated"
+                      ? <Link to={tool.href}>{t("directory.open")} →</Link>
+                      : <a href={tool.href}>{t("directory.openLegacy")} →</a>}
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
       ))}

@@ -1,8 +1,10 @@
 import { useMemo, useState } from "react";
 import { legacyArticles } from "@fincalc/content";
 import { track } from "../shared/analytics/analytics";
+import { useI18n } from "../shared/i18n/useI18n";
 
 export function LearnPage() {
+  const { t } = useI18n();
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
   const categories = useMemo(() => ["All", ...new Set(legacyArticles.map(article => article.category))], []);
@@ -18,24 +20,22 @@ export function LearnPage() {
   return (
     <div className="learn-page">
       <section className="calc-intro">
-        <span className="eyebrow">FINCALC LEARN · 29 GUIDES PRESERVED</span>
-        <h1>Learn the money concept, then model your own numbers.</h1>
-        <p>The new discovery layer is live inside V7 while every indexed article keeps its existing public URL. Historical finance facts are not relabelled as current unless separately verified.</p>
+        <span className="eyebrow">{t("learn.eyebrow")}</span>
+        <h1>{t("learn.title")}</h1>
+        <p>{t("learn.description")}</p>
       </section>
 
-      <div className="content-trust-note">
-        UI migration ≠ factual update. Articles marked from the March–April 2026 archive remain preserved snapshots until their time-sensitive claims are re-verified from authoritative sources.
-      </div>
+      <div className="content-trust-note">{t("learn.trust")}</div>
 
       <section aria-labelledby="learn-library-title">
         <div className="section-heading">
-          <div><span className="eyebrow">LIBRARY</span><h2 id="learn-library-title">Finance guides</h2></div>
-          <span className="quiet">{filtered.length} of {legacyArticles.length}</span>
+          <div><span className="eyebrow">{t("learn.library")}</span><h2 id="learn-library-title">{t("learn.guides")}</h2></div>
+          <span className="quiet">{filtered.length} / {legacyArticles.length}</span>
         </div>
         <div className="learn-toolbar">
-          <input className="learn-search" type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="Search tax, EMI, gold, CIBIL, NRI…" aria-label="Search finance guides" />
-          <div className="category-chips" role="group" aria-label="Filter article category">
-            {categories.map(item => <button type="button" key={item} aria-pressed={category === item} onClick={() => setCategory(item)}>{item}</button>)}
+          <input className="learn-search" type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder={t("learn.search")} aria-label={t("learn.searchLabel")} />
+          <div className="category-chips" role="group" aria-label={t("learn.filterLabel")}>
+            {categories.map(item => <button type="button" key={item} aria-pressed={category === item} onClick={() => setCategory(item)}>{item === "All" ? t("common.all") : item}</button>)}
           </div>
         </div>
       </section>
@@ -51,12 +51,12 @@ export function LearnPage() {
             >
               <span className="article-category">{article.category}</span>
               <h2>{article.title}</h2>
-              <p>Open the preserved article at its existing indexed URL.</p>
-              <footer><span>Legacy URL preserved</span><span>Facts: verification pending</span></footer>
+              <p>{t("learn.openPreserved")}</p>
+              <footer><span>{t("learn.legacyUrl")}</span><span>{t("learn.factsPending")}</span></footer>
             </a>
           ))}
         </div>
-      ) : <div className="empty-state"><strong>No matching guide</strong><span>Try a broader topic or choose All.</span></div>}
+      ) : <div className="empty-state"><strong>{t("learn.noMatch")}</strong><span>{t("learn.tryBroader")}</span></div>}
     </div>
   );
 }
